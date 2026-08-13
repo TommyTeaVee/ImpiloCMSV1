@@ -10,8 +10,12 @@ const readerRoutes = require("./routes/readerRoutes");
 const quizRoutes = require("./routes/quizRoutes");
 const gamificationRoutes =
   require("./routes/gamificationRoutes");
-
-
+const magazineRoutes =
+  require("./routes/magazineRoutes");
+const cloudfrontMediaRoutes =
+  require(
+    "./routes/cloudfrontMediaRoutes"
+  );
 const app = express();
 
 const PORT = process.env.PORT || 5000;
@@ -48,9 +52,12 @@ app.use("/api/comments", commentRoutes);
 app.use("/api/media", mediaRoutes);
 app.use("/api/blocks", articleBlockRoutes);
 app.use("/api/quiz", quizRoutes);
+app.use("/api/gamification", gamificationRoutes);
 app.use(
-  "/api/gamification",
-  gamificationRoutes
+  "/api/cloudfront-media",cloudfrontMediaRoutes);
+app.use(
+  "/api/magazines",
+  magazineRoutes
 );
 // --------------------------------------------------
 // 404 Handler

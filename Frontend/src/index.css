@@ -1,0 +1,827 @@
+.impilo-media-gallery {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--gallery-columns, 3),
+    minmax(0, 1fr)
+  );
+  gap: 16px;
+  width: 100%;
+}
+
+.impilo-media-gallery-item {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: left;
+}
+
+.impilo-media-gallery-item img,
+.impilo-media-gallery-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.impilo-media-gallery-item img {
+  object-fit: cover;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.impilo-media-gallery-item:hover img {
+  transform: scale(1.03);
+  opacity: 0.94;
+}
+
+.impilo-media-gallery-video {
+  position: relative;
+  background: #111;
+}
+
+.impilo-media-gallery-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.impilo-media-gallery-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: translate(
+    -50%,
+    -50%
+  );
+
+  border-radius: 50%;
+  background: rgba(
+    0,
+    0,
+    0,
+    0.7
+  );
+
+  color: #fff;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+.impilo-media-gallery-caption {
+  display: block;
+  padding: 8px 2px 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+.impilo-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.94);
+
+  padding: 20px;
+}
+
+.impilo-lightbox-panel {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.impilo-lightbox-media-wrap {
+  width: calc(100% - 140px);
+  height: calc(100% - 100px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.impilo-lightbox-media {
+  display: block;
+
+  max-width: 100%;
+  max-height: 90vh;
+
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+
+  border-radius: 8px;
+}
+
+/* =========================
+   GOLD NAVIGATION
+========================= */
+
+.impilo-lightbox-nav {
+  position: absolute;
+
+  top: 50%;
+  transform: translateY(-50%);
+
+  z-index: 10;
+
+  width: 56px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #d4af37;
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.65);
+
+  color: #d4af37;
+
+  font-size: 42px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.impilo-lightbox-nav:hover {
+  background: #d4af37;
+  color: #000;
+
+  transform:
+    translateY(-50%)
+    scale(1.08);
+}
+
+.impilo-lightbox-prev {
+  left: 20px;
+}
+
+.impilo-lightbox-next {
+  right: 20px;
+}
+
+/* =========================
+   CLOSE
+========================= */
+
+.impilo-lightbox-close {
+  position: absolute;
+
+  top: 15px;
+  right: 20px;
+
+  z-index: 20;
+
+  width: 48px;
+  height: 48px;
+
+  border: 1px solid #d4af37;
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.7);
+
+  color: #d4af37;
+
+  font-size: 32px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.impilo-lightbox-close:hover {
+  background: #d4af37;
+  color: #000;
+}
+
+/* =========================
+   COUNTER
+========================= */
+
+.impilo-lightbox-counter {
+  position: absolute;
+
+  top: 22px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  z-index: 20;
+
+  color: #d4af37;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+}
+
+/* =========================
+   CAPTION
+========================= */
+
+.impilo-lightbox-caption {
+  position: absolute;
+
+  bottom: 15px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: min(700px, 80%);
+
+  text-align: center;
+
+  color: #fff;
+}
+
+.impilo-lightbox-caption p {
+  margin: 0;
+}
+
+.impilo-lightbox-caption small {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #d4af37;
+}
+.impilo-magazine-page {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  background: #fff;
+
+  overflow: hidden;
+}
+
+.impilo-magazine-page-content {
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+.impilo-magazine-page-inner {
+  width: 100%;
+  height: 100%;
+
+  padding: 40px;
+
+  box-sizing: border-box;
+
+  overflow-y: auto;
+}
+
+.impilo-magazine-page-meta {
+  margin-bottom: 20px;
+
+  font-size: 0.75rem;
+
+  letter-spacing: 0.08em;
+
+  opacity: 0.6;
+}
+
+.impilo-magazine-page-body {
+  width: 100%;
+}
+
+.impilo-page-cover {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background: #000;
+  color: #d4af37;
+}
+
+.impilo-page-cover h1 {
+  margin: 0;
+
+  font-family: "Playfair Display", serif;
+
+  font-size: 3rem;
+
+  letter-spacing: 0.04em;
+}
+
+.impilo-page-highlights,
+.impilo-page-about,
+.impilo-page-contents,
+.impilo-page-article {
+  padding: 20px 0;
+}
+/* =========================================
+   IMPILO MAGAZINE PAGE
+========================================= */
+/* =========================================================
+   IMPILO MAGAZINE PAGE
+========================================================= */
+
+.impilo-magazine-page {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+  min-height: 0;
+
+  box-sizing: border-box;
+
+  background: #fff;
+
+  overflow: hidden;
+}
+
+.impilo-magazine-page-content {
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+  min-height: 0;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   PAGE TYPES
+========================================================= */
+
+.impilo-page-cover {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background: #000;
+  color: #d4af37;
+}
+
+.impilo-page-cover h1 {
+  margin: 0;
+
+  font-family: "Playfair Display", serif;
+
+  font-size: 3rem;
+
+  letter-spacing: 0.04em;
+}
+
+.impilo-page-highlights,
+.impilo-page-about,
+.impilo-page-contents {
+  width: 100%;
+  height: 100%;
+
+  padding: 40px;
+
+  box-sizing: border-box;
+
+  overflow-y: auto;
+}
+
+
+/* =========================================================
+   MAGAZINE ARTICLE
+========================================================= */
+
+.editorial-article {
+  width: 100%;
+  height: 100%;
+
+  max-width: 100%;
+  max-height: 85vh;
+
+  padding: 24px;
+
+  box-sizing: border-box;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.editorial-article * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.impilo-article-content {
+  width: 100%;
+  max-width: 100%;
+}
+
+.impilo-article-block {
+  width: 100%;
+  max-width: 100%;
+}
+
+
+/* =========================================================
+   ARTICLE TEXT
+========================================================= */
+
+.impilo-article-paragraph {
+  margin: 0 0 18px;
+
+  line-height: 1.7;
+}
+
+.impilo-article-heading {
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+
+/* =========================================================
+   ARTICLE IMAGES
+========================================================= */
+
+.impilo-article-image {
+  width: 100%;
+
+  margin: 28px 0;
+}
+
+.impilo-article-image img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  object-fit: contain;
+}
+
+
+/* =========================================================
+   ARTICLE VIDEO
+========================================================= */
+
+.impilo-article-video {
+  position: relative;
+
+  width: 100%;
+
+  aspect-ratio: 16 / 9;
+
+  margin: 28px 0;
+}
+
+.impilo-article-video iframe {
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+}
+
+
+/* =========================================================
+   MAGAZINE READER
+========================================================= */
+
+.impilo-reader {
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding: 24px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* =========================================================
+   READER HEADER
+========================================================= */
+
+.impilo-reader-header {
+  width: 100%;
+  max-width: 1100px;
+
+  text-align: center;
+
+  margin-bottom: 16px;
+}
+
+.impilo-reader-header h1 {
+  margin: 0;
+}
+
+.impilo-reader-header p {
+  margin: 6px 0 0;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.impilo-reader-progress {
+  width: 100%;
+  max-width: 1100px;
+
+  height: 4px;
+
+  margin-bottom: 10px;
+
+  overflow: hidden;
+}
+
+.impilo-reader-progress-fill {
+  height: 100%;
+
+  background: #d4af37;
+
+  transition: width 0.3s ease;
+}
+
+
+/* =========================================================
+   PAGE COUNTER
+========================================================= */
+
+.impilo-reader-counter {
+  width: 100%;
+  max-width: 1100px;
+
+  text-align: center;
+
+  margin-bottom: 12px;
+}
+
+
+/* =========================================================
+   FLIPBOOK
+========================================================= */
+
+.impilo-reader-book {
+  width: 100%;
+  max-width: 1100px;
+
+  margin: 0 auto;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+}
+
+.impilo-reader-book > div {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+
+/* =========================================================
+   READER CONTROLS
+========================================================= */
+
+.impilo-reader-controls {
+  width: 100%;
+  max-width: 1100px;
+
+  margin: 18px auto 0;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.impilo-reader-controls button {
+  min-width: 110px;
+}
+
+
+/* =========================================================
+   GOLD READER BUTTONS
+========================================================= */
+
+.impilo-reader-controls .impilo-glass-btn {
+  border: 1px solid #d4af37;
+
+  color: #d4af37;
+
+  background: rgba(0, 0, 0, 0.85);
+
+  padding: 10px 18px;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.impilo-reader-controls .impilo-glass-btn:hover:not(:disabled) {
+  background: #d4af37;
+
+  color: #000;
+
+  transform: translateY(-1px);
+}
+
+.impilo-reader-controls .impilo-glass-btn:disabled {
+  opacity: 0.35;
+
+  cursor: not-allowed;
+}
+/* =========================================================
+   IMPILO EDITORIAL LAYOUT
+========================================================= */
+
+.impilo-editorial-layout {
+  width: 100%;
+  max-width: 100%;
+}
+
+
+/* -----------------------------------------
+   TEXT
+----------------------------------------- */
+
+.impilo-editorial-paragraph {
+  margin: 0 0 18px;
+
+  font-family: "Montserrat", sans-serif;
+
+  font-size: 0.95rem;
+
+  line-height: 1.7;
+}
+
+
+/* -----------------------------------------
+   HEADINGS
+----------------------------------------- */
+
+.impilo-editorial-heading {
+  margin: 28px 0 16px;
+
+  font-family: "Playfair Display", serif;
+
+  font-size: 1.6rem;
+
+  line-height: 1.15;
+}
+
+
+/* -----------------------------------------
+   VISUALS
+----------------------------------------- */
+
+.impilo-editorial-visual {
+  width: 100%;
+
+  margin: 24px 0;
+
+  padding: 0;
+}
+
+
+/* -----------------------------------------
+   IMAGES
+----------------------------------------- */
+
+.impilo-editorial-image img {
+  display: block;
+
+  width: 100%;
+
+  max-height: 420px;
+
+  object-fit: cover;
+
+  border-radius: 4px;
+}
+
+.impilo-editorial-image figcaption,
+.impilo-editorial-video figcaption {
+  margin-top: 7px;
+
+  font-size: 0.72rem;
+
+  line-height: 1.4;
+
+  opacity: 0.65;
+}
+
+
+/* -----------------------------------------
+   VIDEO
+----------------------------------------- */
+
+.impilo-video-frame {
+  position: relative;
+
+  width: 100%;
+
+  aspect-ratio: 16 / 9;
+
+  overflow: hidden;
+
+  border-radius: 4px;
+}
+
+.impilo-video-frame iframe {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+}
+
+
+/* -----------------------------------------
+   CONTINUATION
+----------------------------------------- */
+
+.impilo-article-continued {
+  margin-bottom: 7px;
+
+  font-family: "Montserrat", sans-serif;
+
+  font-size: 0.68rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.18em;
+
+  color: #d4af37;
+
+  text-transform: uppercase;
+}
+
+.impilo-article-part {
+  margin-top: -8px;
+
+  margin-bottom: 20px;
+
+  font-size: 0.68rem;
+
+  letter-spacing: 0.1em;
+
+  opacity: 0.6;
+}

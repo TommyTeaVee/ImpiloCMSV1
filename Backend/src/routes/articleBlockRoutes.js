@@ -2,7 +2,8 @@ const express = require("express");
 
 const {
   addArticleBlock,
-  deleteArticleBlock
+  deleteArticleBlock,
+  reorderArticleBlocks
 } = require("../controllers/articleBlockController");
 
 const {
@@ -13,21 +14,51 @@ const {
 const router = express.Router();
 
 
-// Add block
+// ==================================================
+// ADD BLOCK
+// ==================================================
+
 router.post(
   "/:id/blocks",
   authenticate,
-  requireRole("ADMIN", "EDITOR", "WRITER"),
+  requireRole(
+    "ADMIN",
+    "EDITOR",
+    "WRITER"
+  ),
   addArticleBlock
 );
 
 
-// Delete block
+// ==================================================
+// DELETE BLOCK
+// ==================================================
+
 router.delete(
   "/:id/blocks/:blockId",
   authenticate,
-  requireRole("ADMIN", "EDITOR", "WRITER"),
+  requireRole(
+    "ADMIN",
+    "EDITOR",
+    "WRITER"
+  ),
   deleteArticleBlock
+);
+
+
+// ==================================================
+// REORDER BLOCKS
+// ==================================================
+
+router.patch(
+  "/:id/blocks/reorder",
+  authenticate,
+  requireRole(
+    "ADMIN",
+    "EDITOR",
+    "WRITER"
+  ),
+  reorderArticleBlocks
 );
 
 

@@ -49,6 +49,18 @@ enum ArticleBlockType {
   EMBED
 }
 
+enum MagazinePageType {
+  COVER
+  HIGHLIGHTS
+  ABOUT
+  PRIVACY
+  CONTACT
+  CONTENTS
+  ARTICLE
+  AD
+  STATIC
+}
+
 model User {
   id              String  @id @default(uuid())
   readerTokenHash String? @unique
@@ -73,6 +85,51 @@ model User {
   readerEvents       ReaderEvent[]
   pointsTransactions PointsTransaction[]
   achievements       ReaderAchievement[]
+}
+
+model MagazineIssue {
+  id String @id @default(uuid())
+
+  title       String
+  slug        String  @unique
+  description String?
+
+  issueNumber Int?
+  volume      String?
+
+  coverUrl String?
+
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  pages MagazinePage[]
+
+  @@index([publishedAt])
+}
+
+model MagazinePage {
+  id String @id @default(uuid())
+
+  issueId  String
+  position Int
+  type     MagazinePageType
+
+  title String?
+  slug  String?
+
+  articleId String?
+  content   Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  issue   MagazineIssue @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  article Article?      @relation(fields: [articleId], references: [id], onDelete: SetNull)
+
+  @@unique([issueId, position])
+  @@index([issueId])
+  @@index([articleId])
 }
 
 model ArticleBlock {
@@ -177,6 +234,7 @@ model Article {
   approvedBy    User?             @relation("ArticleApprover", fields: [approvedById], references: [id])
   publishedById String?
   publishedBy   User?             @relation("ArticlePublisher", fields: [publishedById], references: [id])
+  magazinePages MagazinePage[]
   blocks        ArticleBlock[]
   revisions     ArticleRevision[]
 

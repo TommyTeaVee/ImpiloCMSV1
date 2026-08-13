@@ -310,9 +310,227 @@ async function deleteArticleBlock(req, res) {
     });
   }
 }
+// ==================================================
+// REORDER ARTICLE BLOCKS
+// ==================================================
 
+// ==================================================
+// REORDER ARTICLE BLOCKS
+// ==================================================
+
+async function reorderArticleBlocks(req, res) {
+  try {
+    const { id: articleId } = req.params;
+    const { blocks } = req.body;
+
+    if (!Array.isArray(blocks)) {
+      return res.status(400).json({
+        message: "blocks must be an array"
+      });
+    }
+
+    if (blocks.length === 0) {
+      return res.status(400).json({
+        message: "At least one block is required"
+      });
+    }
+
+    // ==================================================
+    // CHECK ARTICLE
+    // ==================================================
+
+    const article =
+      await prisma.article.findUnique({
+        where: {
+          id: articleId
+        }
+      });
+
+    if (!article) {
+      return res.status(404).json({
+        message: "Article not found"
+      });
+    }
+
+    // ==================================================
+    // WRITER OWNERSHIP
+    // ==================================================
+
+    if (
+      req.user.role === "WRITER" &&
+      article.authorId !== req.user.id
+    ) {
+      return res.status(403).json({
+        message:
+          "You can only modify your own articles"
+      });
+    }
+
+    // ==================================================
+    // GET EXISTING BLOCKS
+    // ==================================================
+
+    const existingBlocks =
+      await prisma.articleBlock.findMany({
+        where: {
+          articleId
+        },
+        select: {
+          id: true
+        }
+      });
+
+    const existingIds = new Set(
+      existingBlocks.map(
+        (block) => block.id
+      )
+    );
+
+    // ==================================================
+    // VALIDATE SUBMITTED IDS
+    // ==================================================
+
+    const submittedIds =
+      blocks.map(
+        (block) => block.id
+      );
+
+    const uniqueIds =
+      new Set(submittedIds);
+
+    if (
+      uniqueIds.size !==
+      submittedIds.length
+    ) {
+      return res.status(400).json({
+        message:
+          "Duplicate block IDs are not allowed"
+      });
+    }
+
+    // Every submitted block must belong
+    // to this article.
+
+    for (const block of blocks) {
+      if (!existingIds.has(block.id)) {
+        return res.status(400).json({
+          message:
+            "One or more blocks do not belong to this article"
+        });
+      }
+    }
+
+    // Every existing block must be
+    // included in the new order.
+
+    if (
+      submittedIds.length !==
+      existingBlocks.length
+    ) {
+      return res.status(400).json({
+        message:
+          "All article blocks must be included when reordering"
+      });
+    }
+
+    // ==================================================
+    // SAFE REORDER
+    // ==================================================
+    //
+    // First move every block to a temporary
+    // negative position.
+    //
+    // This prevents conflicts if position
+    // has a unique constraint.
+    //
+    // Example:
+    //
+    // 0 → -1
+    // 1 → -2
+    // 2 → -3
+    //
+    // Then assign the real positions.
+    // ==================================================
+
+    await prisma.$transaction(async (tx) => {
+
+      // ----------------------------------------------
+      // TEMPORARY POSITIONS
+      // ----------------------------------------------
+
+      for (
+        let index = 0;
+        index < existingBlocks.length;
+        index++
+      ) {
+        await tx.articleBlock.update({
+          where: {
+            id: existingBlocks[index].id
+          },
+          data: {
+            position: -(index + 1)
+          }
+        });
+      }
+
+      // ----------------------------------------------
+      // FINAL POSITIONS
+      // ----------------------------------------------
+
+      for (
+        let index = 0;
+        index < blocks.length;
+        index++
+      ) {
+        await tx.articleBlock.update({
+          where: {
+            id: blocks[index].id
+          },
+          data: {
+            position: index
+          }
+        });
+      }
+    });
+
+    // ==================================================
+    // RETURN NEW ORDER
+    // ==================================================
+
+    const reorderedBlocks =
+      await prisma.articleBlock.findMany({
+        where: {
+          articleId
+        },
+        orderBy: {
+          position: "asc"
+        },
+        include: {
+          media: true
+        }
+      });
+
+    return res.json({
+      message:
+        "Article blocks reordered",
+      blocks: reorderedBlocks
+    });
+
+  } catch (error) {
+    console.error(
+      "Reorder article blocks error:",
+      error
+    );
+
+    return res.status(500).json({
+      message:
+        "Unable to reorder article blocks"
+    });
+  }
+}
 
 module.exports = {
   addArticleBlock,
-  deleteArticleBlock
+  deleteArticleBlock,
+  reorderArticleBlocks
 };

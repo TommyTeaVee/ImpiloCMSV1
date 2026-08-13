@@ -3,6 +3,7 @@ const express = require("express");
 const {
   createMedia,
   getMedia,
+  getMediaAssets,
   updateMedia,
   deleteMedia
 } = require("../controllers/mediaController");
@@ -24,6 +25,20 @@ router.post(
 
 
 // Get media asset
+// ==================================================
+// GET MEDIA ASSETS
+// ==================================================
+
+router.get(
+  "/",
+  authenticate,
+  requireRole(
+    "ADMIN",
+    "EDITOR",
+    "WRITER"
+  ),
+  getMediaAssets
+);
 router.get(
   "/:id",
   authenticate,

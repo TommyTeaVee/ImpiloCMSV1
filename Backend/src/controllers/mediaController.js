@@ -11,7 +11,66 @@ const ALLOWED_PROVIDERS = [
   "CLOUDFRONT"
 ];
 
+// ==================================================
+// GET MEDIA ASSETS
+// ==================================================
 
+async function getMediaAssets(req, res) {
+  try {
+    const {
+      type,
+      provider
+    } = req.query;
+
+    const where = {};
+
+    // Optional type filter
+    if (
+      type &&
+      ALLOWED_TYPES.includes(
+        String(type).toUpperCase()
+      )
+    ) {
+      where.type =
+        String(type).toUpperCase();
+    }
+
+    // Optional provider filter
+    if (
+      provider &&
+      ALLOWED_PROVIDERS.includes(
+        String(provider).toUpperCase()
+      )
+    ) {
+      where.provider =
+        String(provider).toUpperCase();
+    }
+
+    const media =
+      await prisma.mediaAsset.findMany({
+        where,
+
+        orderBy: {
+          createdAt: "desc"
+        }
+      });
+
+    return res.json({
+      media
+    });
+
+  } catch (error) {
+    console.error(
+      "Get media assets error:",
+      error
+    );
+
+    return res.status(500).json({
+      message:
+        "Unable to retrieve media assets"
+    });
+  }
+}
 // ==================================================
 // CREATE MEDIA ASSET
 // ==================================================
@@ -377,6 +436,7 @@ async function updateMedia(req, res) {
 
 module.exports = {
   createMedia,
+  getMediaAssets,
   getMedia,
   updateMedia,
   deleteMedia
