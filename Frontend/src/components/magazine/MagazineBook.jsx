@@ -1,100 +1,214 @@
-import React, {
-  forwardRef,
-  useImperativeHandle,
-  useRef
-} from "react";
-
+import React from "react";
 import HTMLFlipBook from "react-pageflip";
 import MagazinePage from "./MagazinePage";
 
-const MagazineBook = forwardRef(
-  (
-    {
-      pages = [],
-      initialPage = 0,
-      onPageChange
-    },
-    ref
-  ) => {
-    const bookRef = useRef(null);
+class MagazineBook extends React.Component {
 
-    useImperativeHandle(ref, () => ({
-      pageFlip: () =>
-        bookRef.current?.pageFlip(),
+  constructor(props) {
+    super(props);
 
-      next: () =>
-        bookRef.current?.pageFlip()?.flipNext(),
+    this.flipBook = React.createRef();
 
-      previous: () =>
-        bookRef.current?.pageFlip()?.flipPrev(),
-
-      flipTo: (page) =>
-        bookRef.current
-          ?.pageFlip()
-          ?.flip(page)
-    }));
-
-    const handleFlip = (event) => {
-      if (typeof onPageChange === "function") {
-        onPageChange(event.data);
-      }
+    this.state = {
+      page: props.initialPage || 0
     };
+  }
 
-    if (!Array.isArray(pages) || pages.length === 0) {
+
+  /* ==================================================
+     FLIPBOOK INSTANCE
+     ================================================== */
+
+  getFlip = () => {
+    return this.flipBook.current?.pageFlip?.();
+  };
+
+
+  /* ==================================================
+     PUBLIC API
+     MagazineReader uses these.
+     ================================================== */
+
+ next = () => {
+  console.log("NEXT CLICKED");
+
+  const instance = this.flipBook.current;
+
+  console.log("FLIPBOOK REF:", instance);
+
+  const flip = instance?.pageFlip?.();
+
+  console.log("PAGE FLIP INSTANCE:", flip);
+
+  if (!flip) {
+    console.error("PAGEFLIP INSTANCE NOT FOUND");
+    return;
+  }
+
+  console.log(
+    "CURRENT PAGE:",
+    flip.getCurrentPageIndex?.()
+  );
+
+  console.log(
+    "TOTAL PAGES:",
+    flip.getPageCount?.()
+  );
+
+  flip.flipNext();
+};
+
+
+  flipTo = (page) => {
+    const flip = this.getFlip();
+
+    if (flip) {
+      flip.flip(page);
+    }
+  };
+
+
+  pageFlip = () => {
+    return this.getFlip();
+  };
+
+
+  /* ==================================================
+     PAGE CHANGE
+     ================================================== */
+
+  onPage = (event) => {
+
+    const page = event.data;
+
+    this.setState({
+      page
+    });
+
+    if (
+      typeof this.props.onPageChange ===
+      "function"
+    ) {
+      this.props.onPageChange(page);
+    }
+  };
+
+
+  /* ==================================================
+     INITIAL PAGE
+     ================================================== */
+
+  componentDidMount() {
+
+    const initialPage =
+      this.props.initialPage || 0;
+
+    if (initialPage > 0) {
+
+      const flip = this.getFlip();
+
+      if (flip) {
+        flip.flip(initialPage);
+      }
+
+    }
+  }
+
+
+  /* ==================================================
+     RENDER
+     ================================================== */
+
+  render() {
+
+    const {
+      pages = []
+    } = this.props;
+
+
+    if (
+      !Array.isArray(pages) ||
+      pages.length === 0
+    ) {
       return null;
     }
 
+
+    const initialPage = Math.max(
+      0,
+      Math.min(
+        this.props.initialPage || 0,
+        pages.length - 1
+      )
+    );
+
+
     return (
-      <HTMLFlipBook
-        ref={bookRef}
 
-        width={450}
-        height={800}
+      <div className="impilo-magazine-book-wrapper">
 
-        minWidth={315}
-        minHeight={400}
+        <HTMLFlipBook
 
-        maxWidth={900}
-        maxHeight={1000}
+          ref={this.flipBook}
 
-        size="stretch"
+          width={450}
+          height={800}
 
-        showCover={true}
-        usePortrait={true}
+          minWidth={315}
+          minHeight={400}
 
-        startPage={Math.max(
-          0,
-          Math.min(
-            initialPage,
-            pages.length - 1
-          )
-        )}
+          maxWidth={900}
+          maxHeight={1000}
 
-        onFlip={handleFlip}
+          size="stretch"
 
-        className="impilo-magazine-book"
+          showCover={true}
 
-        drawShadow={false}
-        flippingTime={1000}
+          usePortrait={true}
 
-        useMouseEvents={false}
-        clickEventForward={false}
-        swipeDistance={999999}
+          startPage={initialPage}
 
-        presentationMode={true}
-        mobileScrollSupport={false}
-      >
-        {pages.map((page) => (
-          <MagazinePage
-            key={page.id}
-            page={page}
-          />
-        ))}
-      </HTMLFlipBook>
+          onFlip={this.onPage}
+
+          className="impilo-magazine-book"
+
+          drawShadow={false}
+
+          flippingTime={1000}
+
+          /*
+           * IMPORTANT:
+           * These are the same interaction
+           * settings from your original
+           * working DemoBook.
+           */
+
+          useMouseEvents={false}
+
+          clickEventForward={false}
+
+          swipeDistance={999999}
+
+          presentationMode={false}
+
+          mobileScrollSupport={false}
+
+        >
+
+          {pages.map((page) => (
+
+            <MagazinePage
+              key={page.id}
+              page={page}
+            />
+
+          ))}
+
+        </HTMLFlipBook>
+
+      </div>
     );
   }
-);
-
-MagazineBook.displayName = "MagazineBook";
+}
 
 export default MagazineBook;

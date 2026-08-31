@@ -4,16 +4,19 @@ const {
 } = require("@aws-sdk/client-s3");
 
 const s3 = new S3Client({
-  region: process.env.AWS_REGION
+  region: process.env.R2_REGION || "auto",
+  endpoint: process.env.R2_ENDPOINT,
+  credentials: {
+    accessKeyId: process.env.R2_ACCESS_KEY_ID,
+    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY
+  }
 });
 
-const BUCKET =
-  process.env.S3_BUCKETS;
+const BUCKET = process.env.S3_BUCKETS;
 
-const CLOUDFRONT_URL =
-  (
-    process.env.CLOUDFRONT_URL || ""
-  ).replace(/\/$/, "");
+const MEDIA_BASE_URL = (
+  process.env.MEDIA_BASE_URL || ""
+).replace(/\/$/, "");
 
 
 // ==================================================
@@ -33,145 +36,107 @@ function normalizeFolder(folder) {
 
 
 // ==================================================
-// BUILD CLOUDFRONT URL
+// BUILD MEDIA URL
 // ==================================================
 
-function toCloudFrontUrl(key) {
+function toMediaUrl(key) {
   if (!key) {
     return null;
   }
 
-  return `${CLOUDFRONT_URL}/${key}`;
+  return `${MEDIA_BASE_URL}/${key}`;
 }
 
 
 // ==================================================
-// LIST CLOUDFRONT FOLDER
+// LIST MEDIA FOLDER
 // ==================================================
 
-async function listCloudFrontFolder(
-  req,
-  res
-) {
+async function listMediaFolder(req, res) {
   try {
-
-    const folder =
-      normalizeFolder(
-        req.query.folder
-      );
+    const folder = normalizeFolder(
+      req.query.folder
+    );
 
     if (!folder) {
       return res.status(400).json({
-        message:
-          "Folder name is required"
+        message: "Folder name is required"
       });
     }
 
+    const prefix = `${folder}/`;
 
-    const prefix =
-      `${folder}/`;
+    const command = new ListObjectsV2Command({
+      Bucket: BUCKET,
+      Prefix: prefix
+    });
 
-
-    const command =
-      new ListObjectsV2Command({
-        Bucket: BUCKET,
-
-        Prefix: prefix
-      });
-
-
-    const result =
-      await s3.send(command);
-
+    const result = await s3.send(command);
 
     const objects =
       (result.Contents || [])
-
         .filter(
           (object) =>
             object.Key &&
             object.Key !== prefix
         )
-
         .filter(
           (object) =>
             !object.Key.endsWith("/")
         )
+        .map((object) => {
+          const key = object.Key;
 
-        .map(
-          (object) => {
+          const filename =
+            key.split("/").pop();
 
-            const key =
-              object.Key;
+          const extension =
+            filename.includes(".")
+              ? filename
+                  .split(".")
+                  .pop()
+                  .toLowerCase()
+              : "";
 
-            const filename =
-              key.split("/").pop();
+          return {
+            key,
+            filename,
+            extension,
 
+            url: toMediaUrl(key),
 
-            const extension =
-              filename.includes(".")
-                ? filename
-                    .split(".")
-                    .pop()
-                    .toLowerCase()
-                : "";
+            size:
+              object.Size ?? null,
 
+            lastModified:
+              object.LastModified ?? null,
 
-            return {
-              key,
-
-              filename,
-
-              extension,
-
-              url:
-                toCloudFrontUrl(
-                  key
-                ),
-
-              size:
-                object.Size ?? null,
-
-              lastModified:
-                object.LastModified ??
-                null,
-
-              etag:
-                object.ETag ??
-                null
-            };
-          }
-        );
-
+            etag:
+              object.ETag ?? null
+          };
+        });
 
     return res.json({
       folder,
-
       prefix,
-
-      count:
-        objects.length,
-
+      count: objects.length,
       objects
     });
 
-
   } catch (error) {
-
     console.error(
-      "CloudFront folder error:",
+      "Media folder error:",
       error
     );
 
-
     return res.status(500).json({
       message:
-        "Unable to retrieve CloudFront folder"
+        "Unable to retrieve media folder"
     });
   }
 }
 
 
 module.exports = {
-  listCloudFrontFolder
+  listMediaFolder
 };

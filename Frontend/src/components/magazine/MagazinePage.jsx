@@ -27,7 +27,6 @@ const MagazinePage = React.forwardRef(
   }
 );
 
-MagazinePage.displayName =
-  "MagazinePage";
+MagazinePage.displayName = "MagazinePage";
 
 export default MagazinePage;

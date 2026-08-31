@@ -7,48 +7,98 @@ import {
 
 import Home from "./pages/Home";
 import ReaderDashboard from "./pages/ReaderDashboard.jsx";
+
 import EditorialCMS from "./pages/EditorialCMS.jsx";
 import EditorialWorkspace from "./components/editorial/EditorialWorkspace.jsx";
 import EditorialLogin from "./pages/EditorialLogin.jsx";
+
+import AdminDashboard from "./pages/AdminDashboard.jsx";
+
 import MediaPickerTest from "./pages/MediaPickerTest.jsx";
 import CloudFrontMediaTest from "./pages/CloudFrontMediaTest.jsx";
+
+
 function App() {
   return (
     <BrowserRouter>
+
       <Routes>
+
+        {/* ==========================================
+            PUBLIC
+        ========================================== */}
 
         <Route
           path="/"
           element={<Home />}
         />
 
+
+        {/* ==========================================
+            READER
+        ========================================== */}
+
         <Route
           path="/reader"
           element={<ReaderDashboard />}
         />
-<Route
-  path="/editorial/login"
-  element={<EditorialLogin />}
-/>
-      <Route
-    path="/editorial"
-    element={<EditorialCMS />}
-  />
 
-  <Route
-    path="/editorial/new"
-    element={<EditorialWorkspace />}
-  />
-  <Route
-    path="/media-picker-test"
-    element={<MediaPickerTest />}
-  />
 
-<Route
-  path="/cloudfront-test"
-  element={<CloudFrontMediaTest />}
-/>
-      <Route
+        {/* ==========================================
+            EDITORIAL LOGIN
+        ========================================== */}
+
+        <Route
+          path="/editorial/login"
+          element={<EditorialLogin />}
+        />
+
+
+        {/* ==========================================
+            EDITORIAL CMS
+        ========================================== */}
+
+        <Route
+          path="/editorial"
+          element={<EditorialCMS />}
+        />
+
+        <Route
+          path="/editorial/new"
+          element={<EditorialWorkspace />}
+        />
+
+
+        {/* ==========================================
+            ADMINISTRATION
+        ========================================== */}
+
+        <Route
+          path="/admin"
+          element={<AdminDashboard />}
+        />
+
+
+        {/* ==========================================
+            DEVELOPMENT / TEST
+        ========================================== */}
+
+        <Route
+          path="/media-picker-test"
+          element={<MediaPickerTest />}
+        />
+
+        <Route
+          path="/cloudfront-test"
+          element={<CloudFrontMediaTest />}
+        />
+
+
+        {/* ==========================================
+            FALLBACK
+        ========================================== */}
+
+        <Route
           path="*"
           element={
             <Navigate
@@ -59,6 +109,7 @@ function App() {
         />
 
       </Routes>
+
     </BrowserRouter>
   );
 }

@@ -5,7 +5,8 @@ const {
   getMedia,
   getMediaAssets,
   updateMedia,
-  deleteMedia
+  deleteMedia,
+  uploadEditorialMedia
 } = require("../controllers/mediaController");
 const {
   authenticate,
@@ -14,7 +15,29 @@ const {
 
 const router = express.Router();
 
+const {
+  upload
+} = require(
+  "../middleware/editorialUpload"
+);
+// ==================================================
+// UPLOAD EDITORIAL MEDIA
+// ==================================================
+router.post(
+  "/upload",
 
+   authenticate,
+
+  requireRole(
+    "ADMIN",
+    "EDITOR",
+    "WRITER"
+  ), 
+
+  upload.single("file"),
+
+  uploadEditorialMedia
+);
 // Create media asset
 router.post(
   "/",
@@ -36,7 +59,7 @@ router.get(
     "ADMIN",
     "EDITOR",
     "WRITER"
-  ),
+  ), 
   getMediaAssets
 );
 router.get(

@@ -1,5 +1,5 @@
 const CLOUDFRONT_BASE =
-  "https://d1zrm2iszdbieq.cloudfront.net/assets";
+  "https://pub-3b74daf955444cf484ba5da4777ce1ec.r2.dev/assets";
 
 export const MEDIA_ALBUMS = {
   modelsPortraits: {

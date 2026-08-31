@@ -1,30 +1,41 @@
 import React from "react";
 
 export default function PageRenderer({ page }) {
+ const DEV_COVER =
+  "https://pub-3b74daf955444cf484ba5da4777ce1ec.r2.dev/assets/mag_cover/flow.png?auto=compress&cs=tinysrgb&dpr=1&w=1500";
   if (!page) {
     return null;
   }
 
-  const article = page.article;
+  const article =
+    page.article;
+
 
   // ==================================================
   // TEXT HELPER
   // ==================================================
 
   function getText(block) {
-    const content = block?.content;
+
+    const content =
+      block?.content;
 
     if (!content) {
       return "";
     }
 
-    if (typeof content === "string") {
+    if (
+      typeof content ===
+      "string"
+    ) {
       return content;
     }
 
     if (
-      typeof content === "object" &&
-      typeof content.text === "string"
+      typeof content ===
+        "object" &&
+      typeof content.text ===
+        "string"
     ) {
       return content.text;
     }
@@ -32,174 +43,451 @@ export default function PageRenderer({ page }) {
     return "";
   }
 
-  // ==================================================
-  // COVER
-  // ==================================================
 
-  if (page.type === "COVER") {
-    return (
-      <section className="impilo-page impilo-page-cover">
-        <div className="impilo-page-cover-content">
-          <h1>{page.title}</h1>
-        </div>
-      </section>
-    );
-  }
+  // ==================================================
+// COVER
+// STRICTLY FULL-BLEED IMAGE
+// ==================================================
+
+// ==================================================
+// COVER
+// ==================================================
+
+// ==================================================
+// COVER
+// ==================================================
+
+if (page.type === "COVER") {
+  const coverImage =
+    page.imageUrl ||
+    page.image?.url ||
+    page.media?.url ||
+    "https://pub-3b74daf955444cf484ba5da4777ce1ec.r2.dev/assets/mag_cover/master_cover.png?auto=compress&cs=tinysrgb&dpr=1&w=1500";
+
+  return (
+    <section className="impilo-page impilo-page-cover">
+
+      <img
+        src={coverImage}
+        alt={
+          page.title ||
+          "IMPILO Magazine Cover"
+        }
+        className="impilo-cover-image"
+        draggable="false"
+      />
+
+    </section>
+  );
+}
 
   // ==================================================
   // HIGHLIGHTS
   // ==================================================
 
-  if (page.type === "HIGHLIGHTS") {
+  if (
+    page.type ===
+    "HIGHLIGHTS"
+  ) {
+
     return (
-      <section className="impilo-page impilo-page-highlights">
-        <h1 className="uk-article-title">
-          {page.title || "Highlights"}
-        </h1>
+
+      <section
+        className="
+          impilo-page
+          impilo-page-highlights
+          impilo-magazine-editorial-page
+        "
+      >
+
+        <div
+          className="
+            impilo-magazine-section-inner
+          "
+        >
+
+          <span
+            className="
+              impilo-magazine-eyebrow
+            "
+          >
+            IMPILO
+          </span>
+
+          <h1
+            className="
+              impilo-magazine-section-title
+            "
+          >
+            {page.title ||
+              "Highlights"}
+          </h1>
+
+          <div
+            className="
+              impilo-magazine-gold-rule
+            "
+          />
+
+        </div>
+
       </section>
+
     );
+
   }
+
 
   // ==================================================
   // ABOUT
   // ==================================================
 
-  if (page.type === "ABOUT") {
+  if (
+    page.type ===
+    "ABOUT"
+  ) {
+
     return (
-      <section className="impilo-page impilo-page-about">
-        <h1 className="uk-article-title">
-          {page.title || "About IMPILO"}
-        </h1>
+
+      <section
+        className="
+          impilo-page
+          impilo-page-about
+          impilo-magazine-editorial-page
+        "
+      >
+
+        <div
+          className="
+            impilo-magazine-section-inner
+          "
+        >
+
+          <span
+            className="
+              impilo-magazine-eyebrow
+            "
+          >
+            THE MAGAZINE
+          </span>
+
+          <h1
+            className="
+              impilo-magazine-section-title
+            "
+          >
+            {page.title ||
+              "About IMPILO"}
+          </h1>
+
+          <div
+            className="
+              impilo-magazine-gold-rule
+            "
+          />
+
+          <p
+            className="
+              impilo-magazine-placeholder
+            "
+          >
+            About IMPILO content
+            will appear here.
+          </p>
+
+        </div>
+
       </section>
+
     );
+
   }
+
 
   // ==================================================
   // CONTENTS
   // ==================================================
 
-  if (page.type === "CONTENTS") {
-    return (
-      <section className="impilo-page impilo-page-contents">
-        <h1 className="uk-article-title">
-          {page.title || "Contents"}
-        </h1>
+  if (
+    page.type ===
+    "CONTENTS"
+  ) {
 
-        <div className="impilo-contents-list">
-          <p>
-            Magazine contents will appear here.
-          </p>
+    return (
+
+      <section
+        className="
+          impilo-page
+          impilo-page-contents
+          impilo-magazine-editorial-page
+        "
+      >
+
+        <div
+          className="
+            impilo-magazine-section-inner
+          "
+        >
+
+          <span
+            className="
+              impilo-magazine-eyebrow
+            "
+          >
+            THIS ISSUE
+          </span>
+
+          <h1
+            className="
+              impilo-magazine-section-title
+            "
+          >
+            {page.title ||
+              "Contents"}
+          </h1>
+
+          <div
+            className="
+              impilo-magazine-gold-rule
+            "
+          />
+
+          <div
+            className="
+              impilo-contents-list
+            "
+          >
+
+            <p
+              className="
+                impilo-magazine-placeholder
+              "
+            >
+              Magazine contents
+              will appear here.
+            </p>
+
+          </div>
+
         </div>
+
       </section>
+
     );
+
   }
+
 
   // ==================================================
   // ARTICLE
   // ==================================================
 
-  if (page.type === "ARTICLE") {
+  if (
+    page.type ===
+    "ARTICLE"
+  ) {
+
     if (!article) {
+
       return (
-        <article className="editorial-article">
+
+        <article
+          className="
+            editorial-article
+            impilo-magazine-article-page
+          "
+        >
+
           <p>
-            Article content unavailable.
+            Article content
+            unavailable.
           </p>
+
         </article>
+
       );
+
     }
 
-    const blocks = Array.isArray(article.blocks)
-      ? article.blocks
-      : [];
+
+    const blocks =
+      Array.isArray(
+        article.blocks
+      )
+        ? article.blocks
+        : [];
+
 
     // ==================================================
-    // CONTINUATION
+    // ARTICLE CONTINUATION
     // ==================================================
 
     const isContinuation =
-      Number(page.articlePart) > 1;
+      Number(
+        page.articlePart
+      ) > 1;
+
 
     // ==================================================
-    // RENDER ARTICLE BLOCK
+    // RENDER BLOCK
     // ==================================================
 
-    function renderBlock(block, index) {
+    function renderBlock(
+      block,
+      index
+    ) {
+
       if (!block) {
         return null;
       }
 
-      const type = String(
-        block.type || "TEXT"
-      ).toUpperCase();
+
+      const type =
+        String(
+          block.type ||
+          "TEXT"
+        ).toUpperCase();
+
 
       const key =
-        block.id || `block-${index}`;
+        block.id ||
+        block.clientId ||
+        `block-${index}`;
 
-      // ==================================================
+
+      // ================================================
       // TEXT
-      // ==================================================
+      // ================================================
 
       if (
         type === "TEXT" ||
         type === "PARAGRAPH"
       ) {
-        const text = getText(block);
+
+        const text =
+          getText(block);
 
         if (!text) {
           return null;
         }
 
         return (
+
           <p
             key={key}
-            className="impilo-editorial-paragraph"
+            className="
+              impilo-editorial-paragraph
+              impilo-magazine-text
+            "
           >
             {text}
           </p>
+
         );
+
       }
 
-      // ==================================================
+
+      // ================================================
       // HEADING
-      // ==================================================
+      // ================================================
 
       if (
         type === "HEADING" ||
         type === "SUBHEADING"
       ) {
-        const text = getText(block);
+
+        const text =
+          getText(block);
 
         if (!text) {
           return null;
         }
 
         return (
+
           <h2
             key={key}
-            className="impilo-editorial-heading"
+            className="
+              impilo-editorial-heading
+              impilo-magazine-heading
+            "
           >
             {text}
           </h2>
+
         );
+
       }
 
-      // ==================================================
-      // IMAGE
-      // ==================================================
 
-      if (type === "IMAGE") {
-        const media = block.media;
+      // ================================================
+      // QUOTE
+      // ================================================
 
-        if (!media?.url) {
+      if (
+        type === "QUOTE"
+      ) {
+
+        const text =
+          getText(block);
+
+        if (!text) {
           return null;
         }
 
         return (
+
+          <blockquote
+            key={key}
+            className="
+              impilo-magazine-quote
+            "
+          >
+
+            <span>
+              “
+            </span>
+
+            <p>
+              {text}
+            </p>
+
+          </blockquote>
+
+        );
+
+      }
+
+
+      // ================================================
+      // IMAGE
+      // ================================================
+
+      if (
+        type === "IMAGE"
+      ) {
+
+        const media =
+          block.media;
+
+        if (
+          !media?.url
+        ) {
+          return null;
+        }
+
+        return (
+
           <figure
             key={key}
-            className="impilo-editorial-visual impilo-editorial-image"
+            className="
+              impilo-editorial-visual
+              impilo-editorial-image
+              impilo-magazine-media
+            "
           >
+
             <img
               src={media.url}
               alt={
@@ -211,152 +499,395 @@ export default function PageRenderer({ page }) {
             />
 
             {media.caption && (
+
               <figcaption>
                 {media.caption}
               </figcaption>
+
             )}
 
             {media.credit && (
-              <small className="impilo-media-credit">
+
+              <small
+                className="
+                  impilo-media-credit
+                "
+              >
                 © {media.credit}
               </small>
+
             )}
+
           </figure>
+
         );
+
       }
 
-      // ==================================================
-      // VIDEO
-      // ==================================================
 
-      if (type === "VIDEO") {
-        const media = block.media;
+      // ================================================
+      // VIDEO
+      // ================================================
+
+      if (
+        type === "VIDEO"
+      ) {
+
+        const media =
+          block.media;
 
         if (!media) {
           return null;
         }
 
-        const videoId =
-          media.externalId ||
-          media.providerId;
 
-        if (!videoId) {
+        const isYouTube =
+          String(
+            media.provider ||
+            ""
+          ).toUpperCase() ===
+          "YOUTUBE";
+
+
+        /*
+         * YouTube
+         */
+
+        if (
+          isYouTube &&
+          (
+            media.externalId ||
+            media.providerId
+          )
+        ) {
+
+          const videoId =
+            media.externalId ||
+            media.providerId;
+
+
+          return (
+
+            <figure
+              key={key}
+              className="
+                impilo-editorial-visual
+                impilo-editorial-video
+                impilo-magazine-media
+              "
+            >
+
+              <div
+                className="
+                  impilo-video-frame
+                "
+              >
+
+                <iframe
+                  src={
+                    `https://www.youtube.com/embed/${videoId}`
+                  }
+                  title={
+                    media.caption ||
+                    "IMPILO Magazine video"
+                  }
+                  loading="lazy"
+                  allow="
+                    accelerometer;
+                    autoplay;
+                    clipboard-write;
+                    encrypted-media;
+                    gyroscope;
+                    picture-in-picture
+                  "
+                  allowFullScreen
+                />
+
+              </div>
+
+
+              {media.caption && (
+
+                <figcaption>
+                  {media.caption}
+                </figcaption>
+
+              )}
+
+
+              {media.credit && (
+
+                <small
+                  className="
+                    impilo-media-credit
+                  "
+                >
+                  © {media.credit}
+                </small>
+
+              )}
+
+            </figure>
+
+          );
+
+        }
+
+
+        /*
+         * CloudFront / direct video
+         */
+
+        if (
+          media.url
+        ) {
+
+          return (
+
+            <figure
+              key={key}
+              className="
+                impilo-editorial-visual
+                impilo-editorial-video
+                impilo-magazine-media
+              "
+            >
+
+              <div
+                className="
+                  impilo-native-video-frame
+                "
+              >
+
+                <video
+                  src={media.url}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  className="
+                    impilo-native-video
+                  "
+                />
+
+              </div>
+
+
+              {media.caption && (
+
+                <figcaption>
+                  {media.caption}
+                </figcaption>
+
+              )}
+
+
+              {media.credit && (
+
+                <small
+                  className="
+                    impilo-media-credit
+                  "
+                >
+                  © {media.credit}
+                </small>
+
+              )}
+
+            </figure>
+
+          );
+
+        }
+
+
+        return null;
+
+      }
+
+
+      // ================================================
+      // AUDIO
+      // ================================================
+
+      if (
+        type === "AUDIO"
+      ) {
+
+        const media =
+          block.media;
+
+        if (
+          !media?.url
+        ) {
           return null;
         }
 
+
         return (
+
           <figure
             key={key}
-            className="impilo-editorial-visual impilo-editorial-video"
+            className="
+              impilo-magazine-audio
+            "
           >
-            <div className="impilo-video-frame">
-              <iframe
-                src={`https://www.youtube.com/embed/${videoId}`}
-                title={
-                  media.caption ||
-                  "IMPILO Magazine video"
-                }
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+
+            <div
+              className="
+                impilo-magazine-audio-label
+              "
+            >
+              IMPILO AUDIO
             </div>
 
+            <audio
+              src={media.url}
+              controls
+              preload="metadata"
+            />
+
             {media.caption && (
+
               <figcaption>
                 {media.caption}
               </figcaption>
+
             )}
 
-            {media.credit && (
-              <small className="impilo-media-credit">
-                © {media.credit}
-              </small>
-            )}
           </figure>
+
         );
+
       }
 
-      // ==================================================
+
+      // ================================================
       // GALLERY
-      // ==================================================
+      // ================================================
 
-      if (type === "GALLERY") {
+      if (
+        type === "GALLERY"
+      ) {
+
         return null;
+
       }
 
-      // ==================================================
-      // UNKNOWN BLOCK
-      // ==================================================
+
+      // ================================================
+      // UNKNOWN
+      // ================================================
 
       return null;
+
     }
 
+
     // ==================================================
-    // ARTICLE
+    // ARTICLE PAGE
     // ==================================================
 
     return (
+
       <article
-        className="editorial-article"
-        style={{
-          overflowY: "auto",
-          maxHeight: "85vh",
-          padding: "24px"
-        }}
+        className="
+          editorial-article
+          impilo-magazine-article-page
+        "
       >
 
-        {/* ================================================
+        {/* ==========================================
             ARTICLE HEADER
-        ================================================= */}
+        ========================================== */}
 
-        <header className="impilo-article-header">
+        <header
+          className="
+            impilo-article-header
+          "
+        >
 
           {!isContinuation ? (
-            <>
-              {/* MAIN ARTICLE TITLE */}
 
-              <h1 className="impilo-article-title">
-                {article.title || page.title}
+            <>
+
+              <span
+                className="
+                  impilo-magazine-eyebrow
+                "
+              >
+                IMPILO EDITORIAL
+              </span>
+
+
+              <h1
+                className="
+                  impilo-article-title
+                "
+              >
+                {article.title ||
+                  page.title}
               </h1>
 
-              {/* SUBTITLE */}
 
               {article.subtitle && (
-                <p className="impilo-article-subtitle">
+
+                <p
+                  className="
+                    impilo-article-subtitle
+                  "
+                >
                   {article.subtitle}
                 </p>
+
               )}
 
-              {/* AUTHOR */}
 
               {article.author && (
-                <p className="impilo-article-author">
+
+                <p
+                  className="
+                    impilo-article-author
+                  "
+                >
                   {article.author.displayName ||
                     article.author.username}
                 </p>
-              )}
-            </>
-          ) : (
-            /* ==========================================
-               CONTINUATION HEADER
-            ========================================== */
 
-            <div className="impilo-article-continued">
+              )}
+
+            </>
+
+          ) : (
+
+            <div
+              className="
+                impilo-article-continued
+              "
+            >
               CONTINUED
             </div>
+
           )}
 
         </header>
 
-        {/* ================================================
-            ARTICLE CONTENT
-        ================================================= */}
 
-        <div className="impilo-editorial-layout">
+        {/* ==========================================
+            ARTICLE CONTENT
+        ========================================== */}
+
+        <div
+          className="
+            impilo-editorial-layout
+            impilo-magazine-editorial-layout
+          "
+        >
 
           {blocks.map(
-            (block, index) =>
+            (
+              block,
+              index
+            ) =>
               renderBlock(
                 block,
                 index
@@ -366,18 +897,52 @@ export default function PageRenderer({ page }) {
         </div>
 
       </article>
+
     );
+
   }
+
 
   // ==================================================
   // FALLBACK
   // ==================================================
 
   return (
-    <section className="impilo-page">
-      <h1 className="uk-article-title">
-        {page.title || "IMPILO"}
-      </h1>
+
+    <section
+      className="
+        impilo-page
+        impilo-magazine-editorial-page
+      "
+    >
+
+      <div
+        className="
+          impilo-magazine-section-inner
+        "
+      >
+
+        <span
+          className="
+            impilo-magazine-eyebrow
+          "
+        >
+          IMPILO
+        </span>
+
+        <h1
+          className="
+            impilo-magazine-section-title
+          "
+        >
+          {page.title ||
+            "IMPILO"}
+        </h1>
+
+      </div>
+
     </section>
+
   );
+
 }

@@ -6,6 +6,360 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id                 String              @id @default(uuid())
+  username           String              @unique
+  displayName        String?
+  role               UserRole            @default(READER)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  email              String?             @unique
+  passwordHash       String?
+  avatarUrl          String?
+  readerTokenHash    String?             @unique
+  approvedArticles   Article[]           @relation("ArticleApprover")
+  articles           Article[]
+  publishedArticles  Article[]           @relation("ArticlePublisher")
+  articleRevisions   ArticleRevision[]   @relation("ArticleRevisionCreator")
+  pointsTransactions PointsTransaction[]
+  quizAttempts       QuizAttempt[]
+  quizSessions       QuizSession[]
+  achievements       ReaderAchievement[]
+  readerEvents       ReaderEvent[]
+  readingProgress    ReadingProgress[]
+}
+
+model MagazineIssue {
+  id          String         @id @default(uuid())
+  title       String
+  slug        String         @unique
+  description String?
+  issueNumber Int?
+  volume      String?
+  coverUrl    String?
+  publishedAt DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  pages       MagazinePage[]
+
+  @@index([publishedAt])
+}
+
+model MagazinePage {
+  id        String           @id @default(uuid())
+  issueId   String
+  position  Int
+  type      MagazinePageType
+  title     String?
+  slug      String?
+  articleId String?
+  content   Json?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  article   Article?         @relation(fields: [articleId], references: [id])
+  issue     MagazineIssue    @relation(fields: [issueId], references: [id], onDelete: Cascade)
+
+  @@unique([issueId, position])
+  @@index([issueId])
+  @@index([articleId])
+}
+
+model ArticleBlock {
+  id        String           @id @default(uuid())
+  articleId String
+  type      ArticleBlockType
+  position  Int
+  content   Json
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  mediaId   String?
+  article   Article          @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  media     MediaAsset?      @relation(fields: [mediaId], references: [id])
+
+  @@index([articleId, position])
+}
+
+model ArticleRevision {
+  id          String   @id @default(uuid())
+  articleId   String
+  version     Int
+  title       String
+  excerpt     String?
+  content     Json
+  createdById String
+  createdAt   DateTime @default(now())
+  article     Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  createdBy   User     @relation("ArticleRevisionCreator", fields: [createdById], references: [id])
+
+  @@unique([articleId, version])
+  @@index([createdById])
+}
+
+model Category {
+  id          String            @id @default(uuid())
+  name        String
+  slug        String            @unique
+  description String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  articles    ArticleCategory[]
+}
+
+model ArticleCategory {
+  articleId  String
+  categoryId String
+  article    Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, categoryId])
+  @@index([categoryId])
+}
+
+model Tag {
+  id        String       @id @default(uuid())
+  name      String       @unique
+  slug      String       @unique
+  createdAt DateTime     @default(now())
+  articles  ArticleTag[]
+}
+
+model ArticleTag {
+  articleId String
+  tagId     String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, tagId])
+  @@index([tagId])
+}
+
+model Article {
+  id              String            @id @default(uuid())
+  title           String
+  slug            String            @unique
+  excerpt         String?
+  status          ArticleStatus     @default(DRAFT)
+  wordCount       Int               @default(0)
+  authorId        String
+  publishedAt     DateTime?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  approvedAt      DateTime?
+  approvedById    String?
+  publishedById   String?
+  approvedBy      User?             @relation("ArticleApprover", fields: [approvedById], references: [id])
+  author          User              @relation(fields: [authorId], references: [id])
+  publishedBy     User?             @relation("ArticlePublisher", fields: [publishedById], references: [id])
+  blocks          ArticleBlock[]
+  categories      ArticleCategory[]
+  quiz            ArticleQuiz?
+  revisions       ArticleRevision[]
+  tags            ArticleTag[]
+  magazinePages   MagazinePage[]
+  readingProgress ReadingProgress[]
+
+  @@index([authorId])
+  @@index([status])
+  @@index([publishedAt])
+}
+
+model MediaAsset {
+  id         String         @id @default(uuid())
+  url        String
+  type       String
+  mimeType   String?
+  filename   String?
+  altText    String?
+  caption    String?
+  credit     String?
+  width      Int?
+  height     Int?
+  duration   Int?
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  externalId String?
+  provider   String
+  blocks     ArticleBlock[]
+}
+
+model ReadingProgress {
+  id          String    @id @default(uuid())
+  userId      String
+  articleId   String?
+  issueId     String?
+  progress    Float     @default(0)
+  position    Int       @default(0)
+  startedAt   DateTime  @default(now())
+  lastReadAt  DateTime  @updatedAt
+  completedAt DateTime?
+  article     Article?  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([articleId])
+}
+
+model Achievement {
+  id          String              @id @default(uuid())
+  code        String              @unique
+  name        String
+  description String
+  icon        String?
+  points      Int                 @default(0)
+  createdAt   DateTime            @default(now())
+  readers     ReaderAchievement[]
+}
+
+model ReaderAchievement {
+  id            String      @id @default(uuid())
+  userId        String
+  achievementId String
+  earnedAt      DateTime    @default(now())
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
+
+  @@unique([userId, achievementId])
+}
+
+model ArticleQuiz {
+  id           String         @id @default(uuid())
+  articleId    String         @unique
+  title        String
+  description  String?
+  passingScore Int?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  article      Article        @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  attempts     QuizAttempt[]
+  questions    QuizQuestion[]
+  sessions     QuizSession[]
+}
+
+model QuizQuestion {
+  id               String                @id @default(uuid())
+  quizId           String
+  question         String
+  position         Int
+  hint             String?
+  answers          QuizAnswer[]
+  options          QuizOption[]
+  quiz             ArticleQuiz           @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  sessionQuestions QuizSessionQuestion[]
+
+  @@index([quizId, position])
+}
+
+model QuizSessionQuestion {
+  id           String       @id @default(uuid())
+  sessionId    String
+  questionId   String
+  hintsUsed    Int          @default(0)
+  attemptsUsed Int          @default(0)
+  answered     Boolean      @default(false)
+  isCorrect    Boolean?
+  optionId     String?
+  question     QuizQuestion @relation(fields: [questionId], references: [id])
+  session      QuizSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, questionId])
+  @@index([sessionId])
+  @@index([questionId])
+}
+
+model QuizOption {
+  id         String       @id @default(uuid())
+  questionId String
+  text       String
+  isCorrect  Boolean      @default(false)
+  position   Int
+  answers    QuizAnswer[]
+  question   QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([questionId, position])
+}
+
+model QuizAttempt {
+  id             String       @id @default(uuid())
+  quizId         String
+  userId         String
+  score          Int
+  total          Int
+  percentage     Float
+  completedAt    DateTime     @default(now())
+  attemptNumber  Int          @default(1)
+  attemptPenalty Int          @default(0)
+  basePoints     Int          @default(0)
+  hintPenalty    Int          @default(0)
+  hintsUsed      Int          @default(0)
+  retriesUsed    Int          @default(0)
+  retryPenalty   Int          @default(0)
+  answers        QuizAnswer[]
+  quiz           ArticleQuiz  @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([quizId])
+}
+
+model QuizAnswer {
+  id           String       @id @default(uuid())
+  attemptId    String
+  questionId   String
+  optionId     String?
+  isCorrect    Boolean
+  points       Int
+  hintsUsed    Int          @default(0)
+  attemptsUsed Int          @default(1)
+  createdAt    DateTime     @default(now())
+  attempt      QuizAttempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  option       QuizOption?  @relation(fields: [optionId], references: [id])
+  question     QuizQuestion @relation(fields: [questionId], references: [id])
+
+  @@index([attemptId])
+  @@index([questionId])
+}
+
+model PointsTransaction {
+  id        String   @id @default(uuid())
+  userId    String
+  points    Int
+  reason    String
+  eventId   String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model ReaderEvent {
+  id        String          @id @default(uuid())
+  userId    String
+  type      ReaderEventType
+  metadata  Json?
+  createdAt DateTime        @default(now())
+  user      User            @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+}
+
+model QuizSession {
+  id          String                @id @default(uuid())
+  quizId      String
+  userId      String
+  startedAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+  completedAt DateTime?
+  quiz        ArticleQuiz           @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  user        User                  @relation(fields: [userId], references: [id])
+  questions   QuizSessionQuestion[]
+
+  @@index([userId])
+  @@index([quizId])
+}
+
 enum UserRole {
   ADMIN
   EDITOR
@@ -22,12 +376,12 @@ enum ReaderEventType {
   PAGE_VIEWED
   VIDEO_STARTED
   VIDEO_COMPLETED
-  QUIZ_STARTED
-  QUIZ_COMPLETED
   COMMENT_CREATED
   COMMENT_LIKED
   ARTICLE_SAVED
   ACHIEVEMENT_EARNED
+  QUIZ_STARTED
+  QUIZ_COMPLETED
 }
 
 enum ArticleStatus {
@@ -61,417 +415,6 @@ enum MagazinePageType {
   STATIC
 }
 
-model User {
-  id              String  @id @default(uuid())
-  readerTokenHash String? @unique
-
-  username     String  @unique
-  displayName  String?
-  avatarUrl    String?
-  email        String? @unique
-  passwordHash String?
-
-  role UserRole @default(READER)
-
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
-  approvedArticles   Article[]           @relation("ArticleApprover")
-  publishedArticles  Article[]           @relation("ArticlePublisher")
-  articles           Article[]
-  quizAttempts       QuizAttempt[]
-  quizSessions       QuizSession[]
-  articleRevisions   ArticleRevision[]   @relation("ArticleRevisionCreator")
-  readingProgress    ReadingProgress[]
-  readerEvents       ReaderEvent[]
-  pointsTransactions PointsTransaction[]
-  achievements       ReaderAchievement[]
-}
-
-model MagazineIssue {
-  id String @id @default(uuid())
-
-  title       String
-  slug        String  @unique
-  description String?
-
-  issueNumber Int?
-  volume      String?
-
-  coverUrl String?
-
-  publishedAt DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  pages MagazinePage[]
-
-  @@index([publishedAt])
-}
-
-model MagazinePage {
-  id String @id @default(uuid())
-
-  issueId  String
-  position Int
-  type     MagazinePageType
-
-  title String?
-  slug  String?
-
-  articleId String?
-  content   Json?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  issue   MagazineIssue @relation(fields: [issueId], references: [id], onDelete: Cascade)
-  article Article?      @relation(fields: [articleId], references: [id], onDelete: SetNull)
-
-  @@unique([issueId, position])
-  @@index([issueId])
-  @@index([articleId])
-}
-
-model ArticleBlock {
-  id        String @id @default(uuid())
-  articleId String
-
-  type     ArticleBlockType
-  position Int
-  content  Json
-
-  mediaId   String?
-  media     MediaAsset? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-
-  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
-
-  @@index([articleId, position])
-}
-
-model ArticleRevision {
-  id        String @id @default(uuid())
-  articleId String
-
-  version Int
-  title   String
-  excerpt String?
-  content Json
-
-  createdById String
-  createdAt   DateTime @default(now())
-
-  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  createdBy User    @relation("ArticleRevisionCreator", fields: [createdById], references: [id])
-
-  @@unique([articleId, version])
-  @@index([createdById])
-}
-
-model Category {
-  id          String  @id @default(uuid())
-  name        String
-  slug        String  @unique
-  description String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  articles ArticleCategory[]
-}
-
-model ArticleCategory {
-  articleId  String
-  categoryId String
-
-  article  Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-
-  @@id([articleId, categoryId])
-  @@index([categoryId])
-}
-
-model Tag {
-  id   String @id @default(uuid())
-  name String @unique
-  slug String @unique
-
-  createdAt DateTime @default(now())
-
-  articles ArticleTag[]
-}
-
-model ArticleTag {
-  articleId String
-  tagId     String
-
-  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  tag     Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
-
-  @@id([articleId, tagId])
-  @@index([tagId])
-}
-
-model Article {
-  id      String        @id @default(uuid())
-  title   String
-  slug    String        @unique
-  excerpt String?
-  status  ArticleStatus @default(DRAFT)
-
-  wordCount Int @default(0)
-
-  authorId String
-  author   User   @relation(fields: [authorId], references: [id])
-
-  publishedAt DateTime?
-
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
-  approvedAt    DateTime?
-  approvedById  String?
-  approvedBy    User?             @relation("ArticleApprover", fields: [approvedById], references: [id])
-  publishedById String?
-  publishedBy   User?             @relation("ArticlePublisher", fields: [publishedById], references: [id])
-  magazinePages MagazinePage[]
-  blocks        ArticleBlock[]
-  revisions     ArticleRevision[]
-
-  categories ArticleCategory[]
-  tags       ArticleTag[]
-
-  readingProgress ReadingProgress[]
-  quiz            ArticleQuiz?
-
-  @@index([authorId])
-  @@index([status])
-  @@index([publishedAt])
-}
-
-model MediaAsset {
-  id String @id @default(uuid())
-
-  type       String
-  provider   String
-  url        String
-  externalId String?
-
-  mimeType String?
-  filename String?
-  altText  String?
-  caption  String?
-  credit   String?
-
-  width    Int?
-  height   Int?
-  duration Int?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  blocks ArticleBlock[]
-}
-
-model ReadingProgress {
-  id        String  @id @default(uuid())
-  userId    String
-  articleId String?
-  issueId   String?
-
-  progress Float @default(0)
-  position Int   @default(0)
-
-  startedAt   DateTime  @default(now())
-  lastReadAt  DateTime  @updatedAt
-  completedAt DateTime?
-
-  user    User     @relation(fields: [userId], references: [id])
-  article Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([articleId])
-}
-
-model Achievement {
-  id String @id @default(uuid())
-
-  code        String  @unique
-  name        String
-  description String
-  icon        String?
-
-  points Int @default(0)
-
-  createdAt DateTime @default(now())
-
-  readers ReaderAchievement[]
-}
-
-model ReaderAchievement {
-  id String @id @default(uuid())
-
-  userId        String
-  achievementId String
-
-  earnedAt DateTime @default(now())
-
-  user        User        @relation(fields: [userId], references: [id])
-  achievement Achievement @relation(fields: [achievementId], references: [id])
-
-  @@unique([userId, achievementId])
-}
-
-model ArticleQuiz {
-  id        String @id @default(uuid())
-  articleId String @unique
-
-  title        String
-  description  String?
-  passingScore Int?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  article   Article        @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  questions QuizQuestion[]
-  attempts  QuizAttempt[]
-  sessions  QuizSession[]
-}
-
-model QuizQuestion {
-  id     String @id @default(uuid())
-  quizId String
-
-  question String
-  hint     String?
-  position Int
-
-  quiz             ArticleQuiz           @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  options          QuizOption[]
-  answers          QuizAnswer[]
-  sessionQuestions QuizSessionQuestion[]
-
-  @@index([quizId, position])
-}
-
-model QuizSessionQuestion {
-  id         String @id @default(uuid())
-  sessionId  String
-  questionId String
-
-  hintsUsed    Int @default(0)
-  attemptsUsed Int @default(0)
-
-  answered  Boolean  @default(false)
-  isCorrect Boolean?
-  optionId  String?
-
-  session  QuizSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  question QuizQuestion @relation(fields: [questionId], references: [id])
-
-  @@unique([sessionId, questionId])
-  @@index([sessionId])
-  @@index([questionId])
-}
-
-model QuizOption {
-  id         String @id @default(uuid())
-  questionId String
-
-  text      String
-  isCorrect Boolean @default(false)
-  position  Int
-
-  question QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  answers  QuizAnswer[]
-
-  @@index([questionId, position])
-}
-
-model QuizAttempt {
-  id     String @id @default(uuid())
-  quizId String
-  userId String
-
-  score      Int
-  total      Int
-  percentage Float
-
-  hintsUsed     Int @default(0)
-  retriesUsed   Int @default(0)
-  attemptNumber Int @default(1)
-
-  basePoints     Int @default(0)
-  hintPenalty    Int @default(0)
-  retryPenalty   Int @default(0)
-  attemptPenalty Int @default(0)
-
-  completedAt DateTime @default(now())
-
-  quiz    ArticleQuiz  @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  user    User         @relation(fields: [userId], references: [id])
-  answers QuizAnswer[]
-
-  @@index([userId])
-  @@index([quizId])
-}
-
-model QuizAnswer {
-  id         String  @id @default(uuid())
-  attemptId  String
-  questionId String
-  optionId   String?
-
-  isCorrect Boolean
-  points    Int
-
-  hintsUsed    Int @default(0)
-  attemptsUsed Int @default(1)
-
-  createdAt DateTime @default(now())
-
-  attempt  QuizAttempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
-  question QuizQuestion @relation(fields: [questionId], references: [id])
-  option   QuizOption?  @relation(fields: [optionId], references: [id])
-
-  @@index([attemptId])
-  @@index([questionId])
-}
-
-model PointsTransaction {
-  id     String @id @default(uuid())
-  userId String
-
-  points Int
-  reason String
-
-  eventId String?
-
-  createdAt DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id])
-
-  @@index([userId])
-  @@index([createdAt])
-}
-
-model ReaderEvent {
-  id     String          @id @default(uuid())
-  userId String
-  type   ReaderEventType
-
-  metadata Json?
-
-  createdAt DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id])
-
-  @@index([userId])
-  @@index([type])
-  @@index([createdAt])
-}
-
 enum CommentStatus {
   VISIBLE
   HIDDEN
@@ -484,21 +427,4 @@ enum ReportStatus {
   REVIEWED
   RESOLVED
   DISMISSED
-}
-
-model QuizSession {
-  id     String @id @default(uuid())
-  quizId String
-  userId String
-
-  startedAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  completedAt DateTime?
-
-  quiz      ArticleQuiz           @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  questions QuizSessionQuestion[]
-  user      User                  @relation(fields: [userId], references: [id])
-
-  @@index([userId])
-  @@index([quizId])
 }

@@ -4,7 +4,8 @@ import React, {
 } from "react";
 
 import api from "../../services/api";
-
+import ArticleFeeder
+  from "./ArticleFeeder";
 export default function ArticleEditor({
   articleId
 }) {
@@ -25,6 +26,8 @@ export default function ArticleEditor({
 
   const [message, setMessage] =
     useState("");
+    const [editorMode, setEditorMode] =
+  useState("MANUAL");
 
   // ==================================================
   // LOAD ARTICLE
@@ -169,7 +172,38 @@ export default function ArticleEditor({
   // ==================================================
   // SAVE ORDER
   // ==================================================
+<div className="article-editor-mode-switch">
 
+  <button
+    type="button"
+    className={
+      editorMode === "MANUAL"
+        ? "active"
+        : ""
+    }
+    onClick={() =>
+      setEditorMode("MANUAL")
+    }
+  >
+    Manual Editor
+  </button>
+
+
+  <button
+    type="button"
+    className={
+      editorMode === "FEEDER"
+        ? "active"
+        : ""
+    }
+    onClick={() =>
+      setEditorMode("FEEDER")
+    }
+  >
+    ✦ Feeder
+  </button>
+
+</div>
   async function saveOrder() {
     if (!articleId) {
       return;
@@ -409,136 +443,313 @@ export default function ArticleEditor({
           BLOCK LIST
       ========================================== */}
 
-      <div className="article-editor-blocks">
+      {/* ==========================================
+    EDITOR MODE
+========================================== */}
 
-        {blocks.length === 0 ? (
-          <div className="article-editor-empty">
-            This article has no blocks yet.
-          </div>
-        ) : (
-          blocks.map(
-            (block, index) => {
+<div className="article-editor-mode-switch">
 
-              const type =
-                getBlockLabel(
-                  block
-                );
+  <button
+    type="button"
+    className={
+      editorMode === "MANUAL"
+        ? "active"
+        : ""
+    }
+    onClick={() =>
+      setEditorMode("MANUAL")
+    }
+  >
+    Manual Editor
+  </button>
 
-              const preview =
-                getBlockPreview(
-                  block
-                );
 
-              return (
-                <article
-                  key={block.id}
-                  className="article-editor-block"
-                >
+  <button
+    type="button"
+    className={
+      editorMode === "FEEDER"
+        ? "active"
+        : ""
+    }
+    onClick={() =>
+      setEditorMode("FEEDER")
+    }
+  >
+    ✦ Feeder
+  </button>
 
-                  {/* NUMBER */}
+</div>
 
-                  <div className="article-editor-number">
-                    {index + 1}
-                  </div>
 
-                  {/* CONTENT */}
+{/* ==========================================
+    FEEDER
+========================================== */}
 
-                  <div className="article-editor-block-content">
+{editorMode === "FEEDER" ? (
 
-                    <div className="article-editor-block-type">
-                      {type}
-                    </div>
+  <ArticleFeeder
 
-                    {preview && (
-                      <div className="article-editor-block-preview">
-                        {preview}
-                      </div>
-                    )}
+    article={article}
 
-                    {block.media?.url && (
-                      <div className="article-editor-media-preview">
+    onCancel={() =>
+      setEditorMode("MANUAL")
+    }
 
-                        {block.type ===
-                        "IMAGE" ? (
-                          <img
-                            src={
-                              block.media.url
-                            }
-                            alt={
-                              block.media
-                                .altText ||
-                              "Article media"
-                            }
-                          />
-                        ) : (
-                          <span>
-                            Media attached
-                          </span>
-                        )}
+    onApply={(generatedBlocks) => {
 
-                      </div>
-                    )}
+      setBlocks(
+        generatedBlocks.map(
+          (block, index) => ({
 
-                  </div>
+            ...block,
 
-                  {/* CONTROLS */}
+            /*
+             * Existing blocks have IDs.
+             * Feeder blocks don't have IDs yet.
+             *
+             * Temporary IDs allow React to render
+             * them correctly before they are saved.
+             */
 
-                  <div className="article-editor-block-controls">
+            id:
+              block.id ||
+              `feeder-${Date.now()}-${index}`,
 
-                    <button
-                      type="button"
-                      onClick={() =>
-                        moveBlock(
-                          index,
-                          -1
-                        )
-                      }
-                      disabled={
-                        index === 0
-                      }
-                      title="Move up"
-                    >
-                      ↑
-                    </button>
+            position: index
 
-                    <button
-                      type="button"
-                      onClick={() =>
-                        moveBlock(
-                          index,
-                          1
-                        )
-                      }
-                      disabled={
-                        index ===
-                        blocks.length - 1
-                      }
-                      title="Move down"
-                    >
-                      ↓
-                    </button>
+          })
+        )
+      );
 
-                    <button
-                      type="button"
-                      onClick={() =>
-                        removeBlock(
-                          index
-                        )
-                      }
-                      title="Remove block"
-                    >
-                      ×
-                    </button>
 
-                  </div>
+      setMessage(
+        "Article layout generated. Review the blocks before saving."
+      );
 
-                </article>
-              );
+
+      setEditorMode("MANUAL");
+
+    }}
+
+  />
+
+) : (
+
+  /* ==========================================
+     MANUAL BLOCK EDITOR
+  ========================================== */
+
+  <div className="article-editor-blocks">
+
+    {blocks.length === 0 ? (
+
+      <div className="article-editor-empty">
+
+        This article has no blocks yet.
+
+        <div
+          className="article-editor-empty-actions"
+        >
+
+          <button
+            type="button"
+            onClick={() =>
+              setEditorMode("FEEDER")
             }
-          )
-        )}
+            className="article-editor-feeder-button"
+          >
+            ✦ Use Feeder
+          </button>
+
+        </div>
 
       </div>
+
+    ) : (
+
+      blocks.map(
+        (block, index) => {
+
+          const type =
+            getBlockLabel(
+              block
+            );
+
+
+          const preview =
+            getBlockPreview(
+              block
+            );
+
+
+          return (
+
+            <article
+              key={
+                block.id ||
+                `block-${index}`
+              }
+              className="article-editor-block"
+            >
+
+
+              {/* ==================================
+                  NUMBER
+              ================================== */}
+
+              <div
+                className="article-editor-number"
+              >
+                {index + 1}
+              </div>
+
+
+              {/* ==================================
+                  CONTENT
+              ================================== */}
+
+              <div
+                className="article-editor-block-content"
+              >
+
+                <div
+                  className="article-editor-block-type"
+                >
+                  {type}
+                </div>
+
+
+                {preview && (
+
+                  <div
+                    className="article-editor-block-preview"
+                  >
+                    {preview}
+                  </div>
+
+                )}
+
+
+                {block.media?.url && (
+
+                  <div
+                    className="article-editor-media-preview"
+                  >
+
+                    {String(
+                      block.type || ""
+                    ).toUpperCase() ===
+                      "IMAGE" ? (
+
+                      <img
+                        src={
+                          block.media.url
+                        }
+                        alt={
+                          block.media
+                            .altText ||
+                          "Article media"
+                        }
+                      />
+
+                    ) : (
+
+                      <span>
+                        Media attached
+                      </span>
+
+                    )}
+
+                  </div>
+
+                )}
+
+              </div>
+
+
+              {/* ==================================
+                  CONTROLS
+              ================================== */}
+
+              <div
+                className="article-editor-block-controls"
+              >
+
+                <button
+                  type="button"
+
+                  onClick={() =>
+                    moveBlock(
+                      index,
+                      -1
+                    )
+                  }
+
+                  disabled={
+                    index === 0
+                  }
+
+                  title="Move up"
+
+                  aria-label="Move block up"
+                >
+                  ↑
+                </button>
+
+
+                <button
+                  type="button"
+
+                  onClick={() =>
+                    moveBlock(
+                      index,
+                      1
+                    )
+                  }
+
+                  disabled={
+                    index ===
+                    blocks.length - 1
+                  }
+
+                  title="Move down"
+
+                  aria-label="Move block down"
+                >
+                  ↓
+                </button>
+
+
+                <button
+                  type="button"
+
+                  onClick={() =>
+                    removeBlock(
+                      index
+                    )
+                  }
+
+                  title="Remove block"
+
+                  aria-label="Remove block"
+                >
+                  ×
+                </button>
+
+              </div>
+
+            </article>
+
+          );
+
+        }
+      )
+
+    )}
+
+  </div>
+
+)}
 
     </section>
   );

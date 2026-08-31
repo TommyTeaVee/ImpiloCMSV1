@@ -1,4 +1,4 @@
-import CloudFrontMediaLibrary from "../components/CloudFrontMediaLibrary.jsx";
+import R2MediaLibrary from "../components/R2MediaLibrary";
 
 export default function CloudFrontMediaTest() {
   function handleSelect(media) {
@@ -14,7 +14,7 @@ export default function CloudFrontMediaTest() {
 
   return (
     <main>
-      <CloudFrontMediaLibrary
+      <R2MediaLibrary
         onSelect={handleSelect}
       />
     </main>

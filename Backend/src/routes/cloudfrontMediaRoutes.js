@@ -1,40 +1,29 @@
 const express = require("express");
 
 const {
-  listCloudFrontFolder
-} = require(
-  "../controllers/cloudfrontMediaController"
-);
+  listMediaFolder
+} = require("../controllers/cloudFrontMediaController");
 
 const {
   authenticate,
   requireRole
-} = require(
-  "../middleware/authMiddleware"
-);
+} = require("../middleware/authMiddleware");
 
-
-const router =
-  express.Router();
-
+const router = express.Router();
 
 // ==================================================
-// LIST CLOUDFRONT FOLDER
+// LIST MEDIA FOLDER
 // ==================================================
 
 router.get(
   "/folder",
-
   authenticate,
-
   requireRole(
     "ADMIN",
     "EDITOR",
     "WRITER"
   ),
-
-  listCloudFrontFolder
+  listMediaFolder
 );
-
 
 module.exports = router;

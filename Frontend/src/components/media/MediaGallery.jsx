@@ -1,8 +1,12 @@
 import { useMemo } from "react";
 import { useMediaLightbox } from "./MediaLightboxProvider";
 
+
 function getMediaUrl(item) {
-  if (!item) return null;
+
+  if (!item) {
+    return null;
+  }
 
   return (
     item.url ||
@@ -10,19 +14,27 @@ function getMediaUrl(item) {
     item.media?.url ||
     null
   );
+
 }
 
+
 function getMediaType(item) {
-  if (!item) return "IMAGE";
+
+  if (!item) {
+    return "IMAGE";
+  }
 
   return (
     item.type ||
     item.media?.type ||
     "IMAGE"
   ).toUpperCase();
+
 }
 
+
 function getAltText(item, index) {
+
   if (!item) {
     return `IMPILO media ${index + 1}`;
   }
@@ -33,66 +45,137 @@ function getAltText(item, index) {
     item.media?.altText ||
     `IMPILO media ${index + 1}`
   );
+
 }
 
+
 function getCaption(item) {
-  if (!item) return null;
+
+  if (!item) {
+    return null;
+  }
 
   return (
     item.caption ||
     item.media?.caption ||
     null
   );
+
 }
 
-export default function MediaGallery({
-  items = [],
-  className = "",
-  columns = 3
-}) {
-  const { openLightbox } =
-    useMediaLightbox();
 
-  /*
-   * Normalise the incoming collection once.
-   *
-   * Invalid media is removed here instead
-   * of allowing broken cards into the UI.
-   */
+function getFilename(item) {
+
+  if (!item) {
+    return null;
+  }
+
+  return (
+    item.filename ||
+    item.name ||
+    item.media?.filename ||
+    null
+  );
+
+}
+
+
+function getProvider(item) {
+
+  if (!item) {
+    return null;
+  }
+
+  return (
+    item.provider ||
+    item.media?.provider ||
+    null
+  );
+
+}
+
+
+export default function MediaGallery({
+
+  items = [],
+
+  className = "",
+
+  columns = 3
+
+}) {
+
+  const {
+    openLightbox
+  } = useMediaLightbox();
+
+
+  // ==================================================
+  // NORMALISE MEDIA
+  // ==================================================
+
   const mediaItems = useMemo(() => {
+
     if (!Array.isArray(items)) {
       return [];
     }
 
     return items
+
       .map((item, index) => {
-        const url = getMediaUrl(item);
+
+        const url =
+          getMediaUrl(item);
 
         if (!url) {
           return null;
         }
 
         return {
+
           ...item,
 
           url,
 
-          type: getMediaType(item),
+          type:
+            getMediaType(item),
 
-          altText: getAltText(
-            item,
-            index
-          ),
+          altText:
+            getAltText(
+              item,
+              index
+            ),
 
-          caption: getCaption(item)
+          caption:
+            getCaption(item),
+
+          filename:
+            getFilename(item),
+
+          provider:
+            getProvider(item)
+
         };
+
       })
+
       .filter(Boolean);
+
   }, [items]);
+
+
+  // ==================================================
+  // EMPTY
+  // ==================================================
 
   if (!mediaItems.length) {
     return null;
   }
+
+
+  // ==================================================
+  // SAFE COLUMNS
+  // ==================================================
 
   const safeColumns =
     Number.isInteger(columns) &&
@@ -100,74 +183,209 @@ export default function MediaGallery({
       ? columns
       : 3;
 
+
+  // ==================================================
+  // RENDER
+  // ==================================================
+
   return (
+
     <div
-      className={`impilo-media-gallery ${className}`.trim()}
+      className={
+        `impilo-media-gallery ${className}`
+          .trim()
+      }
+
       style={{
-        "--gallery-columns": safeColumns
+        "--gallery-columns":
+          safeColumns
       }}
     >
+
       {mediaItems.map(
         (item, index) => {
+
           const isVideo =
             item.type === "VIDEO" ||
             item.type === "VIDEO_ASSET";
 
+
+          const isAudio =
+            item.type === "AUDIO";
+
+
           return (
-            <button
+
+            <article
               key={
                 item.id ||
                 `${item.url}-${index}`
               }
-              type="button"
-              className="impilo-media-gallery-item"
-              onClick={() =>
-                openLightbox(
-                  mediaItems,
-                  index
-                )
-              }
-              aria-label={`Open ${
-                item.altText
-              }`}
+
+              className="impilo-media-card"
             >
-              {isVideo ? (
-                <div className="impilo-media-gallery-video">
-                  <video
+
+
+              {/* ======================================
+                  MEDIA PREVIEW
+              ====================================== */}
+
+              <button
+                type="button"
+
+                className="impilo-media-card-preview"
+
+                onClick={() =>
+                  openLightbox(
+                    mediaItems,
+                    index
+                  )
+                }
+
+                aria-label={
+                  `Open ${item.altText}`
+                }
+              >
+
+                {isVideo ? (
+
+                  <div
+                    className="impilo-media-card-video"
+                  >
+
+                    <video
+                      src={item.url}
+
+                      muted
+
+                      playsInline
+
+                      preload="metadata"
+
+                      aria-label={
+                        item.altText
+                      }
+                    />
+
+                    <span
+                      className="impilo-media-card-play"
+                      aria-hidden="true"
+                    >
+                      ▶
+                    </span>
+
+                  </div>
+
+                ) : isAudio ? (
+
+                  <div
+                    className="impilo-media-card-audio"
+                  >
+
+                    <span>
+                      ♪
+                    </span>
+
+                    <strong>
+                      AUDIO
+                    </strong>
+
+                  </div>
+
+                ) : (
+
+                  <img
                     src={item.url}
-                    muted
-                    playsInline
-                    preload="metadata"
-                    aria-label={
+
+                    alt={
                       item.altText
                     }
+
+                    loading="lazy"
+
+                    draggable="false"
                   />
 
-                  <span
-                    className="impilo-media-gallery-play"
-                    aria-hidden="true"
-                  >
-                    ▶
-                  </span>
-                </div>
-              ) : (
-                <img
-                  src={item.url}
-                  alt={item.altText}
-                  loading="lazy"
-                  draggable="false"
-                />
-              )}
+                )}
 
-              {item.caption && (
-                <span className="impilo-media-gallery-caption">
-                  {item.caption}
+
+                {/* TYPE */}
+
+                <span
+                  className="impilo-media-card-type"
+                >
+                  {item.type}
                 </span>
-              )}
-            </button>
+
+
+                {/* PROVIDER */}
+
+                {item.provider && (
+
+                  <span
+                    className="impilo-media-card-provider"
+                  >
+                    {item.provider}
+                  </span>
+
+                )}
+
+
+                {/* OPEN */}
+
+                <span
+                  className="impilo-media-card-open"
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+
+              </button>
+
+
+              {/* ======================================
+                  INFORMATION
+              ====================================== */}
+
+              <div
+                className="impilo-media-card-info"
+              >
+
+                <div
+                  className="impilo-media-card-title"
+                >
+
+                  <strong>
+                    {
+                      item.filename ||
+                      item.altText ||
+                      "Untitled media"
+                    }
+                  </strong>
+
+                </div>
+
+
+                {item.caption && (
+
+                  <p>
+                    {item.caption}
+                  </p>
+
+                )}
+
+              </div>
+
+            </article>
+
           );
+
         }
+
       )}
+
     </div>
+
   );
+
 }

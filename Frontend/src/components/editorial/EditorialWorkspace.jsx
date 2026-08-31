@@ -11,7 +11,11 @@ import {
 
 import api from "../../services/api";
 import MediaPicker from "./MediaPicker.jsx";
+import ArticleFeeder from "../article/ArticleFeeder.jsx";
+
+
 export default function EditorialWorkspace() {
+
   const navigate = useNavigate();
 
   const [
@@ -24,29 +28,73 @@ export default function EditorialWorkspace() {
   const isEditing =
     Boolean(articleId);
 
-  const [title, setTitle] =
-    useState("");
 
-  const [slug, setSlug] =
-    useState("");
+  // ==================================================
+  // ARTICLE
+  // ==================================================
 
-  const [excerpt, setExcerpt] =
-    useState("");
+  const [
+    title,
+    setTitle
+  ] = useState("");
 
-  const [blocks, setBlocks] =
-    useState([]);
+  const [
+    slug,
+    setSlug
+  ] = useState("");
 
-  const [loadingArticle, setLoadingArticle] =
-    useState(isEditing);
+  const [
+    excerpt,
+    setExcerpt
+  ] = useState("");
 
-  const [saving, setSaving] =
-    useState(false);
+  const [
+    blocks,
+    setBlocks
+  ] = useState([]);
 
-  const [message, setMessage] =
-    useState("");
 
-  const [error, setError] =
-    useState("");
+  // ==================================================
+  // AUTHORING MODE
+  //
+  // CANVAS = normal visual editor
+  // FEEDER = paste complete article
+  // ==================================================
+
+  const [
+    authoringMode,
+    setAuthoringMode
+  ] = useState("CANVAS");
+
+
+  // ==================================================
+  // STATE
+  // ==================================================
+
+  const [
+    loadingArticle,
+    setLoadingArticle
+  ] = useState(isEditing);
+
+  const [
+    saving,
+    setSaving
+  ] = useState(false);
+
+  const [
+    message,
+    setMessage
+  ] = useState("");
+
+  const [
+    error,
+    setError
+  ] = useState("");
+
+
+  // ==================================================
+  // DRAG STATE
+  // ==================================================
 
   const [
     draggedIndex,
@@ -57,71 +105,79 @@ export default function EditorialWorkspace() {
     dragOverIndex,
     setDragOverIndex
   ] = useState(null);
-  // ==================================================
-// MEDIA PICKER
-// ==================================================
 
-const [
-  mediaPickerIndex,
-  setMediaPickerIndex
-] = useState(null);
+
+  // ==================================================
+  // MEDIA PICKER
+  // ==================================================
+
+  const [
+    mediaPickerIndex,
+    setMediaPickerIndex
+  ] = useState(null);
+
 
   // ==================================================
   // LOAD EXISTING ARTICLE
   // ==================================================
 
   useEffect(() => {
+
     if (!articleId) {
+
       setLoadingArticle(false);
+
       return;
+
     }
 
+
     async function loadArticle() {
+
       try {
+
         setLoadingArticle(true);
         setError("");
+        setMessage("");
+
 
         const response =
           await api.get(
             `/articles/manage/${articleId}`
           );
 
-        /*
-         * Backend may return:
-         *
-         * {
-         *   article: {...}
-         * }
-         *
-         * or the article directly.
-         */
 
         const article =
           response.data?.article ||
           response.data;
 
+
         if (!article) {
+
           throw new Error(
             "Article was not returned by the server."
           );
+
         }
+
 
         setTitle(
           article.title || ""
         );
 
+
         setSlug(
           article.slug || ""
         );
+
 
         setExcerpt(
           article.excerpt || ""
         );
 
+
         const databaseBlocks =
-          Array.isArray(
-            article.blocks
-          )
+          Array.isArray(article.blocks)
             ? [...article.blocks]
                 .sort(
                   (a, b) =>
@@ -130,14 +186,11 @@ const [
                 )
             : [];
 
-        /*
-         * Keep the database ID separate
-         * from the temporary frontend ID.
-         */
 
         setBlocks(
           databaseBlocks.map(
             (block) => ({
+
               ...block,
 
               clientId:
@@ -150,34 +203,47 @@ const [
               mediaId:
                 block.mediaId ||
                 null
+
             })
           )
         );
 
+
       } catch (err) {
+
         console.error(
           "Load article error:",
           err
         );
+
 
         setError(
           err.response?.data?.message ||
           err.message ||
           "Unable to load article."
         );
+
+
       } finally {
+
         setLoadingArticle(false);
+
       }
+
     }
 
+
     loadArticle();
+
   }, [articleId]);
+
 
   // ==================================================
   // CREATE SLUG
   // ==================================================
 
   function createSlug(value) {
+
     return value
       .toLowerCase()
       .trim()
@@ -193,108 +259,174 @@ const [
         /-+/g,
         "-"
       );
+
   }
+
 
   // ==================================================
   // TITLE
   // ==================================================
 
   function handleTitleChange(event) {
+
     const value =
       event.target.value;
 
+
     setTitle(value);
 
-    if (!isEditing && !slug) {
+
+    if (
+      !isEditing &&
+      !slug
+    ) {
+
       setSlug(
         createSlug(value)
       );
+
     }
+
   }
+
 
   // ==================================================
   // ADD BLOCK
   // ==================================================
 
   function addBlock(type) {
+
     let block = null;
 
+
     switch (type) {
+
       case "TEXT":
+
         block = {
+
           clientId:
             crypto.randomUUID(),
+
           type: "TEXT",
+
           content: {
             text: ""
           },
+
           mediaId: null
+
         };
+
         break;
+
 
       case "HEADING":
+
         block = {
+
           clientId:
             crypto.randomUUID(),
+
           type: "HEADING",
+
           content: {
             text: ""
           },
+
           mediaId: null
+
         };
+
         break;
+
 
       case "QUOTE":
+
         block = {
+
           clientId:
             crypto.randomUUID(),
+
           type: "QUOTE",
+
           content: {
             text: ""
           },
+
           mediaId: null
+
         };
+
         break;
+
 
       case "IMAGE":
+
         block = {
+
           clientId:
             crypto.randomUUID(),
+
           type: "IMAGE",
+
           content: {
             layout: "full"
           },
+
           mediaId: null
+
         };
+
         break;
+
 
       case "VIDEO":
+
         block = {
+
           clientId:
             crypto.randomUUID(),
+
           type: "VIDEO",
+
           content: {
             layout: "full"
           },
+
           mediaId: null
+
         };
+
         break;
+
 
       case "AUDIO":
+
         block = {
+
           clientId:
             crypto.randomUUID(),
+
           type: "AUDIO",
+
           content: {
             layout: "full"
           },
+
           mediaId: null
+
         };
+
         break;
 
+
       default:
+
         return;
+
     }
+
 
     setBlocks(
       (current) => [
@@ -303,9 +435,129 @@ const [
       ]
     );
 
+
     setMessage("");
     setError("");
+
   }
+
+
+  // ==================================================
+  // ARTICLE FEEDER
+  //
+  // The feeder DOES NOT save the article.
+  //
+  // It converts pasted article text into
+  // normal TEXT blocks and returns the user
+  // to the existing visual canvas.
+  // ==================================================
+
+  function generateFromFeeder(
+    generatedBlocks
+  ) {
+
+    if (
+      !Array.isArray(
+        generatedBlocks
+      ) ||
+      generatedBlocks.length === 0
+    ) {
+
+      setError(
+        "The feeder did not generate any content."
+      );
+
+      return;
+
+    }
+
+
+    /*
+     * Normalise feeder blocks so that they
+     * use exactly the same structure as the
+     * visual editor.
+     */
+
+    const normalisedBlocks =
+      generatedBlocks
+        .filter(Boolean)
+        .map(
+          (block) => ({
+
+            ...block,
+
+            clientId:
+              block.clientId ||
+              block.id ||
+              crypto.randomUUID(),
+
+            type:
+              block.type ||
+              "TEXT",
+
+            content:
+              block.content || {
+                text: ""
+              },
+
+            mediaId:
+              block.mediaId ||
+              null
+
+          })
+        );
+
+
+    setBlocks(
+      normalisedBlocks
+    );
+
+
+    /*
+     * VERY IMPORTANT:
+     *
+     * Feeder finishes here.
+     *
+     * The generated content is now inside
+     * the SAME visual canvas.
+     */
+
+    setAuthoringMode(
+      "CANVAS"
+    );
+
+
+    setMessage(
+      `${normalisedBlocks.length} paragraph${
+        normalisedBlocks.length === 1
+          ? ""
+          : "s"
+      } generated successfully.`
+    );
+
+
+    setError("");
+
+
+    /*
+     * Scroll back to the canvas.
+     */
+
+    setTimeout(() => {
+
+      document
+        .querySelector(
+          ".impilo-editorial-canvas"
+        )
+        ?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+    }, 150);
+
+  }
+
 
   // ==================================================
   // UPDATE TEXT
@@ -315,25 +567,37 @@ const [
     index,
     value
   ) {
+
     setBlocks(
       (current) => {
+
         const next =
           [...current];
 
+
         next[index] = {
+
           ...next[index],
 
           content: {
+
             ...(next[index]
               .content || {}),
+
             text: value
+
           }
+
         };
 
+
         return next;
+
       }
     );
+
   }
+
 
   // ==================================================
   // UPDATE MEDIA ID
@@ -343,179 +607,215 @@ const [
     index,
     value
   ) {
+
     setBlocks(
       (current) => {
+
         const next =
           [...current];
 
+
         next[index] = {
+
           ...next[index],
 
           mediaId:
             value.trim() ||
             null
+
         };
 
+
         return next;
+
       }
     );
+
   }
+
+
   // ==================================================
-// SELECT MEDIA FROM MEDIA PICKER
-// ==================================================
+  // SELECT MEDIA
+  // ==================================================
 
-async function handleMediaSelected(
-  index,
-  media
-) {
-  try {
-    setError("");
-    setMessage("");
+  async function handleMediaSelected(
+    index,
+    media
+  ) {
 
-    if (!media) {
-      return;
-    }
+    try {
 
-    // ------------------------------------------------
-    // Existing database media
-    // ------------------------------------------------
+      setError("");
+      setMessage("");
 
-    if (media.id) {
-      setBlocks((current) => {
-        const next = [...current];
 
-        next[index] = {
-          ...next[index],
+      if (!media) {
 
-          mediaId: media.id,
+        return;
 
-          media: media
-        };
+      }
 
-        return next;
-      });
 
-      setMediaPickerIndex(null);
+      /*
+       * Existing media asset.
+       */
 
-      return;
-    }
+      if (media.id) {
 
-    // ------------------------------------------------
-    // CloudFront media
-    //
-    // CloudFront library gives us a URL/key,
-    // but not yet a mediaAsset ID.
-    //
-    // Register it in mediaAsset first.
-    // ------------------------------------------------
+        setBlocks(
+          (current) => {
 
-    const response =
-  await api.post(
-    "/media",
-    {
-      type:
-        media.type ||
-        "IMAGE",
+            const next =
+              [...current];
 
-      provider:
-        media.provider ||
-        "CLOUDFRONT",
 
-      url:
-        media.url,
+            next[index] = {
 
-      externalId:
-        media.externalId ||
-        null,
+              ...next[index],
 
-      filename:
-        media.filename ||
-        null,
+              mediaId:
+                media.id,
 
-      mimeType:
-        media.mimeType ||
-        null,
+              media
 
-      altText:
-        media.altText ||
-        null,
+            };
 
-      caption:
-        media.caption ||
-        null,
 
-      credit:
-        media.credit ||
-        null,
+            return next;
 
-      width:
-        media.width ??
-        null,
+          }
+        );
 
-      height:
-        media.height ??
-        null,
 
-      duration:
-        media.duration ??
-        null
-    }
-  );
+        setMediaPickerIndex(
+          null
+        );
 
-    const createdMedia =
-      response.data?.media;
 
-    if (!createdMedia?.id) {
-      throw new Error(
-        "Media asset was not created."
+        return;
+
+      }
+
+
+      /*
+       * CloudFront media that has not
+       * been registered yet.
+       */
+
+      const response =
+        await api.post(
+          "/media",
+          {
+
+            type:
+              media.type ||
+              "IMAGE",
+
+            provider:
+              media.provider ||
+              "CLOUDFRONT",
+
+            url:
+              media.url,
+
+            filename:
+              media.filename ||
+              null,
+
+            altText:
+              media.altText ||
+              null,
+
+            caption:
+              media.caption ||
+              null,
+
+            credit:
+              media.credit ||
+              null
+
+          }
+        );
+
+
+      const createdMedia =
+        response.data?.media;
+
+
+      if (
+        !createdMedia?.id
+      ) {
+
+        throw new Error(
+          "Media asset was not created."
+        );
+
+      }
+
+
+      setBlocks(
+        (current) => {
+
+          const next =
+            [...current];
+
+
+          next[index] = {
+
+            ...next[index],
+
+            mediaId:
+              createdMedia.id,
+
+            media:
+              createdMedia
+
+          };
+
+
+          return next;
+
+        }
       );
+
+
+      setMediaPickerIndex(
+        null
+      );
+
+
+      setMessage(
+        "Media added to article."
+      );
+
+
+    } catch (err) {
+
+      console.error(
+        "Select media error:",
+        err
+      );
+
+
+      setError(
+        err.response?.data?.message ||
+        err.message ||
+        "Unable to add media."
+      );
+
     }
 
-    // ------------------------------------------------
-    // Attach mediaAsset to block
-    // ------------------------------------------------
-
-    setBlocks((current) => {
-      const next = [...current];
-
-      next[index] = {
-        ...next[index],
-
-        mediaId:
-          createdMedia.id,
-
-        media:
-          createdMedia
-      };
-
-      return next;
-    });
-
-    setMediaPickerIndex(null);
-
-    setMessage(
-      "Media added to article."
-    );
-
-  } catch (err) {
-    console.error(
-      "Select media error:",
-      err
-    );
-
-    setError(
-      err.response?.data?.message ||
-      err.message ||
-      "Unable to add media."
-    );
   }
-}
+
 
   // ==================================================
   // DELETE BLOCK
   // ==================================================
 
-  function deleteBlock(index) {
+  function deleteBlock(
+    index
+  ) {
+
     setBlocks(
       (current) =>
         current.filter(
@@ -523,7 +823,9 @@ async function handleMediaSelected(
             blockIndex !== index
         )
     );
+
   }
+
 
   // ==================================================
   // MOVE BLOCK
@@ -533,21 +835,27 @@ async function handleMediaSelected(
     index,
     direction
   ) {
+
     setBlocks(
       (current) => {
+
         const next =
           [...current];
+
 
         const newIndex =
           index + direction;
 
+
         if (
           newIndex < 0 ||
-          newIndex >=
-            next.length
+          newIndex >= next.length
         ) {
+
           return current;
+
         }
+
 
         [
           next[index],
@@ -557,10 +865,14 @@ async function handleMediaSelected(
           next[index]
         ];
 
+
         return next;
+
       }
     );
+
   }
+
 
   // ==================================================
   // DRAG START
@@ -570,16 +882,23 @@ async function handleMediaSelected(
     index,
     event
   ) {
-    setDraggedIndex(index);
+
+    setDraggedIndex(
+      index
+    );
+
 
     event.dataTransfer.effectAllowed =
       "move";
+
 
     event.dataTransfer.setData(
       "text/plain",
       String(index)
     );
+
   }
+
 
   // ==================================================
   // DRAG OVER
@@ -589,13 +908,20 @@ async function handleMediaSelected(
     index,
     event
   ) {
+
     event.preventDefault();
+
 
     event.dataTransfer.dropEffect =
       "move";
 
-    setDragOverIndex(index);
+
+    setDragOverIndex(
+      index
+    );
+
   }
+
 
   // ==================================================
   // DROP
@@ -605,21 +931,34 @@ async function handleMediaSelected(
     index,
     event
   ) {
+
     event.preventDefault();
+
 
     if (
       draggedIndex === null ||
       draggedIndex === index
     ) {
-      setDraggedIndex(null);
-      setDragOverIndex(null);
+
+      setDraggedIndex(
+        null
+      );
+
+      setDragOverIndex(
+        null
+      );
+
       return;
+
     }
+
 
     setBlocks(
       (current) => {
+
         const next =
           [...current];
+
 
         const [
           movedBlock
@@ -629,28 +968,47 @@ async function handleMediaSelected(
             1
           );
 
+
         next.splice(
           index,
           0,
           movedBlock
         );
 
+
         return next;
+
       }
     );
 
-    setDraggedIndex(null);
-    setDragOverIndex(null);
+
+    setDraggedIndex(
+      null
+    );
+
+    setDragOverIndex(
+      null
+    );
+
   }
+
 
   // ==================================================
   // DRAG END
   // ==================================================
 
   function handleDragEnd() {
-    setDraggedIndex(null);
-    setDragOverIndex(null);
+
+    setDraggedIndex(
+      null
+    );
+
+    setDragOverIndex(
+      null
+    );
+
   }
+
 
   // ==================================================
   // WORD COUNT
@@ -658,25 +1016,29 @@ async function handleMediaSelected(
 
   const wordCount =
     useMemo(() => {
+
       return blocks.reduce(
         (
           total,
           block
         ) => {
+
           if (
-            block.type !==
-              "TEXT" &&
-            block.type !==
-              "HEADING" &&
-            block.type !==
-              "QUOTE"
+            block.type !== "TEXT" &&
+            block.type !== "HEADING" &&
+            block.type !== "QUOTE"
           ) {
+
             return total;
+
           }
+
 
           const text =
             block.content
-              ?.text || "";
+              ?.text ||
+            "";
+
 
           const words =
             String(text)
@@ -688,227 +1050,367 @@ async function handleMediaSelected(
               .split(/\s+/)
               .filter(Boolean);
 
+
           return (
             total +
             words.length
           );
+
         },
         0
       );
+
     }, [blocks]);
 
+
   // ==================================================
-  // SAVE NEW ARTICLE
+  // INSERT TEMPLATE
   // ==================================================
 
-  async function createDraft() {
-    const payload = {
-      title:
-        title.trim(),
+  function insertTemplate(
+    template
+  ) {
 
-      slug:
-        slug.trim(),
+    const templates = {
 
-      excerpt:
-        excerpt.trim(),
+      textImageText: [
 
-      blocks:
-        blocks.map(
-          (
-            block,
-            index
-          ) => ({
-            type:
-              block.type,
+        {
+          clientId:
+            crypto.randomUUID(),
 
-            position:
-              index,
+          type: "TEXT",
 
-            content:
-              block.content ||
-              {},
+          content: {
+            text: ""
+          },
 
-            mediaId:
-              block.mediaId ||
-              null
-          })
-        )
+          mediaId: null
+
+        },
+
+        {
+          clientId:
+            crypto.randomUUID(),
+
+          type: "IMAGE",
+
+          content: {
+            layout: "full"
+          },
+
+          mediaId: null
+
+        },
+
+        {
+          clientId:
+            crypto.randomUUID(),
+
+          type: "TEXT",
+
+          content: {
+            text: ""
+          },
+
+          mediaId: null
+
+        }
+
+      ],
+
+
+      imageTextText: [
+
+        {
+          clientId:
+            crypto.randomUUID(),
+
+          type: "IMAGE",
+
+          content: {
+            layout: "full"
+          },
+
+          mediaId: null
+
+        },
+
+        {
+          clientId:
+            crypto.randomUUID(),
+
+          type: "TEXT",
+
+          content: {
+            text: ""
+          },
+
+          mediaId: null
+
+        },
+
+        {
+          clientId:
+            crypto.randomUUID(),
+
+          type: "TEXT",
+
+          content: {
+            text: ""
+          },
+
+          mediaId: null
+
+        }
+
+      ],
+
+
+      textVideoText: [
+
+        {
+          clientId:
+            crypto.randomUUID(),
+
+          type: "TEXT",
+
+          content: {
+            text: ""
+          },
+
+          mediaId: null
+
+        },
+
+        {
+          clientId:
+            crypto.randomUUID(),
+
+          type: "VIDEO",
+
+          content: {
+            layout: "full"
+          },
+
+          mediaId: null
+
+        },
+
+        {
+          clientId:
+            crypto.randomUUID(),
+
+          type: "TEXT",
+
+          content: {
+            text: ""
+          },
+
+          mediaId: null
+
+        }
+
+      ]
+
     };
 
-    return api.post(
-      "/articles",
-      payload
+
+    const selectedTemplate =
+      templates[template];
+
+
+    if (
+      !selectedTemplate
+    ) {
+
+      return;
+
+    }
+
+
+    setBlocks(
+      (current) => [
+
+        ...current,
+
+        ...selectedTemplate
+
+      ]
     );
+
+
+    setMessage("");
+    setError("");
+
   }
+
 
   // ==================================================
-  // SAVE
+  // PREPARE BLOCKS
   // ==================================================
 
- // ==================================================
-// SAVE ARTICLE
-// ==================================================
-// ==================================================
-// INSERT LAYOUT TEMPLATE
-// ==================================================
+  function prepareBlocks() {
 
-function insertTemplate(template) {
-  const templates = {
-    textImageText: [
-      {
-        clientId: crypto.randomUUID(),
-        type: "TEXT",
-        content: {
-          text: ""
-        },
-        mediaId: null
-      },
-      {
-        clientId: crypto.randomUUID(),
-        type: "IMAGE",
-        content: {
-          layout: "full"
-        },
-        mediaId: null
-      },
-      {
-        clientId: crypto.randomUUID(),
-        type: "TEXT",
-        content: {
-          text: ""
-        },
-        mediaId: null
-      }
-    ],
+    return blocks.map(
+      (
+        block,
+        index
+      ) => ({
 
-    imageTextText: [
-      {
-        clientId: crypto.randomUUID(),
-        type: "IMAGE",
-        content: {
-          layout: "full"
-        },
-        mediaId: null
-      },
-      {
-        clientId: crypto.randomUUID(),
-        type: "TEXT",
-        content: {
-          text: ""
-        },
-        mediaId: null
-      },
-      {
-        clientId: crypto.randomUUID(),
-        type: "TEXT",
-        content: {
-          text: ""
-        },
-        mediaId: null
-      }
-    ],
+        type:
+          block.type,
 
-    textVideoText: [
-      {
-        clientId: crypto.randomUUID(),
-        type: "TEXT",
-        content: {
-          text: ""
-        },
-        mediaId: null
-      },
-      {
-        clientId: crypto.randomUUID(),
-        type: "VIDEO",
-        content: {
-          layout: "full"
-        },
-        mediaId: null
-      },
-      {
-        clientId: crypto.randomUUID(),
-        type: "TEXT",
-        content: {
-          text: ""
-        },
-        mediaId: null
-      }
-    ]
-  };
+        position:
+          index,
 
-  const selectedTemplate =
-    templates[template];
+        content:
+          block.content ||
+          {},
 
-  if (!selectedTemplate) {
-    return;
-  }
+        mediaId:
+          block.mediaId ||
+          null
 
-  setBlocks(
-    (current) => [
-      ...current,
-      ...selectedTemplate
-    ]
-  );
-
-  setMessage("");
-  setError("");
-}
-async function saveDraft() {
-  setMessage("");
-  setError("");
-
-  if (!title.trim()) {
-    setError(
-      "Article title is required."
+      })
     );
-    return;
+
   }
 
-  if (!slug.trim()) {
-    setError(
-      "Article slug is required."
-    );
-    return;
-  }
 
-  if (blocks.length === 0) {
-    setError(
-      "Add at least one content block."
-    );
-    return;
-  }
+  // ==================================================
+  // SAVE ARTICLE
+  // ==================================================
 
-  try {
-    setSaving(true);
+  async function saveDraft() {
 
-    // ==================================================
-    // PREPARE BLOCKS
-    // ==================================================
+    setMessage("");
+    setError("");
 
-    const preparedBlocks =
-      blocks.map(
-        (block, index) => ({
-          type: block.type,
 
-          position: index,
+    if (
+      !title.trim()
+    ) {
 
-          content:
-            block.content || {},
-
-          mediaId:
-            block.mediaId || null
-        })
+      setError(
+        "Article title is required."
       );
 
-    // ==================================================
-    // UPDATE EXISTING ARTICLE
-    // ==================================================
+      return;
 
-    if (isEditing) {
+    }
+
+
+    if (
+      !slug.trim()
+    ) {
+
+      setError(
+        "Article slug is required."
+      );
+
+      return;
+
+    }
+
+
+    if (
+      blocks.length === 0
+    ) {
+
+      setError(
+        "Add at least one content block."
+      );
+
+      return;
+
+    }
+
+
+    try {
+
+      setSaving(true);
+
+
+      const preparedBlocks =
+        prepareBlocks();
+
+
+      /*
+       * UPDATE EXISTING ARTICLE
+       */
+
+      if (isEditing) {
+
+        const response =
+          await api.put(
+            `/articles/manage/${articleId}`,
+            {
+
+              title:
+                title.trim(),
+
+              slug:
+                slug.trim(),
+
+              excerpt:
+                excerpt.trim(),
+
+              blocks:
+                preparedBlocks
+
+            }
+          );
+
+
+        const updatedArticle =
+          response.data?.article;
+
+
+        if (
+          updatedArticle &&
+          Array.isArray(
+            updatedArticle.blocks
+          )
+        ) {
+
+          setBlocks(
+            updatedArticle.blocks.map(
+              (block) => ({
+
+                ...block,
+
+                clientId:
+                  block.id ||
+                  crypto.randomUUID()
+
+              })
+            )
+          );
+
+        }
+
+
+        setMessage(
+          response.data?.message ||
+          "Article updated successfully."
+        );
+
+
+        return;
+
+      }
+
+
+      /*
+       * CREATE NEW ARTICLE
+       */
+
       const response =
-        await api.put(
-          `/articles/manage/${articleId}`,
+        await api.post(
+          "/articles",
           {
+
             title:
               title.trim(),
 
@@ -920,99 +1422,63 @@ async function saveDraft() {
 
             blocks:
               preparedBlocks
+
           }
         );
 
-      const updatedArticle =
+
+      const createdArticle =
         response.data?.article;
 
-      // Update the local block IDs returned
-      // by the database.
-
-      if (
-        updatedArticle &&
-        Array.isArray(
-          updatedArticle.blocks
-        )
-      ) {
-        setBlocks(
-          updatedArticle.blocks.map(
-            (block) => ({
-              ...block,
-
-              clientId:
-                block.id
-            })
-          )
-        );
-      }
 
       setMessage(
         response.data?.message ||
-        "Article updated successfully."
+        "Draft saved successfully."
       );
 
-      return;
+
+      /*
+       * Move newly created article
+       * into edit mode.
+       */
+
+      if (
+        createdArticle?.id
+      ) {
+
+        navigate(
+          `/editorial/new?articleId=${createdArticle.id}`,
+          {
+            replace: true
+          }
+        );
+
+      }
+
+
+    } catch (err) {
+
+      console.error(
+        "Save article error:",
+        err
+      );
+
+
+      setError(
+        err.response?.data?.message ||
+        err.message ||
+        "Unable to save article."
+      );
+
+
+    } finally {
+
+      setSaving(false);
+
     }
 
-    // ==================================================
-    // CREATE NEW ARTICLE
-    // ==================================================
-
-    const response =
-      await api.post(
-        "/articles",
-        {
-          title:
-            title.trim(),
-
-          slug:
-            slug.trim(),
-
-          excerpt:
-            excerpt.trim(),
-
-          blocks:
-            preparedBlocks
-        }
-      );
-
-    const createdArticle =
-      response.data?.article;
-
-    setMessage(
-      response.data?.message ||
-      "Draft saved successfully."
-    );
-
-    // Move the newly created article
-    // into edit mode.
-
-    if (
-      createdArticle?.id
-    ) {
-      navigate(
-        `/editorial/new?articleId=${createdArticle.id}`,
-        {
-          replace: true
-        }
-      );
-    }
-
-  } catch (err) {
-    console.error(
-      "Save article error:",
-      err
-    );
-
-    setError(
-      err.response?.data?.message ||
-      "Unable to save article."
-    );
-  } finally {
-    setSaving(false);
   }
-}
+
 
   // ==================================================
   // BLOCK LABEL
@@ -1021,7 +1487,9 @@ async function saveDraft() {
   function getBlockLabel(
     type
   ) {
+
     switch (type) {
+
       case "TEXT":
         return "PARAGRAPH";
 
@@ -1042,15 +1510,20 @@ async function saveDraft() {
 
       default:
         return type;
+
     }
+
   }
+
 
   // ==================================================
   // LOADING
   // ==================================================
 
   if (loadingArticle) {
+
     return (
+
       <main className="impilo-editorial-workspace">
 
         <section className="impilo-empty-editorial">
@@ -1067,17 +1540,24 @@ async function saveDraft() {
         </section>
 
       </main>
+
     );
+
   }
+
 
   // ==================================================
   // RENDER
   // ==================================================
 
   return (
+
     <main className="impilo-editorial-workspace">
 
-      {/* HEADER */}
+
+      {/* ==================================================
+          HEADER
+      ================================================== */}
 
       <header className="impilo-editorial-header">
 
@@ -1102,48 +1582,66 @@ async function saveDraft() {
 
         </div>
 
+
         <div className="impilo-editorial-actions">
 
           <div className="impilo-word-count">
             {wordCount} / 700 words
           </div>
 
+
           <button
             type="button"
-            onClick={
-              saveDraft
-            }
+            onClick={saveDraft}
             disabled={saving}
             className="impilo-save-draft"
           >
+
             {saving
               ? "Saving..."
               : isEditing
                 ? "Save Changes"
                 : "Save Draft"}
+
           </button>
 
         </div>
 
       </header>
 
-      {/* STATUS */}
+
+      {/* ==================================================
+          STATUS
+      ================================================== */}
 
       {message && (
+
         <div className="impilo-editorial-success">
+
           {message}
+
         </div>
+
       )}
+
 
       {error && (
+
         <div className="impilo-editorial-error">
+
           {error}
+
         </div>
+
       )}
 
-      {/* ARTICLE DETAILS */}
+
+      {/* ==================================================
+          ARTICLE DETAILS
+      ================================================== */}
 
       <section className="impilo-article-details">
+
 
         <div className="impilo-form-field">
 
@@ -1161,6 +1659,7 @@ async function saveDraft() {
           />
 
         </div>
+
 
         <div className="impilo-form-field">
 
@@ -1180,6 +1679,7 @@ async function saveDraft() {
           />
 
         </div>
+
 
         <div className="impilo-form-field impilo-form-full">
 
@@ -1202,281 +1702,523 @@ async function saveDraft() {
 
       </section>
 
-      {/* BUILDER */}
 
-      <section className="impilo-builder">
+      {/* ==================================================
+          AUTHORING MODE
+      ================================================== */}
 
-        {/* TOOLS */}
+      <section className="impilo-authoring-mode">
 
-        <aside className="impilo-builder-tools">
 
-          <h2>
-            Add Content
-          </h2>
+        <div className="impilo-authoring-heading">
 
-          <button
-            type="button"
-            onClick={() =>
-              addBlock("TEXT")
-            }
-            disabled={isEditing}
-          >
-            ＋ Paragraph
-          </button>
-
-          <button
-            type="button"
-            onClick={() =>
-              addBlock("HEADING")
-            }
-            disabled={isEditing}
-          >
-            ＋ Heading
-          </button>
-
-          <button
-            type="button"
-            onClick={() =>
-              addBlock("QUOTE")
-            }
-            disabled={isEditing}
-          >
-            ＋ Quote
-          </button>
-
-          <button
-            type="button"
-            onClick={() =>
-              addBlock("IMAGE")
-            }
-            disabled={isEditing}
-          >
-            ＋ Image
-          </button>
-
-          <button
-            type="button"
-            onClick={() =>
-              addBlock("VIDEO")
-            }
-            disabled={isEditing}
-          >
-            ＋ Video
-          </button>
-
-          <button
-            type="button"
-            onClick={() =>
-              addBlock("AUDIO")
-            }
-            disabled={isEditing}
-          >
-            ＋ Audio
-          </button>
-
-          <div className="impilo-tool-divider" />
+          <span className="impilo-authoring-kicker">
+            AUTHORING MODE
+          </span>
 
           <h2>
-            Layout Templates
+            Choose how to build this article
           </h2>
 
-        <div className="impilo-template-list">
+          <p>
+            Paste a complete article for
+            automatic paragraph formatting,
+            or use the visual canvas for
+            complete block-level control.
+          </p>
 
-  <button
-    type="button"
-    onClick={() =>
-      insertTemplate(
-        "textImageText"
-      )
-    }
-  >
-    <strong>
-      Text → Image → Text
-    </strong>
-
-    <span>
-      A visual story with an image
-      between two paragraphs.
-    </span>
-  </button>
+        </div>
 
 
-  <button
-    type="button"
-    onClick={() =>
-      insertTemplate(
-        "imageTextText"
-      )
-    }
-  >
-    <strong>
-      Image → Text × 2
-    </strong>
-
-    <span>
-      Lead with the visual, then
-      continue the story.
-    </span>
-  </button>
+        <div
+          className="impilo-authoring-switcher"
+          role="tablist"
+          aria-label="Article authoring mode"
+        >
 
 
-  <button
-    type="button"
-    onClick={() =>
-      insertTemplate(
-        "textVideoText"
-      )
-    }
-  >
-    <strong>
-      Text → Video → Text
-    </strong>
+          {/* ==================================================
+              ARTICLE FEEDER
+          ================================================== */}
 
-    <span>
-      Introduce the story, show the
-      video, then continue.
-    </span>
-  </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={
+              authoringMode === "FEEDER"
+            }
+            className={`impilo-authoring-option ${
+              authoringMode === "FEEDER"
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              setAuthoringMode(
+                "FEEDER"
+              )
+            }
+          >
 
-</div>
+            <div className="impilo-authoring-option-icon">
+              ✦
+            </div>
 
-        </aside>
 
-        {/* CANVAS */}
+            <div className="impilo-authoring-option-content">
 
-        <section className="impilo-editorial-canvas">
-
-          <div className="impilo-canvas-top">
-
-            <div>
+              <strong>
+                Article Feeder
+              </strong>
 
               <span>
-                ARTICLE CANVAS
+                Paste your complete article
+                and automatically turn each
+                paragraph into an editorial block.
               </span>
 
-              <h2>
-                {title ||
-                  "Untitled Article"}
-              </h2>
+            </div>
+
+
+            <div className="impilo-authoring-option-badge">
+              FAST
+            </div>
+
+          </button>
+
+
+          {/* ==================================================
+              VISUAL CANVAS
+          ================================================== */}
+
+          <button
+            type="button"
+            role="tab"
+            aria-selected={
+              authoringMode === "CANVAS"
+            }
+            className={`impilo-authoring-option ${
+              authoringMode === "CANVAS"
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              setAuthoringMode(
+                "CANVAS"
+              )
+            }
+          >
+
+            <div className="impilo-authoring-option-icon">
+              ◇
+            </div>
+
+
+            <div className="impilo-authoring-option-content">
+
+              <strong>
+                Visual Canvas
+              </strong>
+
+              <span>
+                Build manually using
+                paragraphs, media,
+                templates and drag and drop.
+              </span>
 
             </div>
 
-            <span>
-              {blocks.length} blocks
-            </span>
 
-          </div>
+            <div className="impilo-authoring-option-badge">
+              VISUAL
+            </div>
 
-          {blocks.length === 0 ? (
+          </button>
 
-            <div className="impilo-empty-editorial">
+        </div>
 
-              <div className="impilo-empty-icon">
-                ✦
+      </section>
+
+
+      {/* ==================================================
+          ARTICLE FEEDER
+      ================================================== */}
+
+      {authoringMode === "FEEDER" && (
+
+        <section className="impilo-feeder-wrapper">
+
+          <ArticleFeeder
+
+            onGenerate={
+              generateFromFeeder
+            }
+
+            onCancel={() =>
+              setAuthoringMode(
+                "CANVAS"
+              )
+            }
+
+          />
+
+        </section>
+
+      )}
+
+
+      {/* ==================================================
+          VISUAL CANVAS
+      ================================================== */}
+
+      {authoringMode === "CANVAS" && (
+
+        <section className="impilo-builder">
+
+
+          {/* ==================================================
+              LEFT TOOLBOX
+          ================================================== */}
+
+          <aside className="impilo-builder-tools">
+
+            <h2>
+              Add Content
+            </h2>
+
+
+            <button
+              type="button"
+              onClick={() =>
+                addBlock("TEXT")
+              }
+            >
+              ＋ Paragraph
+            </button>
+
+
+            <button
+              type="button"
+              onClick={() =>
+                addBlock("HEADING")
+              }
+            >
+              ＋ Heading
+            </button>
+
+
+            <button
+              type="button"
+              onClick={() =>
+                addBlock("QUOTE")
+              }
+            >
+              ＋ Quote
+            </button>
+
+
+            <button
+              type="button"
+              onClick={() =>
+                addBlock("IMAGE")
+              }
+            >
+              ＋ Image
+            </button>
+
+
+            <button
+              type="button"
+              onClick={() =>
+                addBlock("VIDEO")
+              }
+            >
+              ＋ Video
+            </button>
+
+
+            <button
+              type="button"
+              onClick={() =>
+                addBlock("AUDIO")
+              }
+            >
+              ＋ Audio
+            </button>
+
+
+            <div className="impilo-tool-divider" />
+
+
+            <h2>
+              Layout Templates
+            </h2>
+
+
+            <div className="impilo-template-list">
+
+
+              <button
+                type="button"
+                onClick={() =>
+                  insertTemplate(
+                    "textImageText"
+                  )
+                }
+              >
+
+                <strong>
+                  Text → Image → Text
+                </strong>
+
+                <span>
+                  A visual story with an
+                  image between two
+                  paragraphs.
+                </span>
+
+              </button>
+
+
+              <button
+                type="button"
+                onClick={() =>
+                  insertTemplate(
+                    "imageTextText"
+                  )
+                }
+              >
+
+                <strong>
+                  Image → Text × 2
+                </strong>
+
+                <span>
+                  Lead with the visual,
+                  then continue the story.
+                </span>
+
+              </button>
+
+
+              <button
+                type="button"
+                onClick={() =>
+                  insertTemplate(
+                    "textVideoText"
+                  )
+                }
+              >
+
+                <strong>
+                  Text → Video → Text
+                </strong>
+
+                <span>
+                  Introduce the story,
+                  show the video, then
+                  continue.
+                </span>
+
+              </button>
+
+            </div>
+
+          </aside>
+
+
+          {/* ==================================================
+              CANVAS
+          ================================================== */}
+
+          <section className="impilo-editorial-canvas">
+
+
+            <div className="impilo-canvas-top">
+
+              <div>
+
+                <span>
+                  ARTICLE CANVAS
+                </span>
+
+                <h2>
+                  {title ||
+                    "Untitled Article"}
+                </h2>
+
               </div>
 
-              <h2>
-                Start your story
-              </h2>
 
-              <p>
-                Add content from
-                the panel on the left.
-              </p>
+              <span>
+                {blocks.length}{" "}
+                {blocks.length === 1
+                  ? "block"
+                  : "blocks"}
+              </span>
 
             </div>
 
-          ) : (
 
-            <div className="impilo-block-stack">
+            {/* ==================================================
+                EMPTY CANVAS
+            ================================================== */}
 
-              {blocks.map(
-                (
-                  block,
-                  index
-                ) => {
+            {blocks.length === 0 ? (
 
-                  const dragging =
-                    draggedIndex ===
-                    index;
+              <div className="impilo-empty-editorial">
 
-                  const dropTarget =
-                    dragOverIndex ===
-                    index;
+                <div className="impilo-empty-icon">
+                  ✦
+                </div>
 
-                  return (
-                    <article
-                      key={
-                        block.clientId ||
-                        block.id
-                      }
-                      draggable={
-                        !isEditing
-                      }
-                      onDragStart={
-                        !isEditing
-                          ? (event) =>
-                              handleDragStart(
-                                index,
-                                event
-                              )
-                          : undefined
-                      }
-                      onDragOver={
-                        !isEditing
-                          ? (event) =>
-                              handleDragOver(
-                                index,
-                                event
-                              )
-                          : undefined
-                      }
-                      onDrop={
-                        !isEditing
-                          ? (event) =>
-                              handleDrop(
-                                index,
-                                event
-                              )
-                          : undefined
-                      }
-                      onDragEnd={
-                        !isEditing
-                          ? handleDragEnd
-                          : undefined
-                      }
-                      className={[
-                        "impilo-content-block",
-                        dragging
-                          ? "is-dragging"
-                          : "",
-                        dropTarget
-                          ? "is-drop-target"
-                          : ""
-                      ]
-                        .filter(Boolean)
-                        .join(" ")}
-                    >
 
-                      <div className="impilo-block-number">
-                        {index + 1}
-                      </div>
+                <h2>
+                  Start your story
+                </h2>
 
-                      <div className="impilo-drag-handle">
-                        ⋮⋮
-                      </div>
 
-                      <div className="impilo-block-content">
+                <p>
+                  Use the tools on the
+                  left to build manually,
+                  or paste your complete
+                  article using the feeder.
+                </p>
 
-                        <div className="impilo-block-header">
 
-                          <strong>
-                            {getBlockLabel(
-                              block.type
-                            )}
-                          </strong>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setAuthoringMode(
+                      "FEEDER"
+                    )
+                  }
+                >
+                  Use Article Feeder
+                </button>
 
-                          {!isEditing && (
+              </div>
+
+            ) : (
+
+
+              /* ==================================================
+                  BLOCK STACK
+              ================================================== */
+
+              <div className="impilo-block-stack">
+
+
+                {blocks.map(
+                  (
+                    block,
+                    index
+                  ) => {
+
+                    const dragging =
+                      draggedIndex ===
+                      index;
+
+
+                    const dropTarget =
+                      dragOverIndex ===
+                      index;
+
+
+                    return (
+
+                      <article
+                        key={
+                          block.clientId ||
+                          block.id ||
+                          `block-${index}`
+                        }
+
+                        draggable
+
+                        onDragStart={
+                          (event) =>
+                            handleDragStart(
+                              index,
+                              event
+                            )
+                        }
+
+                        onDragOver={
+                          (event) =>
+                            handleDragOver(
+                              index,
+                              event
+                            )
+                        }
+
+                        onDrop={
+                          (event) =>
+                            handleDrop(
+                              index,
+                              event
+                            )
+                        }
+
+                        onDragEnd={
+                          handleDragEnd
+                        }
+
+                        className={[
+                          "impilo-content-block",
+
+                          dragging
+                            ? "is-dragging"
+                            : "",
+
+                          dropTarget
+                            ? "is-drop-target"
+                            : ""
+
+                        ]
+                          .filter(Boolean)
+                          .join(" ")}
+
+                      >
+
+
+                        {/* ==================================================
+                            NUMBER
+                        ================================================== */}
+
+                        <div className="impilo-block-number">
+                          {index + 1}
+                        </div>
+
+
+                        {/* ==================================================
+                            DRAG HANDLE
+                        ================================================== */}
+
+                        <div className="impilo-drag-handle">
+                          ⋮⋮
+                        </div>
+
+
+                        {/* ==================================================
+                            CONTENT
+                        ================================================== */}
+
+                        <div className="impilo-block-content">
+
+
+                          {/* ==================================================
+                              BLOCK HEADER
+                          ================================================== */}
+
+                          <div className="impilo-block-header">
+
+                            <strong>
+                              {getBlockLabel(
+                                block.type
+                              )}
+                            </strong>
+
+
                             <div>
 
                               <button
@@ -1490,9 +2232,11 @@ async function saveDraft() {
                                 disabled={
                                   index === 0
                                 }
+                                title="Move up"
                               >
                                 ↑
                               </button>
+
 
                               <button
                                 type="button"
@@ -1504,12 +2248,13 @@ async function saveDraft() {
                                 }
                                 disabled={
                                   index ===
-                                  blocks.length -
-                                    1
+                                  blocks.length - 1
                                 }
+                                title="Move down"
                               >
                                 ↓
                               </button>
+
 
                               <button
                                 type="button"
@@ -1518,216 +2263,300 @@ async function saveDraft() {
                                     index
                                   )
                                 }
+                                title="Delete block"
                               >
                                 Delete
                               </button>
 
                             </div>
+
+                          </div>
+
+
+                          {/* ==================================================
+                              TEXT / HEADING / QUOTE
+                          ================================================== */}
+
+                          {(
+                            block.type ===
+                              "TEXT" ||
+                            block.type ===
+                              "HEADING" ||
+                            block.type ===
+                              "QUOTE"
+                          ) && (
+
+                            <textarea
+
+                              value={
+                                block.content
+                                  ?.text ||
+                                ""
+                              }
+
+                              onChange={
+                                (event) =>
+                                  updateText(
+                                    index,
+                                    event.target.value
+                                  )
+                              }
+
+                              placeholder={
+                                block.type ===
+                                "HEADING"
+
+                                  ? "Enter heading..."
+
+                                  : block.type ===
+                                    "QUOTE"
+
+                                    ? "Enter quote..."
+
+                                    : "Write your content..."
+                              }
+
+                              rows={
+                                block.type ===
+                                "HEADING"
+                                  ? 2
+                                  : 7
+                              }
+
+                              className="impilo-block-textarea"
+
+                            />
+
+                          )}
+
+
+                          {/* ==================================================
+                              MEDIA BLOCK
+                          ================================================== */}
+
+                          {(
+                            block.type ===
+                              "IMAGE" ||
+                            block.type ===
+                              "VIDEO" ||
+                            block.type ===
+                              "AUDIO"
+                          ) && (
+
+                            <div className="impilo-media-block">
+
+
+                              {/* ==================================================
+                                  SELECTED MEDIA
+                              ================================================== */}
+
+                              {block.media ? (
+
+                                <div className="impilo-selected-media">
+
+
+                                  {block.type ===
+                                    "IMAGE" && (
+
+                                    <img
+                                      src={
+                                        block
+                                          .media
+                                          .url
+                                      }
+                                      alt={
+                                        block
+                                          .media
+                                          .altText ||
+                                        block
+                                          .media
+                                          .caption ||
+                                        "Selected IMPILO media"
+                                      }
+                                      className="impilo-selected-media-image"
+                                    />
+
+                                  )}
+
+
+                                  {block.type ===
+                                    "VIDEO" && (
+
+                                    <video
+                                      src={
+                                        block
+                                          .media
+                                          .url
+                                      }
+                                      controls
+                                      className="impilo-selected-media-video"
+                                    />
+
+                                  )}
+
+
+                                  {block.type ===
+                                    "AUDIO" && (
+
+                                    <audio
+                                      src={
+                                        block
+                                          .media
+                                          .url
+                                      }
+                                      controls
+                                      className="impilo-selected-media-audio"
+                                    />
+
+                                  )}
+
+
+                                  <div className="impilo-selected-media-info">
+
+                                    <strong>
+                                      {block
+                                        .media
+                                        .caption ||
+                                        block
+                                          .media
+                                          .filename ||
+                                        "Selected media"}
+                                    </strong>
+
+                                    <small>
+                                      {block
+                                        .media
+                                        .provider}
+                                    </small>
+
+                                  </div>
+
+
+                                </div>
+
+                              ) : (
+
+                                <div className="impilo-media-placeholder">
+
+                                  <strong>
+                                    {getBlockLabel(
+                                      block.type
+                                    )}
+                                  </strong>
+
+                                  <p>
+                                    No media selected.
+                                  </p>
+
+                                </div>
+
+                              )}
+
+
+                              {/* ==================================================
+                                  MEDIA PICKER BUTTON
+                              ================================================== */}
+
+                              <button
+                                type="button"
+                                className="impilo-select-media-button"
+                                onClick={() =>
+                                  setMediaPickerIndex(
+                                    index
+                                  )
+                                }
+                              >
+
+                                {block.media
+                                  ? "Change Media"
+                                  : `Select ${getBlockLabel(
+                                      block.type
+                                    )}`}
+
+                              </button>
+
+
+                              {/* ==================================================
+                                  MEDIA ID
+                              ================================================== */}
+
+                              {block.mediaId && (
+
+                                <small className="impilo-media-id">
+
+                                  Media ID:{" "}
+                                  {block.mediaId}
+
+                                </small>
+
+                              )}
+
+
+                              {/* ==================================================
+                                  MEDIA PICKER
+                              ================================================== */}
+
+                              {mediaPickerIndex ===
+                                index && (
+
+                                <div className="impilo-media-picker-container">
+
+                                  <MediaPicker
+
+                                    type={
+                                      block.type
+                                    }
+
+                                    selectedMediaId={
+                                      block.mediaId ||
+                                      null
+                                    }
+
+                                    onSelect={
+                                      (media) =>
+                                        handleMediaSelected(
+                                          index,
+                                          media
+                                        )
+                                    }
+
+                                    onClose={() =>
+                                      setMediaPickerIndex(
+                                        null
+                                      )
+                                    }
+
+                                  />
+
+                                </div>
+
+                              )}
+
+                            </div>
+
                           )}
 
                         </div>
 
-                        {(block.type ===
-                          "TEXT" ||
-                          block.type ===
-                            "HEADING" ||
-                          block.type ===
-                            "QUOTE") && (
+                      </article>
 
-                          <textarea
-                            value={
-                              block.content
-                                ?.text ||
-                              ""
-                            }
-                            onChange={(event) =>
-                              updateText(
-                                index,
-                                event.target
-                                  .value
-                              )
-                            }
-                            readOnly={
-                              isEditing
-                            }
-                            placeholder={
-                              block.type ===
-                              "HEADING"
-                                ? "Enter heading..."
-                                : "Write your content..."
-                            }
-                            rows={
-                              block.type ===
-                              "HEADING"
-                                ? 2
-                                : 7
-                            }
-                            className="impilo-block-textarea"
-                          />
+                    );
 
-                        )}
-{(block.type ===
-  "IMAGE" ||
-  block.type ===
-    "VIDEO" ||
-  block.type ===
-    "AUDIO") && (
+                  }
+                )}
 
-  <div className="impilo-media-block">
+              </div>
 
-    {/* ==============================================
-        SELECTED MEDIA
-    ============================================== */}
+            )}
 
-    {block.media ? (
-
-      <div className="impilo-selected-media">
-
-        {block.type === "IMAGE" && (
-          <img
-            src={block.media.url}
-            alt={
-              block.media.altText ||
-              block.media.caption ||
-              "Selected IMPILO media"
-            }
-            className="impilo-selected-media-image"
-          />
-        )}
-
-        {block.type === "VIDEO" && (
-          <video
-            src={block.media.url}
-            controls
-            className="impilo-selected-media-video"
-          />
-        )}
-
-        {block.type === "AUDIO" && (
-          <audio
-            src={block.media.url}
-            controls
-            className="impilo-selected-media-audio"
-          />
-        )}
-
-        <div className="impilo-selected-media-info">
-
-          <strong>
-            {block.media.caption ||
-              block.media.filename ||
-              "Selected media"}
-          </strong>
-
-          <small>
-            {block.media.provider}
-          </small>
-
-        </div>
-
-      </div>
-
-    ) : (
-
-      /* ==============================================
-         EMPTY MEDIA BLOCK
-      ============================================== */
-
-      <div className="impilo-media-placeholder">
-
-        <strong>
-          {getBlockLabel(
-            block.type
-          )}
-        </strong>
-
-        <p>
-          No media selected.
-        </p>
-
-      </div>
-
-    )}
-
-
-    {/* ==============================================
-        MEDIA PICKER BUTTON
-    ============================================== */}
-
-    <button
-      type="button"
-      className="impilo-select-media-button"
-      onClick={() =>
-        setMediaPickerIndex(index)
-      }
-    >
-      {block.media
-        ? "Change Media"
-        : `Select ${getBlockLabel(
-            block.type
-          )}`}
-    </button>
-
-
-    {/* ==============================================
-        MEDIA ID — TEMPORARILY VISIBLE FOR DEBUGGING
-    ============================================== */}
-
-    {block.mediaId && (
-      <small className="impilo-media-id">
-        Media ID: {block.mediaId}
-      </small>
-    )}
-
-
-    {/* ==============================================
-        MEDIA PICKER
-    ============================================== */}
-
-    {mediaPickerIndex === index && (
-
-      <div className="impilo-media-picker-container">
-
-        <MediaPicker
-          type={block.type}
-          selectedMediaId={
-            block.mediaId || null
-          }
-
-          onSelect={(media) =>
-            handleMediaSelected(
-              index,
-              media
-            )
-          }
-
-          onClose={() =>
-            setMediaPickerIndex(null)
-          }
-        />
-
-      </div>
-
-    )}
-
-  </div>
-)}
-
-                      </div>
-
-                    </article>
-                  );
-                }
-              )}
-
-            </div>
-
-          )}
+          </section>
 
         </section>
 
-      </section>
+      )}
 
     </main>
+
   );
+
 }

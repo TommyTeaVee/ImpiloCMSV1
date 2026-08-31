@@ -9,7 +9,7 @@ const testMedia = [
     id: "landscape-62",
     type: "IMAGE",
     provider: "CLOUDFRONT",
-    url: "https://d1zrm2iszdbieq.cloudfront.net/assets/models_land/62.jpg",
+    url: "https://pub-3b74daf955444cf484ba5da4777ce1ec.r2.dev/assets/models_land/62.jpg",
     altText:
       "IMPILO model landscape 62",
     caption:
@@ -20,7 +20,7 @@ const testMedia = [
     id: "landscape-63",
     type: "IMAGE",
     provider: "CLOUDFRONT",
-    url: "https://d1zrm2iszdbieq.cloudfront.net/assets/models_land/63.jpg",
+    url: "https://pub-3b74daf955444cf484ba5da4777ce1ec.r2.dev/assets/models_land/63.jpg",
     altText:
       "IMPILO model landscape 63",
     caption:
@@ -31,7 +31,7 @@ const testMedia = [
     id: "landscape-64",
     type: "IMAGE",
     provider: "CLOUDFRONT",
-    url: "https://d1zrm2iszdbieq.cloudfront.net/assets/models_land/64.jpg",
+    url: "https://pub-3b74daf955444cf484ba5da4777ce1ec.r2.dev/assets/models_land/64.jpg",
     altText:
       "IMPILO model landscape 64",
     caption:
