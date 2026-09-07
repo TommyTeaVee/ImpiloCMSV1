@@ -17,6 +17,9 @@ const cloudfrontMediaRoutes =
     "./routes/cloudfrontMediaRoutes"
   );
   const userRoutes = require("./routes/userRoutes");
+const magazineAdminRoutes =
+  require("./routes/magazineAdminRoutes");
+
 
 const app = express();
 
@@ -60,6 +63,10 @@ app.use(
 app.use(
   "/api/magazines",
   magazineRoutes
+);
+app.use(
+  "/api/magazine-admin/issues",
+  magazineAdminRoutes
 );
 app.use("/api/users", userRoutes);
 // --------------------------------------------------

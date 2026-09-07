@@ -15,6 +15,9 @@ import UserManagement
   from "../components/editorial/UserManagement.jsx";
 
 import AdminMedia from "../components/editorial/AdminMedia.jsx";
+
+import MagazineManagement
+  from "../components/editorial/MagazineManagement.jsx";
 export default function AdminDashboard() {
 
   const navigate = useNavigate();
@@ -440,20 +443,7 @@ export default function AdminDashboard() {
             </div>
 
 
-            <div
-              className="impilo-admin-placeholder"
-            >
-
-              <h3>
-                Magazine
-              </h3>
-
-              <p>
-                Magazine management will
-                be connected here.
-              </p>
-
-            </div>
+            <MagazineManagement />
 
           </section>
 

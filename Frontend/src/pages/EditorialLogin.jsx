@@ -136,7 +136,7 @@ export default function EditorialLogin() {
       // ==================================================
 
       navigate(
-        "/editorial",
+        "/admin",
         { replace: true }
       );
 

@@ -15,71 +15,119 @@ class MagazineBook extends React.Component {
   }
 
 
-  /* ==================================================
-     FLIPBOOK INSTANCE
-     ================================================== */
+  // ==================================================
+  // FLIPBOOK INSTANCE
+  // ==================================================
 
   getFlip = () => {
     return this.flipBook.current?.pageFlip?.();
   };
 
 
-  /* ==================================================
-     PUBLIC API
-     MagazineReader uses these.
-     ================================================== */
+  // ==================================================
+  // PUBLIC API
+  // MagazineReader uses these.
+  // ==================================================
 
- next = () => {
-  console.log("NEXT CLICKED");
+  next = () => {
 
-  const instance = this.flipBook.current;
+    console.log("NEXT CLICKED");
 
-  console.log("FLIPBOOK REF:", instance);
+    const instance =
+      this.flipBook.current;
 
-  const flip = instance?.pageFlip?.();
+    console.log(
+      "FLIPBOOK REF:",
+      instance
+    );
 
-  console.log("PAGE FLIP INSTANCE:", flip);
+    const flip =
+      instance?.pageFlip?.();
 
-  if (!flip) {
-    console.error("PAGEFLIP INSTANCE NOT FOUND");
-    return;
-  }
+    console.log(
+      "PAGE FLIP INSTANCE:",
+      flip
+    );
 
-  console.log(
-    "CURRENT PAGE:",
-    flip.getCurrentPageIndex?.()
-  );
+    if (!flip) {
 
-  console.log(
-    "TOTAL PAGES:",
-    flip.getPageCount?.()
-  );
+      console.error(
+        "PAGEFLIP INSTANCE NOT FOUND"
+      );
 
-  flip.flipNext();
-};
+      return;
+    }
+
+    console.log(
+      "CURRENT PAGE:",
+      flip.getCurrentPageIndex?.()
+    );
+
+    console.log(
+      "TOTAL PAGES:",
+      flip.getPageCount?.()
+    );
+
+    flip.flipNext();
+  };
+
+
+  prev = () => {
+
+    console.log(
+      "PREVIOUS CLICKED"
+    );
+
+    const flip =
+      this.getFlip();
+
+    if (!flip) {
+
+      console.error(
+        "PAGEFLIP INSTANCE NOT FOUND"
+      );
+
+      return;
+    }
+
+    console.log(
+      "CURRENT PAGE:",
+      flip.getCurrentPageIndex?.()
+    );
+
+    flip.flipPrev();
+  };
 
 
   flipTo = (page) => {
-    const flip = this.getFlip();
+
+    const flip =
+      this.getFlip();
 
     if (flip) {
+
       flip.flip(page);
+
     }
+
   };
 
 
   pageFlip = () => {
+
     return this.getFlip();
+
   };
 
 
-  /* ==================================================
-     PAGE CHANGE
-     ================================================== */
+  // ==================================================
+  // PAGE CHANGE
+  // ==================================================
 
   onPage = (event) => {
 
-    const page = event.data;
+    const page =
+      event.data;
 
     this.setState({
       page
@@ -89,14 +137,19 @@ class MagazineBook extends React.Component {
       typeof this.props.onPageChange ===
       "function"
     ) {
-      this.props.onPageChange(page);
+
+      this.props.onPageChange(
+        page
+      );
+
     }
+
   };
 
 
-  /* ==================================================
-     INITIAL PAGE
-     ================================================== */
+  // ==================================================
+  // INITIAL PAGE
+  // ==================================================
 
   componentDidMount() {
 
@@ -105,19 +158,25 @@ class MagazineBook extends React.Component {
 
     if (initialPage > 0) {
 
-      const flip = this.getFlip();
+      const flip =
+        this.getFlip();
 
       if (flip) {
-        flip.flip(initialPage);
+
+        flip.flip(
+          initialPage
+        );
+
       }
 
     }
+
   }
 
 
-  /* ==================================================
-     RENDER
-     ================================================== */
+  // ==================================================
+  // RENDER
+  // ==================================================
 
   render() {
 
@@ -130,22 +189,27 @@ class MagazineBook extends React.Component {
       !Array.isArray(pages) ||
       pages.length === 0
     ) {
+
       return null;
+
     }
 
 
-    const initialPage = Math.max(
-      0,
-      Math.min(
-        this.props.initialPage || 0,
-        pages.length - 1
-      )
-    );
+    const initialPage =
+      Math.max(
+        0,
+        Math.min(
+          this.props.initialPage || 0,
+          pages.length - 1
+        )
+      );
 
 
     return (
 
-      <div className="impilo-magazine-book-wrapper">
+      <div
+        className="impilo-magazine-book-wrapper"
+      >
 
         <HTMLFlipBook
 
@@ -160,7 +224,7 @@ class MagazineBook extends React.Component {
           maxWidth={900}
           maxHeight={1000}
 
-          size="stretch"
+          size="fixed"
 
           showCover={true}
 
@@ -178,9 +242,8 @@ class MagazineBook extends React.Component {
 
           /*
            * IMPORTANT:
-           * These are the same interaction
-           * settings from your original
-           * working DemoBook.
+           * Keep mouse/swipe interaction disabled.
+           * Article zoom uses those gestures.
            */
 
           useMouseEvents={false}
@@ -207,8 +270,11 @@ class MagazineBook extends React.Component {
         </HTMLFlipBook>
 
       </div>
+
     );
+
   }
+
 }
 
 export default MagazineBook;
