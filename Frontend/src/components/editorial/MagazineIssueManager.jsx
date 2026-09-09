@@ -12,7 +12,7 @@ import api from "../../services/api";
 
 
 
-const API_PREFIX = "/magazine-admin";
+const API_PREFIX = "/magazine-admin/issues";
 
 const PAGE_TYPES = [
   "COVER",
@@ -136,7 +136,7 @@ export default function MagazineIssueManager({
 
       const response =
         await api.get(
-          `${API_PREFIX}/issues/${issueId}`
+          `${API_PREFIX}/${issueId}`
         );
 
       const loaded =
@@ -374,13 +374,13 @@ export default function MagazineIssueManager({
       if (editingPage?.id) {
         response =
           await api.put(
-            `${API_PREFIX}/issues/${issueId}/pages/${editingPage.id}`,
+            `${API_PREFIX}/${issueId}/pages/${editingPage.id}`,
             payload
           );
       } else {
         response =
           await api.post(
-            `${API_PREFIX}/issues/${issueId}/pages`,
+            `${API_PREFIX}/${issueId}/pages`,
             payload
           );
       }
@@ -551,70 +551,59 @@ export default function MagazineIssueManager({
     setMessage("");
     setError("");
   }
-
-  async function saveOrder() {
-    if (!issueId) {
-      return;
-    }
-
-    try {
-      setSaving(true);
-      setError("");
-      setMessage("");
-
-      const response =
-        await api.patch(
-          `${API_PREFIX}/issues/${issueId}/pages/reorder`,
-          {
-            pages:
-              pages.map(
-                (page, index) => ({
-                  id: page.id,
-                  position:
-                    index + 1
-                })
-              )
-          }
-        );
-
-      const savedPages =
-        response.data?.pages;
-
-      if (
-        Array.isArray(
-          savedPages
-        )
-      ) {
-        setPages(
-          normalisePages(
-            savedPages
-          )
-        );
-      } else {
-        await loadIssue();
-      }
-
-      setMessage(
-        "Magazine page order saved."
-      );
-
-      if (onUpdated) {
-        onUpdated();
-      }
-    } catch (err) {
-      console.error(
-        "Save magazine page order error:",
-        err
-      );
-
-      setError(
-        err.response?.data?.message ||
-        "Unable to save page order."
-      );
-    } finally {
-      setSaving(false);
-    }
+async function saveOrder() {
+  if (!issueId) {
+    setError("Missing issue ID. Cannot save order.");
+    return;
   }
+
+  try {
+    setSaving(true);
+    setError("");
+    setMessage("");
+
+    // Extract an array of ID strings in their new order
+    const pageIds = pages.map((page) => page.id);
+
+    // Formatted payload object for backend
+    const pagesPayload = pages.map((page, index) => ({
+      id: page.id,
+      position: index + 1
+    }));
+
+    const response = await api.patch(
+      `${API_PREFIX}/${issueId}/pages/reorder`,
+      {
+        pageIds: pageIds,      // Fixed: Satisfies "pageIds must be an array" validator
+        pages: pagesPayload    // Included in case backend reads page objects
+      }
+    );
+
+    await loadIssue();
+
+    setMessage(
+      response.data?.message ||
+      "Magazine page order saved."
+    );
+
+    if (onUpdated) {
+      onUpdated();
+    }
+  } catch (err) {
+    console.error(
+      "Save magazine page order error:",
+      err
+    );
+
+    setError(
+      err.response?.data?.message ||
+      err.message ||
+      "Unable to save page order."
+    );
+  } finally {
+    setSaving(false);
+  }
+}
 
   function editArticle(page) {
     const articleId =

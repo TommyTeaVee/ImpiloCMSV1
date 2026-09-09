@@ -14557,11 +14557,11 @@ select:focus {
       110px
       minmax(0, 1fr);
 
-    min-height: 180px;
+    min-height: 200px;
   }
 
   .impilo-magazine-issue-cover {
-    min-height: 180px;
+    min-height: 200px;
   }
 
   .impilo-magazine-issue-info {
@@ -15324,6 +15324,7 @@ select:focus {
 .impilo-magazine-issue-body {
   padding:
     17px 17px 16px;
+    width: 100%;
 }
 
 .impilo-magazine-issue-topline {

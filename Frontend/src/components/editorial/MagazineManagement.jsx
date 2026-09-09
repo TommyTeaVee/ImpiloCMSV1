@@ -54,6 +54,10 @@ function getPageCount(issue) {
     return Number(issue.pageCount);
   }
 
+  if (Number.isFinite(Number(issue?._count?.pages))) {
+    return Number(issue._count.pages);
+  }
+
   return Array.isArray(issue?.pages)
     ? issue.pages.length
     : 0;
@@ -892,9 +896,7 @@ export default function MagazineManagement() {
                       className="impilo-magazine-issue-topline"
                     >
                       <span>
-                        {issue.volume
-                          ? `VOLUME ${issue.volume}`
-                          : "IMPILO MAGAZINE"}
+                        {issue.volume || "IMPILO MAGAZINE"}
                       </span>
 
                       <span>
