@@ -258,11 +258,18 @@ class MagazineBook extends React.Component {
 
         >
 
-          {pages.map((page) => (
+          {pages.map((page, index) => (
 
             <MagazinePage
               key={page.id}
               page={page}
+              allPages={pages}
+              onJumpToPage={(targetIndex) => {
+                const flip = this.getFlip();
+                if (flip) {
+                  flip.flip(targetIndex);
+                }
+              }}
             />
 
           ))}

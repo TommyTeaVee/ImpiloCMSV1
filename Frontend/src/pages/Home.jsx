@@ -1,13 +1,40 @@
-import MediaGalleryTest from "../components/media/MediaGalleryTest";
+import React from "react";
+
 import MagazineReader from "../components/magazine/MagazineReader";
 
-function Home() {
+/**
+ * ==================================================
+ * HOME PAGE VIEW
+ * ==================================================
+ * 
+ * Serves as the primary landing surface for readers
+ * visiting Impilo Magazine. Directly embeds the 
+ * interactive magazine reader component for issue "impilo-101".
+ */
+export default function Home() {
+
   return (
-    <main>
 
-         <MagazineReader slug="impilo-101" />
+    <main
+      className="impilo-home-container"
+    >
+
+      {/* ==========================================
+          MAGAZINE READER EMBED
+      ========================================== */}
+
+      <div
+        className="impilo-home-reader-wrapper"
+      >
+
+        <MagazineReader
+          slug="impilo-101"
+        />
+
+      </div>
+
     </main>
-  );
-}
 
-export default Home;
+  );
+
+}

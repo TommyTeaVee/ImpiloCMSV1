@@ -6,23 +6,42 @@ import {
 } from "react-router-dom";
 
 import Home from "./pages/Home";
+
 import ReaderDashboard from "./pages/ReaderDashboard.jsx";
 
+
+
+// ==================================================
+// MAGAZINE READER COMPONENT
+// ==================================================
+
+import MagazineReader from "./components/magazine/MagazineReader.jsx"; 
+
+
+
 import EditorialCMS from "./pages/EditorialCMS.jsx";
+
 import EditorialWorkspace from "./components/editorial/EditorialWorkspace.jsx";
+
 import EditorialLogin from "./pages/EditorialLogin.jsx";
 
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 
 import MediaPickerTest from "./pages/MediaPickerTest.jsx";
+
 import CloudFrontMediaTest from "./pages/CloudFrontMediaTest.jsx";
 
 
+
 function App() {
+
   return (
+
     <BrowserRouter>
 
       <Routes>
+
+
 
         {/* ==========================================
             PUBLIC
@@ -34,29 +53,41 @@ function App() {
         />
 
 
+
         {/* ==========================================
-            READER
+            READER / MAGAZINE VIEWER
         ========================================== */}
 
         <Route
           path="/reader"
           element={<ReaderDashboard />}
         />
+        
+        {/* 
+          Supports both standard issue loading 
+          and dynamic page number tracking in the URL
+        */}
+
+        <Route
+          path="/read/:slug"
+          element={<MagazineReader />}
+        />
+
+        <Route
+          path="/read/:slug/page/:pageNumber"
+          element={<MagazineReader />}
+        />
+
 
 
         {/* ==========================================
-            EDITORIAL LOGIN
+            EDITORIAL LOGIN & CMS
         ========================================== */}
 
         <Route
           path="/editorial/login"
           element={<EditorialLogin />}
         />
-
-
-        {/* ==========================================
-            EDITORIAL CMS
-        ========================================== */}
 
         <Route
           path="/editorial"
@@ -69,6 +100,7 @@ function App() {
         />
 
 
+
         {/* ==========================================
             ADMINISTRATION
         ========================================== */}
@@ -77,6 +109,7 @@ function App() {
           path="/admin"
           element={<AdminDashboard />}
         />
+
 
 
         {/* ==========================================
@@ -94,6 +127,7 @@ function App() {
         />
 
 
+
         {/* ==========================================
             FALLBACK
         ========================================== */}
@@ -108,10 +142,16 @@ function App() {
           }
         />
 
+
+
       </Routes>
 
     </BrowserRouter>
+
   );
+
 }
+
+
 
 export default App;

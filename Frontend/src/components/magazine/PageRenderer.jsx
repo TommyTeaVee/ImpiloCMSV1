@@ -213,6 +213,31 @@ if (page.type === "COVER") {
     "CONTENTS"
   ) {
 
+    const customContent =
+      page.content || {};
+
+    const heading =
+      customContent.heading ||
+      page.title ||
+      "Contents";
+
+    const intro =
+      customContent.intro ||
+      "Inside this issue...";
+
+    const issuePages =
+      Array.isArray(page.issuePages)
+        ? page.issuePages
+        : [];
+
+    const indexablePages =
+      issuePages.filter(
+        (p) =>
+          p.type !== "COVER" &&
+          p.type !== "CONTENTS" &&
+          (p.title || p.article?.title)
+      );
+
     return (
 
       <section
@@ -242,8 +267,7 @@ if (page.type === "COVER") {
               impilo-magazine-section-title
             "
           >
-            {page.title ||
-              "Contents"}
+            {heading}
           </h1>
 
           <div
@@ -252,20 +276,90 @@ if (page.type === "COVER") {
             "
           />
 
+          {intro && (
+            <p className="impilo-contents-intro">
+              {intro}
+            </p>
+          )}
+
           <div
             className="
               impilo-contents-list
             "
           >
 
-            <p
-              className="
-                impilo-magazine-placeholder
-              "
-            >
-              Magazine contents
-              will appear here.
-            </p>
+            {indexablePages.length === 0 ? (
+
+              <p
+                className="
+                  impilo-magazine-placeholder
+                "
+              >
+                Magazine contents
+                will appear here.
+              </p>
+
+            ) : (
+
+              <ul className="impilo-contents-ul">
+
+                {indexablePages.map((item) => {
+
+                  const title =
+                    item.article?.title ||
+                    item.title ||
+                    "Untitled Page";
+
+                  const subtitle =
+                    item.article?.subtitle || "";
+
+                  return (
+
+                    <li
+                      key={item.id}
+                      className="impilo-contents-item"
+                    >
+
+                      <button
+                        type="button"
+                        className="impilo-contents-link"
+                        onClick={() => {
+                          if (
+                            page.onJumpToPage &&
+                            typeof item.position === "number"
+                          ) {
+                            page.onJumpToPage(item.position - 1);
+                          }
+                        }}
+                      >
+
+                        <span className="impilo-contents-item-title">
+                          {title}
+                        </span>
+
+                        <span className="impilo-contents-dots" />
+
+                        <span className="impilo-contents-page-num">
+                          {item.position}
+                        </span>
+
+                      </button>
+
+                      {subtitle && (
+                        <small className="impilo-contents-subtitle">
+                          {subtitle}
+                        </small>
+                      )}
+
+                    </li>
+
+                  );
+
+                })}
+
+              </ul>
+
+            )}
 
           </div>
 

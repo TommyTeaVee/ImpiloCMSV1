@@ -5,6 +5,11 @@ import React, {
   useState
 } from "react";
 
+import {
+  useNavigate,
+  useParams
+} from "react-router-dom";
+
 import MagazineBook from "./MagazineBook";
 
 import paginateArticle from "./paginateArticle";
@@ -14,6 +19,18 @@ import api from "../../services/api";
 export default function MagazineReader({
   slug = "impilo-101"
 }) {
+
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const activeSlug =
+    params.slug ||
+    slug;
+
+  const urlPageNumber =
+    params.pageNumber
+      ? parseInt(params.pageNumber, 10)
+      : null;
 
   const bookRef = useRef(null);
 
@@ -28,6 +45,9 @@ export default function MagazineReader({
 
   const [error, setError] =
     useState(null);
+
+  const [isInitialized, setIsInitialized] =
+    useState(false);
 
 
 
@@ -53,7 +73,7 @@ export default function MagazineReader({
 
         const response =
           await api.get(
-            `/magazines/public/${slug}`
+            `/magazines/public/${activeSlug}`
           );
 
 
@@ -116,7 +136,7 @@ export default function MagazineReader({
 
     };
 
-  }, [slug]);
+  }, [activeSlug]);
 
 
 
@@ -275,6 +295,63 @@ export default function MagazineReader({
 
 
 
+  const totalPages =
+    displayPages.length;
+
+
+
+  // ==================================================
+  // INITIALIZE PAGE FROM URL UPON LOAD
+  // ==================================================
+
+  useEffect(() => {
+
+    if (
+      displayPages.length > 0 &&
+      !isInitialized
+    ) {
+
+      if (
+        urlPageNumber &&
+        !isNaN(urlPageNumber)
+      ) {
+
+        const targetIndex =
+          Math.max(
+            0,
+            Math.min(
+              urlPageNumber - 1,
+              totalPages - 1
+            )
+          );
+
+        setCurrentPage(
+          targetIndex
+        );
+
+        setTimeout(() => {
+
+          bookRef.current?.flipTo(
+            targetIndex
+          );
+
+        }, 150);
+
+      }
+
+      setIsInitialized(true);
+
+    }
+
+  }, [
+    displayPages,
+    urlPageNumber,
+    isInitialized,
+    totalPages
+  ]);
+
+
+
   // ==================================================
   // PAGE CHANGE
   // ==================================================
@@ -286,6 +363,22 @@ export default function MagazineReader({
     setCurrentPage(
       page
     );
+
+
+
+    if (
+      isInitialized &&
+      totalPages > 0
+    ) {
+
+      navigate(
+        `/read/${activeSlug}/page/${page + 1}`,
+        {
+          replace: true
+        }
+      );
+
+    }
 
   };
 
@@ -430,11 +523,6 @@ export default function MagazineReader({
   // PROGRESS
   // ==================================================
 
-  const totalPages =
-    displayPages.length;
-
-
-
   const progress =
     totalPages > 0
       ? (
@@ -499,20 +587,25 @@ export default function MagazineReader({
           MAGAZINE
       ========================================== */}
 
-      <div
-        className="impilo-reader-book"
-      >
+   
+<div
+  className="impilo-reader-book"
+>
 
-        <MagazineBook
-          ref={bookRef}
-          pages={displayPages}
-          initialPage={0}
-          onPageChange={
-            handlePageChange
-          }
-        />
+  <MagazineBook
+    ref={bookRef}
+    pages={displayPages}
+    allPages={displayPages}
+    initialPage={currentPage}
+    onPageChange={
+      handlePageChange
+    }
+    onJumpToPage={(targetIndex) => {
+      bookRef.current?.flipTo(targetIndex);
+    }}
+  />
 
-      </div>
+</div>
 
 
 

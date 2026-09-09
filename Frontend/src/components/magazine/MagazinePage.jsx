@@ -1,8 +1,12 @@
 import React from "react";
+
 import PageRenderer from "./PageRenderer";
 
+import ContentsPageRenderer from "./contentsPageRender";
+
 const MagazinePage = React.forwardRef(
-  ({ page }, ref) => {
+  ({ page, allPages, onJumpToPage }, ref) => {
+
     if (!page) {
       return (
         <div
@@ -20,10 +24,23 @@ const MagazinePage = React.forwardRef(
         data-page-type={page.type}
       >
         <div className="impilo-magazine-page-content">
-          <PageRenderer page={page} />
+
+          {page.type === "CONTENTS" ? (
+            <ContentsPageRenderer
+              page={page}
+              issuePages={allPages}
+              onJumpToPage={onJumpToPage}
+            />
+          ) : (
+            <PageRenderer
+              page={page}
+            />
+          )}
+
         </div>
       </div>
     );
+
   }
 );
 
