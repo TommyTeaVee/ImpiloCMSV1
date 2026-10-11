@@ -1,102 +1,102 @@
-const express = require("express");
+  const express = require("express");
 
-const {
-  authenticate,
-  requireRole
-} = require("../middleware/authMiddleware");
+  const {
+    authenticate,
+    requireRole
+  } = require("../middleware/authMiddleware");
 
-const {
-  getMagazineIssues,
-  getMagazineIssue,
-  createMagazineIssue,
-  updateMagazineIssue,
-  publishMagazineIssue,
-  unpublishMagazineIssue,
-  addMagazinePage,
-  updateMagazinePage,
-  deleteMagazinePage,
-  reorderMagazinePages
-} = require("../controllers/magazineAdminController");
+  const {
+    getMagazineIssues,
+    getMagazineIssue,
+    createMagazineIssue,
+    updateMagazineIssue,
+    publishMagazineIssue,
+    unpublishMagazineIssue,
+    addMagazinePage,
+    updateMagazinePage,
+    deleteMagazinePage,
+    reorderMagazinePages
+  } = require("../controllers/magazineAdminController");
 
-const router = express.Router();
+  const router = express.Router();
 
-// ==================================================
-// ADMIN MAGAZINE ROUTES
-// ==================================================
+  // ==================================================
+  // ADMIN MAGAZINE ROUTES
+  // ==================================================
 
-// All magazine management routes require authentication
-// and are available to ADMIN and EDITOR.
-router.use(
-  authenticate,
-  requireRole("ADMIN", "EDITOR")
-);
+  // All magazine management routes require authentication
+  // and are available to ADMIN and EDITOR.
+  router.use(
+    authenticate,
+    requireRole("ADMIN", "EDITOR")
+  );
 
-// ==================================================
-// MAGAZINE ISSUES
-// ==================================================
+  // ==================================================
+  // MAGAZINE ISSUES
+  // ==================================================
 
-// Get all magazine issues
-router.get(
-  "/",
-  getMagazineIssues
-);
+  // Get all magazine issues
+  router.get(
+    "/",
+    getMagazineIssues
+  );
 
-// Get one magazine issue
-router.get(
-  "/:id",
-  getMagazineIssue
-);
+  // Get one magazine issue
+  router.get(
+    "/:id",
+    getMagazineIssue
+  );
 
-// Create magazine issue
-router.post(
-  "/",
-  createMagazineIssue
-);
+  // Create magazine issue
+  router.post(
+    "/",
+    createMagazineIssue
+  );
 
-// Update magazine issue
-router.put(
-  "/:id",
-  updateMagazineIssue
-);
+  // Update magazine issue
+  router.put(
+    "/:id",
+    updateMagazineIssue
+  );
 
-// Publish magazine issue
-router.post(
-  "/:id/publish",
-  publishMagazineIssue
-);
+  // Publish magazine issue
+  router.post(
+    "/:id/publish",
+    publishMagazineIssue
+  );
 
-// Unpublish magazine issue
-router.post(
-  "/:id/unpublish",
-  unpublishMagazineIssue
-);
+  // Unpublish magazine issue
+  router.post(
+    "/:id/unpublish",
+    unpublishMagazineIssue
+  );
 
-// ==================================================
-// MAGAZINE PAGES
-// ==================================================
+  // ==================================================
+  // MAGAZINE PAGES
+  // ==================================================
 
-// Add page to magazine
-router.post(
-  "/:id/pages",
-  addMagazinePage
-);
+  // Add page to magazine
+  router.post(
+    "/:id/pages",
+    addMagazinePage
+  );
 
-// Update page
-router.put(
-  "/:id/pages/:pageId",
-  updateMagazinePage
-);
+  // Update page
+  router.put(
+    "/:id/pages/:pageId",
+    updateMagazinePage
+  );
 
-// Delete page
-router.delete(
-  "/:id/pages/:pageId",
-  deleteMagazinePage
-);
+  // Delete page
+  router.delete(
+    "/:id/pages/:pageId",
+    deleteMagazinePage
+  );
 
-// Reorder pages
-router.patch(
-  "/:id/pages/reorder",
-  reorderMagazinePages
-);
+  // Reorder pages
+  router.patch(
+    "/:id/pages/reorder",
+    reorderMagazinePages
+  );
 
-module.exports = router;
+  module.exports = router;

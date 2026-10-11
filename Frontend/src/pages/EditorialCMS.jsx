@@ -1,3 +1,4 @@
+
 import React, {
   useEffect,
   useState
@@ -7,10 +8,12 @@ import {
   useLocation,
   useNavigate
 } from "react-router-dom";
-
+import InReviewArticles from "./InReviewArticle";
 import api from "../services/api";
 
-export default function EditorialCMS() {
+export default function EditorialCMS({
+  onOpenInReview
+}) {
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,105 +27,62 @@ export default function EditorialCMS() {
   const [error, setError] =
     useState("");
 
+  const [message, setMessage] =
+    useState("");
+
+  const [actionLoading, setActionLoading] =
+    useState(null);
 
   // ==================================================
   // LOAD ARTICLES
   // ==================================================
 
-  useEffect(() => {
+  async function loadArticles() {
+    try {
+      setLoading(true);
+      setError("");
 
-    async function loadArticles() {
+      const response =
+        await api.get("/articles/manage");
 
-      try {
+      const data =
+        response.data;
 
-        setLoading(true);
-        setError("");
-
-        const response =
-          await api.get(
-            "/articles/manage"
-          );
-
-        /*
-         * Be tolerant of the response
-         * structure while we connect the CMS.
-         */
-
-        const data =
-          response.data;
-
-        if (Array.isArray(data)) {
-
-          setArticles(data);
-
-        } else if (
-          Array.isArray(
-            data?.articles
-          )
-        ) {
-
-          setArticles(
-            data.articles
-          );
-
-        } else {
-
-          setArticles([]);
-
-        }
-
-      } catch (err) {
-
-        console.error(
-          "Load articles error:",
-          err
-        );
-
-        setError(
-          err.response?.data?.message ||
-          "Unable to load articles."
-        );
-
-      } finally {
-
-        setLoading(false);
-
+      if (Array.isArray(data)) {
+        setArticles(data);
+      } else if (
+        Array.isArray(data?.articles)
+      ) {
+        setArticles(data.articles);
+      } else {
+        setArticles([]);
       }
 
+    } catch (err) {
+      console.error(
+        "Load articles error:",
+        err
+      );
+
+      setError(
+        err.response?.data?.message ||
+        "Unable to load articles."
+      );
+
+    } finally {
+      setLoading(false);
     }
+  }
 
+  useEffect(() => {
     loadArticles();
-
   }, []);
-
 
   // ==================================================
   // BACK
   // ==================================================
 
   function goBack() {
-
-    /*
-     * If the user arrived here through
-     * another application page, go back.
-     *
-     * Otherwise stay within the editorial
-     * section rather than sending the user
-     * somewhere unexpected.
-     */
-
-    if (
-      window.history.length > 1 &&
-      location.key !== "default"
-    ) {
-
-      navigate("/admin", {
-        replace: true
-      });
-
-      return;
-    }
-
     navigate(
       "/admin",
       {
@@ -131,32 +91,25 @@ export default function EditorialCMS() {
     );
   }
 
-
   // ==================================================
   // NEW ARTICLE
   // ==================================================
 
   function createNewArticle() {
-
     navigate(
       "/editorial/new"
     );
-
   }
-
 
   // ==================================================
   // OPEN ARTICLE
   // ==================================================
 
   function openArticle(article) {
-
     navigate(
       `/editorial/new?articleId=${article.id}`
     );
-
   }
-
 
   // ==================================================
   // STATUS
@@ -170,26 +123,19 @@ export default function EditorialCMS() {
     ) {
 
       case "PUBLISHED":
-
         return "published";
 
       case "APPROVED":
-
         return "approved";
 
       case "IN_REVIEW":
-
         return "review";
 
       case "DRAFT":
-
       default:
-
         return "draft";
     }
-
   }
-
 
   // ==================================================
   // STATUS LABEL
@@ -198,9 +144,7 @@ export default function EditorialCMS() {
   function getStatusLabel(status) {
 
     if (!status) {
-
       return "DRAFT";
-
     }
 
     return String(status)
@@ -209,18 +153,179 @@ export default function EditorialCMS() {
         " "
       )
       .toUpperCase();
-
   }
 
+  // ==================================================
+  // ARTICLE WORKFLOW
+  // ==================================================
+
+  async function runArticleAction(
+    article,
+    action
+  ) {
+
+    if (!article?.id) {
+      return;
+    }
+
+    const actionKey =
+      `${article.id}-${action}`;
+
+    try {
+
+      setActionLoading(actionKey);
+      setError("");
+      setMessage("");
+
+      let endpoint = "";
+
+      switch (action) {
+
+        case "submit":
+          endpoint =
+            `/articles/${article.id}/submit`;
+          break;
+
+        case "approve":
+          endpoint =
+            `/articles/${article.id}/approve`;
+          break;
+
+        case "publish":
+          endpoint =
+            `/articles/${article.id}/publish`;
+          break;
+
+        default:
+          return;
+      }
+
+      const response =
+        await api.post(endpoint);
+
+      setMessage(
+        response.data?.message ||
+        "Article workflow updated."
+      );
+
+      await loadArticles();
+
+    } catch (err) {
+
+      console.error(
+        `Article ${action} error:`,
+        err
+      );
+
+      setError(
+        err.response?.data?.message ||
+        `Unable to ${action} article.`
+      );
+
+    } finally {
+
+      setActionLoading(null);
+    }
+  }
+
+  // ==================================================
+  // WORKFLOW ACTIONS
+  // ==================================================
+
+  function renderWorkflowActions(article) {
+
+    const status =
+      String(
+        article.status || "DRAFT"
+      ).toUpperCase();
+
+    const submitKey =
+      `${article.id}-submit`;
+
+    const approveKey =
+      `${article.id}-approve`;
+
+    const publishKey =
+      `${article.id}-publish`;
+
+    if (status === "DRAFT") {
+
+      return (
+        <button
+          type="button"
+          className="impilo-glass-btn"
+          onClick={() =>
+            runArticleAction(
+              article,
+              "submit"
+            )
+          }
+          disabled={
+            actionLoading !== null
+          }
+        >
+          {actionLoading === submitKey
+            ? "Submitting..."
+            : "Submit for Review"}
+        </button>
+      );
+    }
+
+    if (status === "IN_REVIEW") {
+
+      return (
+        <button
+          type="button"
+          className="impilo-glass-btn"
+          onClick={() =>
+            runArticleAction(
+              article,
+              "approve"
+            )
+          }
+          disabled={
+            actionLoading !== null
+          }
+        >
+          {actionLoading === approveKey
+            ? "Approving..."
+            : "Approve"}
+        </button>
+      );
+    }
+
+    if (status === "APPROVED") {
+
+      return (
+        <button
+          type="button"
+          className="impilo-glass-btn"
+          onClick={() =>
+            runArticleAction(
+              article,
+              "publish"
+            )
+          }
+          disabled={
+            actionLoading !== null
+          }
+        >
+          {actionLoading === publishKey
+            ? "Publishing..."
+            : "Publish"}
+        </button>
+      );
+    }
+
+    return null;
+  }
 
   // ==================================================
   // RENDER
   // ==================================================
 
   return (
-
     <main className="impilo-editorial-cms">
-
 
       {/* ==========================================
           HEADER
@@ -247,66 +352,73 @@ export default function EditorialCMS() {
 
         </div>
 
+<div
+  className="impilo-editorial-cms-actions"
+>
+  <button
+    type="button"
+    className="impilo-editorial-back-button"
+    onClick={goBack}
+  >
+    ← Back
+  </button>
 
-        <div className="impilo-editorial-cms-actions">
+  <button
+    type="button"
+    className="impilo-glass-btn"
+    onClick={onOpenInReview}
+  >
+    In Review
+  </button>
 
-          {/* BACK */}
-
-          <button
-            type="button"
-            className="impilo-editorial-back-button"
-            onClick={goBack}
-          >
-            ← Back
-          </button>
-
-
-          {/* NEW ARTICLE */}
-
-          <button
-            type="button"
-            className="impilo-glass-btn"
-            onClick={
-              createNewArticle
-            }
-          >
-            + New Article
-          </button>
-
-        </div>
+  <button
+    type="button"
+    className="impilo-glass-btn"
+    onClick={createNewArticle}
+  >
+    + New Article
+  </button>
+</div>
 
       </header>
 
+      {/* ==========================================
+          MESSAGE
+      ========================================== */}
+
+      {message && (
+        <div
+          className="impilo-editorial-message"
+          role="status"
+        >
+          ✓ {message}
+        </div>
+      )}
 
       {/* ==========================================
           ERROR
       ========================================== */}
 
       {error && (
-
         <div
           className="impilo-editorial-error"
+          role="alert"
         >
           {error}
         </div>
-
       )}
-
 
       {/* ==========================================
           LOADING
       ========================================== */}
 
       {loading && (
-
         <div
           className="impilo-editorial-loading"
         >
           Loading articles...
         </div>
-
       )}
-
 
       {/* ==========================================
           EMPTY
@@ -336,17 +448,13 @@ export default function EditorialCMS() {
             <button
               type="button"
               className="impilo-glass-btn"
-              onClick={
-                createNewArticle
-              }
+              onClick={createNewArticle}
             >
               Create First Article
             </button>
 
           </section>
-
         )}
-
 
       {/* ==========================================
           ARTICLE LIST
@@ -383,7 +491,6 @@ export default function EditorialCMS() {
 
             </div>
 
-
             {/* ARTICLES */}
 
             {articles.map(
@@ -393,7 +500,6 @@ export default function EditorialCMS() {
                   key={article.id}
                   className="impilo-article-row"
                 >
-
 
                   {/* ARTICLE */}
 
@@ -406,33 +512,21 @@ export default function EditorialCMS() {
                         "Untitled Article"}
                     </h2>
 
-
                     {article.slug && (
-
                       <p>
                         /{article.slug}
                       </p>
-
                     )}
 
-
                     {article.author && (
-
                       <small>
-
                         By{" "}
-
-                        {article.author
-                          .displayName ||
-                          article.author
-                            .username}
-
+                        {article.author.displayName ||
+                          article.author.username}
                       </small>
-
                     )}
 
                   </div>
-
 
                   {/* STATUS */}
 
@@ -447,23 +541,19 @@ export default function EditorialCMS() {
                         }`
                       }
                     >
-
                       {getStatusLabel(
                         article.status
                       )}
-
                     </span>
 
                   </div>
-
 
                   {/* WORD COUNT */}
 
                   <div>
 
                     <strong>
-                      {article.wordCount ??
-                        0}
+                      {article.wordCount ?? 0}
                     </strong>
 
                     <span>
@@ -472,10 +562,11 @@ export default function EditorialCMS() {
 
                   </div>
 
+                  {/* ACTIONS */}
 
-                  {/* ACTION */}
-
-                  <div>
+                  <div
+                    className="impilo-article-actions"
+                  >
 
                     <button
                       type="button"
@@ -485,23 +576,27 @@ export default function EditorialCMS() {
                           article
                         )
                       }
+                      disabled={
+                        actionLoading !== null
+                      }
                     >
                       Open
                     </button>
 
+                    {renderWorkflowActions(
+                      article
+                    )}
+
                   </div>
 
                 </article>
-
               )
             )}
 
           </section>
-
         )}
 
     </main>
-
   );
-
 }
+

@@ -584,21 +584,18 @@ export default function MagazineManagement() {
    * connected to MagazineIssue.
    */
 
-  function previewIssue(issue) {
-    if (!issue) {
-      return;
-    }
-
-    const identifier =
-      issue.slug ||
-      issue.id;
-
-    window.open(
-      `/magazine/${identifier}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+function previewIssue(issue) {
+  if (!issue?.id) {
+    setError("Unable to preview: magazine issue ID is missing.");
+    return;
   }
+
+  window.open(
+    `/read/${encodeURIComponent(issue.id)}?preview=1`,
+    "_blank",
+    "noopener,noreferrer"
+  );
+}
 
   /*
    * --------------------------------------------------

@@ -17439,3 +17439,2002 @@ backdrop-filter:
   font-size: 0.85rem;
   margin-left: 2px;
 }
+
+.impilo-in-review {
+  width: 100%;
+  min-height: 100%;
+  color: #fff;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.impilo-in-review-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.impilo-section-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #d4af37;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.impilo-in-review-header h1 {
+  margin: 0;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.impilo-in-review-header p {
+  margin: 8px 0 0;
+  color: #8f8f8f;
+  font-size: 14px;
+}
+
+.impilo-in-review-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.impilo-review-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.impilo-review-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.impilo-review-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.impilo-review-btn-secondary {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: #3a3a3a;
+  color: #d0d0d0;
+}
+
+.impilo-review-btn-secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #555;
+  color: #fff;
+}
+
+.impilo-review-btn-approve {
+  background: #d4af37;
+  border-color: #d4af37;
+  color: #050505;
+}
+
+.impilo-review-btn-approve:hover:not(:disabled) {
+  background: #e3c354;
+  border-color: #e3c354;
+}
+
+.impilo-review-btn-return {
+  background: transparent;
+  border-color: #513b3b;
+  color: #c8a0a0;
+}
+
+.impilo-review-btn-return:hover:not(:disabled) {
+  background: rgba(120, 40, 40, 0.15);
+  border-color: #704747;
+  color: #e0b0b0;
+}
+
+/* =========================================================
+   MESSAGES
+   ========================================================= */
+
+.impilo-review-message {
+  margin-bottom: 20px;
+  padding: 13px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.impilo-review-message-success {
+  border: 1px solid #285c38;
+  background: rgba(20, 80, 40, 0.18);
+  color: #72d890;
+}
+
+.impilo-review-message-error {
+  border: 1px solid #663333;
+  background: rgba(100, 30, 30, 0.18);
+  color: #e98585;
+}
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.impilo-review-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 180px;
+  color: #858585;
+  font-size: 14px;
+}
+
+.impilo-review-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #333;
+  border-top-color: #d4af37;
+  border-radius: 50%;
+  animation: impilo-review-spin 0.8s linear infinite;
+}
+
+@keyframes impilo-review-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.impilo-review-empty {
+  padding: 60px 24px;
+  border: 1px solid #292929;
+  border-radius: 12px;
+  background: #080808;
+  text-align: center;
+}
+
+.impilo-review-empty-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 18px;
+  border: 1px solid #555;
+  border-radius: 50%;
+  color: #d4af37;
+  font-size: 24px;
+}
+
+.impilo-review-empty h2 {
+  margin: 0;
+  color: #ddd;
+  font-size: 19px;
+}
+
+.impilo-review-empty p {
+  margin: 8px 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* =========================================================
+   QUEUE HEADER
+   ========================================================= */
+
+.impilo-review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.impilo-review-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 4px 8px;
+  color: #666;
+  font-size: 12px;
+}
+
+.impilo-review-list-header > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.impilo-review-list-header > div > span {
+  color: #777;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.impilo-review-list-header strong {
+  color: #d4af37;
+  font-size: 14px;
+}
+
+/* =========================================================
+   ARTICLE CARD
+   ========================================================= */
+
+.impilo-review-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 22px;
+  border: 1px solid #292929;
+  border-radius: 12px;
+  background: #080808;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.impilo-review-card:hover {
+  border-color: #414141;
+  background: #0c0c0c;
+}
+
+.impilo-review-card-main {
+  min-width: 0;
+  flex: 1;
+}
+
+.impilo-review-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.impilo-review-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border: 1px solid #66551c;
+  border-radius: 999px;
+  background: rgba(150, 120, 20, 0.12);
+  color: #d4af37;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.impilo-review-word-count {
+  color: #666;
+  font-size: 12px;
+}
+
+.impilo-review-card h2 {
+  margin: 0;
+  color: #f2f2f2;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.impilo-review-excerpt {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 8px 0 0;
+  color: #858585;
+  font-size: 13px;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.impilo-review-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 14px;
+  color: #606060;
+  font-size: 11px;
+}
+
+.impilo-review-details strong {
+  color: #777;
+  font-weight: 500;
+}
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.impilo-review-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .impilo-review-header {
+    flex-direction: column;
+  }
+
+  .impilo-review-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .impilo-review-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .impilo-in-review-header h1 {
+    font-size: 27px;
+  }
+
+  .impilo-in-review-header-actions {
+    width: 100%;
+  }
+
+  .impilo-review-header-actions {
+    width: 100%;
+  }
+
+  .impilo-review-btn {
+    padding: 9px 13px;
+  }
+
+  .impilo-review-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .impilo-review-actions .impilo-review-btn {
+    width: 100%;
+  }
+
+  .impilo-review-details {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+/* Add these classes to the same stylesheet as the CMS, or import this file once from EditorialWorkspace. */
+.impilo-editorial-preview-launcher {
+  margin: 18px 0 24px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border: 1px solid rgba(212,175,55,.28);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(212,175,55,.07), rgba(255,255,255,.025));
+  box-sizing: border-box;
+}
+.impilo-editorial-preview-launcher-kicker {
+  display: block;
+  margin-bottom: 5px;
+  color: #d4af37;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.impilo-editorial-preview-launcher strong { display:block; font-size:.88rem; }
+.impilo-editorial-preview-launcher small { display:block; margin-top:5px; color:rgba(255,255,255,.62); font-size:.68rem; line-height:1.45; }
+.impilo-editorial-preview-button,
+.impilo-preview-article-header-button {
+  border: 1px solid rgba(212,175,55,.65);
+  color: #fff;
+  background: linear-gradient(135deg, #171717, #0a0a0a);
+  border-radius: 999px;
+  padding: 11px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.impilo-editorial-preview-button:hover,
+.impilo-preview-article-header-button:hover { background:#232323; }
+@media (max-width: 700px) {
+  .impilo-editorial-preview-launcher { flex-direction:column; align-items:stretch; }
+  .impilo-editorial-preview-button { width:100%; }
+}
+.impilo-contents-list {
+  margin-top: 28px !important;
+  color: #555 !important;
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.72rem !important;
+  line-height: 1.65 !important;
+}
+
+/* ---------------------------------------------------------
+   ARTICLE PAGE — THE ACTUAL PageRenderer STRUCTURE
+   --------------------------------------------------------- */
+.impilo-magazine-page .editorial-article {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+
+  box-sizing: border-box !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  overflow: hidden !important;
+
+  background: #fff !important;
+  color: #161616 !important;
+}
+
+/* Do not let PageRenderer's inline max-height create a short page. */
+.impilo-magazine-page .editorial-article[style] {
+  max-height: none !important;
+  height: 100% !important;
+  overflow-y: auto !important;
+}
+
+/* Article header */
+.impilo-magazine-page .impilo-article-header {
+  margin: 0 !important;
+  padding: 34px 36px 18px !important;
+  box-sizing: border-box !important;
+}
+
+.impilo-magazine-page .impilo-article-title {
+  margin: 0 !important;
+  max-width: 94% !important;
+
+  font-family: "Playfair Display", Georgia, serif !important;
+  font-size: clamp(1.65rem, 3.2vw, 2.65rem) !important;
+  font-weight: 700 !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.025em !important;
+
+  color: #111 !important;
+}
+
+.impilo-magazine-page .impilo-article-subtitle {
+  margin: 12px 0 0 !important;
+  max-width: 88% !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.72rem !important;
+  line-height: 1.55 !important;
+
+  color: #666 !important;
+}
+
+.impilo-magazine-page .impilo-article-author {
+  margin: 12px 0 0 !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.6rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+
+  color: #a07b1b !important;
+}
+
+.impilo-magazine-page .impilo-article-continued {
+  padding-top: 3px !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.62rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+
+  color: #a07b1b !important;
+}
+
+/* Article body */
+.impilo-magazine-page .impilo-editorial-layout {
+  box-sizing: border-box !important;
+
+  width: 100% !important;
+
+  padding: 0 36px 34px !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  color: #292929 !important;
+}
+
+.impilo-magazine-page .impilo-editorial-paragraph {
+  margin: 0 0 12px !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.68rem !important;
+  line-height: 1.65 !important;
+
+  color: #292929 !important;
+}
+
+.impilo-magazine-page .impilo-editorial-heading {
+  margin: 18px 0 10px !important;
+
+  font-family: "Playfair Display", Georgia, serif !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+
+  color: #111 !important;
+}
+
+/* Article media */
+.impilo-magazine-page .impilo-editorial-visual {
+  width: 100% !important;
+  margin: 16px 0 !important;
+}
+
+.impilo-magazine-page .impilo-editorial-image img {
+  display: block !important;
+  width: 100% !important;
+  max-height: 270px !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 0 !important;
+}
+
+.impilo-magazine-page .impilo-editorial-visual figcaption {
+  margin-top: 6px !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.56rem !important;
+  line-height: 1.4 !important;
+  color: #666 !important;
+}
+
+.impilo-magazine-page .impilo-media-credit {
+  display: block !important;
+  margin-top: 3px !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.5rem !important;
+  color: #888 !important;
+}
+
+.impilo-magazine-page .impilo-video-frame {
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  overflow: hidden !important;
+  background: #111 !important;
+}
+
+.impilo-magazine-page .impilo-video-frame iframe {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  border: 0 !important;
+}
+
+/* ---------------------------------------------------------
+   BOTTOM NAVIGATION
+   Stable position BELOW the book, never over artwork.
+   --------------------------------------------------------- */
+.impilo-reader-controls {
+  position: relative !important;
+  z-index: 50 !important;
+
+  width: 100% !important;
+  min-height: 38px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+
+  box-sizing: border-box !important;
+
+  margin: 8px auto 0 !important;
+  padding: 0 !important;
+}
+
+.impilo-reader .impilo-reader-controls .impilo-glass-btn {
+  position: relative !important;
+
+  min-width: 112px !important;
+  min-height: 34px !important;
+
+  box-sizing: border-box !important;
+  padding: 8px 17px !important;
+
+  border: 1px solid rgba(212, 175, 55, 0.48) !important;
+  border-radius: 999px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.035)
+    ) !important;
+
+  color: rgba(255, 255, 255, 0.88) !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+
+  backdrop-filter: blur(14px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 8px 25px rgba(0,0,0,.25) !important;
+}
+
+.impilo-reader .impilo-reader-controls .impilo-glass-btn:hover:not(:disabled) {
+  border-color: rgba(212, 175, 55, 0.9) !important;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(212, 175, 55, 0.20),
+      rgba(255, 255, 255, 0.07)
+    ) !important;
+  color: #fff !important;
+  transform: translateY(-1px) !important;
+}
+
+.impilo-reader .impilo-reader-controls .impilo-glass-btn:disabled {
+  opacity: 0.22 !important;
+  cursor: not-allowed !important;
+}
+
+/* ---------------------------------------------------------
+   REMOVE OLD FLOATING / ABSOLUTE READER BUTTON BEHAVIOUR
+   --------------------------------------------------------- */
+.impilo-reader .button-wrapper,
+.impilo-reader .bubble-button,
+.impilo-reader .swipe-indicator {
+  position: static !important;
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE READER
+   --------------------------------------------------------- */
+@media (max-width: 768px) {
+  .impilo-reader {
+    padding: 6px 7px 18px !important;
+  }
+
+  .impilo-reader-header {
+    min-height: 22px !important;
+    margin-bottom: 3px !important;
+  }
+
+  .impilo-reader-header h1 {
+    font-size: 0.62rem !important;
+    letter-spacing: 0.18em !important;
+  }
+
+  .impilo-reader-progress {
+    margin-top: 3px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .impilo-reader-counter {
+    margin-bottom: 4px !important;
+    padding: 4px 9px !important;
+    font-size: 0.6rem !important;
+  }
+
+  .impilo-reader-book {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .impilo-magazine-page .impilo-page-highlights,
+  .impilo-magazine-page .impilo-page-about,
+  .impilo-magazine-page .impilo-page-contents {
+    padding: 28px 24px !important;
+  }
+
+  .impilo-magazine-page .impilo-article-header {
+    padding: 26px 24px 14px !important;
+  }
+
+  .impilo-magazine-page .impilo-editorial-layout {
+    padding: 0 24px 26px !important;
+  }
+
+  .impilo-magazine-page .impilo-article-title {
+    font-size: clamp(1.35rem, 5vw, 2rem) !important;
+  }
+
+  .impilo-magazine-page .impilo-editorial-paragraph {
+    font-size: 0.64rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .impilo-reader-controls {
+    gap: 8px !important;
+    margin-top: 6px !important;
+  }
+
+  .impilo-reader .impilo-reader-controls .impilo-glass-btn {
+    min-width: 96px !important;
+    min-height: 32px !important;
+    padding: 7px 13px !important;
+    font-size: 0.61rem !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .impilo-reader {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+
+  .impilo-reader-header h1 {
+    font-size: 0.56rem !important;
+  }
+
+  .impilo-reader-counter {
+    font-size: 0.56rem !important;
+    padding: 4px 8px !important;
+  }
+
+  .impilo-magazine-page .impilo-page-highlights,
+  .impilo-magazine-page .impilo-page-about,
+  .impilo-magazine-page .impilo-page-contents {
+    padding: 22px 18px !important;
+  }
+
+  .impilo-magazine-page .impilo-article-header {
+    padding: 22px 18px 12px !important;
+  }
+
+  .impilo-magazine-page .impilo-editorial-layout {
+    padding: 0 18px 22px !important;
+  }
+
+  .impilo-reader-controls {
+    width: 100% !important;
+    padding: 0 4px !important;
+  }
+
+  .impilo-reader .impilo-reader-controls .impilo-glass-btn {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    max-width: 150px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .impilo-reader-progress-fill::after {
+    animation: none !important;
+  }
+
+  .impilo-reader .impilo-reader-controls .impilo-glass-btn {
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   IMPILO EDITORIAL MAGAZINE DESIGNER
+   Structured white-page preview for CMS templates
+   ========================================================= */
+
+.impilo-design-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.impilo-design-panel-heading span,
+.impilo-theme-panel-heading span {
+  display: block;
+  margin-bottom: 5px;
+  color: #d4af37;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.impilo-design-panel-heading h2 {
+  margin: 0;
+  color: #f7f7f7;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.impilo-design-panel-copy {
+  margin: 0;
+  color: #929292;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.68rem;
+  line-height: 1.65;
+}
+
+.impilo-template-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px !important;
+}
+
+.impilo-template-grid button {
+  position: relative;
+  min-height: 118px;
+  padding: 13px !important;
+  overflow: hidden;
+}
+
+.impilo-template-grid button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.08),
+    transparent 55%
+  );
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.impilo-template-grid button:hover::before,
+.impilo-template-grid button.is-selected::before {
+  opacity: 1;
+}
+
+.impilo-template-grid button.is-selected {
+  border-color: rgba(212, 175, 55, 0.8);
+  background: rgba(212, 175, 55, 0.075);
+  box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.08);
+}
+
+.impilo-template-number {
+  display: block;
+  width: max-content;
+  margin-bottom: 9px;
+  padding: 3px 6px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 999px;
+  color: #a58216 !important;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.53rem !important;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.impilo-template-grid strong {
+  font-size: 0.68rem !important;
+}
+
+.impilo-template-grid small {
+  display: block;
+  margin-top: 6px;
+  color: #8f8f8f;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.58rem;
+  line-height: 1.45;
+}
+
+.impilo-theme-panel {
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.impilo-theme-panel-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.impilo-theme-panel-heading strong {
+  color: #f7f7f7;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.impilo-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.impilo-theme-grid button {
+  min-width: 0;
+  padding: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.018);
+  color: #c8c8c8;
+  cursor: pointer;
+}
+
+.impilo-theme-grid button.is-selected {
+  border-color: rgba(212, 175, 55, 0.75);
+  background: rgba(212, 175, 55, 0.06);
+  color: #f7f7f7;
+}
+
+.impilo-theme-swatch {
+  display: block;
+  width: 100%;
+  height: 22px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.impilo-theme-grid button > span:last-child {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.52rem;
+}
+
+/* =========================================================
+   LIVE MAGAZINE PREVIEW
+   ========================================================= */
+
+.impilo-magazine-preview {
+  --preview-accent: #a58216;
+  --preview-accent-strong: #d4af37;
+  --preview-surface: #f7f3ee;
+  --preview-soft: #f1eee8;
+  --preview-ink: #161616;
+  --preview-muted: #666;
+  width: 100%;
+  margin-bottom: 24px;
+  padding: 14px;
+  box-sizing: border-box;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 8% 5%, rgba(212, 175, 55, 0.09), transparent 26%),
+    #0c0c0c;
+}
+
+.impilo-magazine-preview-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 0 13px;
+  padding: 0 3px 4px;
+  color: #999;
+  font-family: "Montserrat", Arial, sans-serif;
+}
+
+.impilo-magazine-preview-toolbar div {
+  min-width: 0;
+}
+
+.impilo-magazine-preview-toolbar span {
+  display: block;
+  color: var(--preview-accent-strong);
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.impilo-magazine-preview-toolbar strong {
+  display: block;
+  margin-top: 3px;
+  color: #f5f5f5;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.impilo-magazine-preview-toolbar small {
+  flex-shrink: 0;
+  color: #777;
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+}
+
+.impilo-preview-paper {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 34px;
+  border: 1px solid rgba(196, 160, 17, 0.52);
+  background: #fff;
+  color: var(--preview-ink);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
+}
+
+.impilo-preview-paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.025), transparent 10%, transparent 90%, rgba(0, 0, 0, 0.018)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.8), transparent 20%, transparent 80%, rgba(0, 0, 0, 0.02));
+}
+
+.impilo-preview-header,
+.impilo-preview-lead-grid,
+.impilo-preview-profile-lead,
+.impilo-preview-columns,
+.impilo-preview-portfolio-intro,
+.impilo-preview-portfolio-grid,
+.impilo-preview-media-band,
+.impilo-preview-pullquote,
+.impilo-preview-section-heading,
+.impilo-preview-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.impilo-preview-kicker,
+.impilo-preview-section-label {
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.5rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--preview-accent);
+}
+
+.impilo-preview-header h1 {
+  max-width: 92%;
+  margin: 7px 0 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 3.1rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: #111;
+}
+
+.impilo-preview-deck {
+  max-width: 80%;
+  margin: 11px 0 0;
+  color: #666;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.68rem;
+  line-height: 1.55;
+}
+
+.impilo-preview-rule {
+  width: 100%;
+  height: 2px;
+  margin-top: 18px;
+  background: linear-gradient(90deg, var(--preview-accent-strong), transparent 72%);
+}
+
+.impilo-preview-lead-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 24px;
+  margin-top: 22px;
+}
+
+.impilo-preview-hero-wrap {
+  position: relative;
+  min-width: 0;
+}
+
+.impilo-preview-vertical-label {
+  position: absolute;
+  right: -6px;
+  top: 52%;
+  transform: translateY(-50%) rotate(90deg);
+  color: var(--preview-accent);
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.46rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.impilo-preview-lead-copy {
+  padding: 6px 0 0;
+}
+
+.impilo-preview-lead-copy p,
+.impilo-preview-profile-copy p,
+.impilo-preview-columns p,
+.impilo-preview-portfolio-intro p {
+  margin: 0 0 10px;
+  color: #2f2f2f;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.63rem;
+  line-height: 1.68;
+}
+
+.impilo-preview-lead-copy .impilo-preview-section-label {
+  display: block;
+  margin-bottom: 9px;
+}
+
+.impilo-preview-image,
+.impilo-preview-image.hero,
+.impilo-preview-image.inline {
+  margin: 0;
+}
+
+.impilo-preview-image img,
+.impilo-preview-video video {
+  display: block;
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.impilo-preview-image.hero img {
+  min-height: 220px;
+}
+
+.impilo-preview-image figcaption {
+  margin-top: 5px;
+  color: #777;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.45rem;
+  line-height: 1.4;
+}
+
+.impilo-preview-media-placeholder,
+.impilo-preview-gallery-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 170px;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  background:
+    linear-gradient(135deg, var(--preview-surface), #fff);
+  color: var(--preview-accent);
+  text-align: center;
+}
+
+.impilo-preview-media-placeholder span,
+.impilo-preview-gallery-placeholder {
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.5rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.impilo-preview-media-placeholder small {
+  margin-top: 6px;
+  color: #888;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.46rem;
+}
+
+.impilo-preview-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.impilo-preview-columns > section {
+  min-width: 0;
+}
+
+.impilo-preview-accent-panel {
+  padding: 15px;
+  border-left: 4px solid var(--preview-accent-strong);
+  background: var(--preview-surface);
+}
+
+.impilo-preview-accent-panel strong {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--preview-accent);
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.5rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.impilo-preview-accent-panel p {
+  color: var(--preview-ink);
+}
+
+.impilo-preview-pullquote {
+  margin: 22px 0 0;
+  padding: 18px 24px;
+  border-left: 3px solid var(--preview-accent-strong);
+  background: linear-gradient(90deg, var(--preview-surface), rgba(255, 255, 255, 0));
+  color: #222;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  line-height: 1.35;
+}
+
+.impilo-preview-pullquote span {
+  margin-right: 4px;
+  color: var(--preview-accent-strong);
+  font-size: 2.3rem;
+  line-height: 0;
+  vertical-align: -0.38em;
+}
+
+.impilo-preview-section-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 25px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.impilo-preview-section-heading span {
+  color: var(--preview-accent);
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.48rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.impilo-preview-section-heading h2 {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.15rem;
+  line-height: 1.1;
+}
+
+.impilo-preview-inline,
+.impilo-preview-image.inline {
+  margin-top: 20px;
+}
+
+.impilo-preview-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 24px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.11);
+  color: #777;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.45rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.impilo-preview-profile-lead {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: 24px;
+  margin-top: 22px;
+}
+
+.impilo-preview-profile-copy h2 {
+  margin: 5px 0 10px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.3rem;
+  line-height: 1.05;
+}
+
+.impilo-preview-profile-copy > span {
+  color: var(--preview-accent);
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.48rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.impilo-preview-media-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 16px;
+  padding: 10px 12px;
+  background: var(--preview-soft);
+  border-top: 2px solid var(--preview-accent-strong);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.impilo-preview-media-band strong {
+  color: var(--preview-accent);
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.48rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.impilo-preview-media-band span {
+  color: #666;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.52rem;
+}
+
+.impilo-preview-portfolio-intro {
+  margin-top: 20px;
+}
+
+.impilo-preview-portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 16px;
+}
+
+.impilo-preview-portfolio-grid .impilo-preview-image img {
+  height: 190px;
+  max-height: none;
+}
+
+.impilo-preview-audio {
+  padding: 15px;
+  background: var(--preview-surface);
+}
+
+.impilo-preview-audio audio {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .impilo-template-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .impilo-theme-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .impilo-preview-lead-grid,
+  .impilo-preview-profile-lead,
+  .impilo-preview-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .impilo-preview-vertical-label {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .impilo-magazine-preview {
+    padding: 8px;
+  }
+
+  .impilo-preview-paper {
+    padding: 22px 18px;
+  }
+
+  .impilo-magazine-preview-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .impilo-theme-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .impilo-preview-header h1 {
+    max-width: 100%;
+  }
+
+  .impilo-preview-deck {
+    max-width: 100%;
+  }
+}
+
+/* ============================================================
+   IMPILO EDITORIAL LUXE — EDITOR TOOLBOX SKIN
+   Safe additive patch. Load after the existing CMS stylesheet.
+   Targets only template/theme controls and the preview launcher.
+   ============================================================ */
+.impilo-template-list.impilo-template-grid {
+  max-height:430px !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding:7px 7px 10px 3px !important;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(212,175,55,.72) rgba(255,255,255,.04);
+}
+.impilo-template-list.impilo-template-grid::-webkit-scrollbar { width:6px; }
+.impilo-template-list.impilo-template-grid::-webkit-scrollbar-track { background:rgba(255,255,255,.035); border-radius:99px; }
+.impilo-template-list.impilo-template-grid::-webkit-scrollbar-thumb { background:linear-gradient(#d4af37,#7a5b08); border-radius:99px; }
+
+.impilo-template-list.impilo-template-grid button {
+  position:relative;
+  min-height:104px;
+  padding:14px 12px 14px 86px !important;
+  border:1px solid rgba(255,255,255,.09) !important;
+  border-radius:14px !important;
+  background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.012)) !important;
+  overflow:visible !important;
+  isolation:isolate;
+  box-shadow:0 10px 24px rgba(0,0,0,.12);
+}
+.impilo-template-list.impilo-template-grid button::before {
+  content:"";
+  position:absolute;
+  left:14px;
+  top:15px;
+  width:52px;
+  height:72px;
+  border:1px solid rgba(255,255,255,.18);
+  background:
+    linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.02)),
+    linear-gradient(180deg,var(--card-accent,#d4af37) 0 11px,transparent 11px 100%);
+  box-shadow:8px 8px 0 rgba(0,0,0,.22),inset 0 0 0 1px rgba(0,0,0,.12);
+  z-index:-1;
+}
+.impilo-template-list.impilo-template-grid button::after {
+  content:"";
+  position:absolute;
+  left:8px;
+  top:22px;
+  width:42px;
+  height:15px;
+  background:linear-gradient(90deg,var(--card-accent-strong,#d4af37),var(--card-accent,#d4af37));
+  transform:rotate(-7deg);
+  box-shadow:0 5px 10px rgba(0,0,0,.18);
+  z-index:2;
+}
+.impilo-template-list.impilo-template-grid button:hover {
+  transform:translateY(-2px) !important;
+  border-color:rgba(212,175,55,.46) !important;
+  box-shadow:0 14px 30px rgba(0,0,0,.18);
+}
+.impilo-template-list.impilo-template-grid button.is-selected {
+  border-color:var(--card-accent,#d4af37) !important;
+  background:linear-gradient(145deg,rgba(212,175,55,.11),rgba(255,255,255,.03)) !important;
+  box-shadow:0 14px 34px rgba(0,0,0,.2),0 0 0 1px color-mix(in srgb,var(--card-accent,#d4af37) 32%,transparent);
+}
+.impilo-template-list.impilo-template-grid button:nth-child(1) { --card-accent:#d4af37;--card-accent-strong:#a58216; }
+.impilo-template-list.impilo-template-grid button:nth-child(2) { --card-accent:#5b2b82;--card-accent-strong:#341147; }
+.impilo-template-list.impilo-template-grid button:nth-child(3) { --card-accent:#ff7a18;--card-accent-strong:#c95b00; }
+.impilo-template-list.impilo-template-grid button:nth-child(4) { --card-accent:#0b2a55;--card-accent-strong:#020b1a; }
+.impilo-template-list.impilo-template-grid button:nth-child(5) { --card-accent:#7a0c0c;--card-accent-strong:#4e0707; }
+.impilo-template-list.impilo-template-grid button:nth-child(6) { --card-accent:#008c5b;--card-accent-strong:#062e2a; }
+.impilo-template-list.impilo-template-grid .impilo-template-number {
+  position:absolute !important;
+  right:11px;
+  top:9px;
+  margin:0 !important;
+  color:rgba(255,255,255,.38) !important;
+  font-size:.48rem !important;
+  letter-spacing:.18em;
+  font-weight:800;
+}
+.impilo-template-list.impilo-template-grid strong {
+  position:relative;
+  z-index:3;
+  margin:4px 28px 4px 0 !important;
+  color:#f2ead8 !important;
+  font-family:Playfair Display,Didot,Georgia,serif !important;
+  font-size:.93rem !important;
+  line-height:1.05;
+  letter-spacing:-.01em;
+}
+.impilo-template-list.impilo-template-grid small {
+  position:relative;
+  z-index:3;
+  display:block;
+  max-width:205px;
+  color:rgba(255,255,255,.56) !important;
+  font-family:Montserrat,Arial,sans-serif;
+  font-size:.57rem;
+  line-height:1.48;
+}
+
+.impilo-theme-grid {
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px !important;
+}
+.impilo-theme-grid button {
+  position:relative;
+  min-height:54px;
+  display:flex !important;
+  align-items:center;
+  gap:8px;
+  padding:7px 8px !important;
+  border-radius:10px !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  background:rgba(255,255,255,.02) !important;
+  color:#ddd !important;
+}
+.impilo-theme-grid button.is-selected { border-color:#d4af37 !important; box-shadow:inset 0 0 0 1px rgba(212,175,55,.18); }
+.impilo-theme-grid button:hover { transform:translateY(-1px); border-color:rgba(212,175,55,.42) !important; }
+.impilo-theme-grid .impilo-theme-swatch {
+  position:relative;
+  width:29px !important;
+  height:29px !important;
+  flex:0 0 29px;
+  border-radius:50% !important;
+  box-shadow:0 0 0 1px rgba(255,255,255,.18),inset 3px 3px 8px rgba(255,255,255,.18);
+}
+.impilo-theme-grid span:last-child {
+  font-size:.53rem !important;
+  line-height:1.18;
+}
+
+.impilo-design-panel {
+  position:relative;
+  margin-top:18px;
+  padding:14px 0 0;
+}
+.impilo-design-panel::before {
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:52px;
+  height:2px;
+  background:linear-gradient(90deg,#d4af37,#5b2b82);
+}
+.impilo-design-panel-heading h2 { font-family:Playfair Display,Didot,Georgia,serif !important; font-size:1.15rem !important; letter-spacing:-.02em; }
+.impilo-design-panel-copy { color:rgba(255,255,255,.52) !important; font-size:.61rem !important; line-height:1.55 !important; }
+
+@media (max-width:900px) {
+  .impilo-template-list.impilo-template-grid { max-height:360px !important; }
+}
+@media (max-width:560px) {
+  .impilo-template-list.impilo-template-grid { max-height:330px !important; }
+  .impilo-theme-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+/* ============================================================
+   IMPILO ART-DIRECTED V2 — CMS TOOLBOX
+   Additive only. Loaded after the existing Luxe skin.
+   ============================================================ */
+
+.impilo-design-panel {
+  position:relative;
+}
+
+.impilo-design-panel-heading {
+  position:relative;
+  padding-left:14px;
+}
+
+.impilo-design-panel-heading::before {
+  content:"";
+  position:absolute;
+  left:0;
+  top:4px;
+  width:3px;
+  height:34px;
+  background:linear-gradient(#d4af37,#5b2b82);
+}
+
+.impilo-template-list.impilo-template-grid button {
+  min-height:118px;
+  background:
+    radial-gradient(circle at 92% 12%, rgba(212,175,55,.10), transparent 30%),
+    linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.012)) !important;
+}
+
+.impilo-template-list.impilo-template-grid button:nth-child(1) { --card-accent:#d4af37; }
+.impilo-template-list.impilo-template-grid button:nth-child(2) { --card-accent:#5b2b82; }
+.impilo-template-list.impilo-template-grid button:nth-child(3) { --card-accent:#d6e84e; --card-accent-strong:#697d16; }
+.impilo-template-list.impilo-template-grid button:nth-child(4) { --card-accent:#0b2a55; }
+.impilo-template-list.impilo-template-grid button:nth-child(5) { --card-accent:#7a0c0c; }
+.impilo-template-list.impilo-template-grid button:nth-child(6) { --card-accent:#008c5b; }
+
+.impilo-template-list.impilo-template-grid button::before {
+  width:56px;
+  height:80px;
+  top:17px;
+  left:14px;
+  background:
+    linear-gradient(160deg, rgba(255,255,255,.12), rgba(255,255,255,.018)),
+    linear-gradient(180deg, var(--card-accent,#d4af37) 0 9px, transparent 9px 100%),
+    linear-gradient(135deg, transparent 0 54%, rgba(255,255,255,.10) 54% 58%, transparent 58% 100%);
+}
+
+.impilo-template-list.impilo-template-grid button::after {
+  left:7px;
+  top:25px;
+  width:46px;
+  height:16px;
+  background:linear-gradient(90deg,var(--card-accent-strong,#a58216),var(--card-accent,#d4af37));
+}
+
+.impilo-template-list.impilo-template-grid button strong {
+  font-size:1rem !important;
+}
+
+.impilo-template-list.impilo-template-grid button small {
+  line-height:1.55;
+}
+
+.impilo-theme-panel {
+  margin-top:18px;
+  padding-top:15px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+
+.impilo-theme-panel-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.impilo-theme-panel-heading span {
+  font-size:.47rem;
+  letter-spacing:.19em;
+  color:rgba(255,255,255,.42);
+  font-weight:800;
+}
+
+.impilo-theme-panel-heading strong {
+  font-family:Playfair Display,Didot,Georgia,serif;
+  font-size:.8rem;
+  color:#eadbb3;
+}
+/* IMPILO Editorial Workspace V4 controls - isolated additive styles */
+.impilo-editorial-actions {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.impilo-editorial-secondary-action,
+.impilo-editorial-discard-action {
+  min-height:42px;
+  padding:10px 14px;
+  border-radius:10px;
+  font:inherit;
+  font-size:.72rem;
+  font-weight:800;
+  letter-spacing:.04em;
+  cursor:pointer;
+}
+
+.impilo-editorial-secondary-action {
+  border:1px solid rgba(212,175,55,.36);
+  background:rgba(255,255,255,.035);
+  color:#f3ead1;
+}
+
+.impilo-editorial-secondary-action:hover {
+  border-color:rgba(212,175,55,.75);
+  background:rgba(212,175,55,.08);
+}
+
+.impilo-editorial-discard-action {
+  border:1px solid rgba(180,74,74,.42);
+  background:rgba(120,24,24,.08);
+  color:#efb4b4;
+}
+
+.impilo-editorial-discard-action:not(:disabled):hover {
+  border-color:rgba(220,100,100,.72);
+  background:rgba(120,24,24,.16);
+}
+
+.impilo-editorial-discard-action:disabled {
+  opacity:.38;
+  cursor:not-allowed;
+}
+
+.impilo-unsaved-indicator {
+  display:inline-flex;
+  align-items:center;
+  min-height:22px;
+  padding:0 8px;
+  border:1px solid rgba(212,175,55,.34);
+  border-radius:999px;
+  color:#d4af37;
+  background:rgba(212,175,55,.08);
+  font-size:.48rem;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+
+.impilo-block-header-actions {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.impilo-block-type-control {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin:0;
+}
+
+.impilo-block-type-control span {
+  color:rgba(255,255,255,.48);
+  font-size:.48rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.impilo-block-type-control select {
+  min-width:150px;
+  height:32px;
+  padding:0 28px 0 10px;
+  border:1px solid rgba(212,175,55,.22);
+  border-radius:7px;
+  background:#111;
+  color:#f6f0df;
+  font:inherit;
+  font-size:.62rem;
+  outline:none;
+}
+
+.impilo-block-type-control select:focus {
+  border-color:rgba(212,175,55,.7);
+  box-shadow:0 0 0 2px rgba(212,175,55,.08);
+}
+
+.impilo-footnote-tool-button {
+  border-color:rgba(212,175,55,.32) !important;
+  background:rgba(212,175,55,.055) !important;
+}
+
+.impilo-footnote-tool-note {
+  margin:6px 2px 0;
+  color:rgba(255,255,255,.38);
+  font-size:.53rem;
+  line-height:1.45;
+}
+
+.impilo-footnote-fields {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:10px;
+}
+
+.impilo-footnote-fields label {
+  display:block;
+  color:rgba(255,255,255,.5);
+  font-size:.5rem;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.impilo-footnote-fields input {
+  display:block;
+  width:100%;
+  box-sizing:border-box;
+  margin-top:6px;
+  min-height:38px;
+  padding:9px 10px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:7px;
+  background:#0d0d0d;
+  color:#f5f5f5;
+  font:inherit;
+  font-size:.65rem;
+}
+
+.impilo-footnote-fields input:focus {
+  outline:none;
+  border-color:rgba(212,175,55,.55);
+}
+
+@media (max-width:720px) {
+  .impilo-editorial-actions {
+    justify-content:flex-start;
+  }
+
+  .impilo-block-header-actions {
+    width:100%;
+  }
+
+  .impilo-block-type-control {
+    width:100%;
+  }
+
+  .impilo-block-type-control select {
+    flex:1;
+    min-width:0;
+  }
+
+  .impilo-footnote-fields {
+    grid-template-columns:1fr;
+  }
+}
+/* ============================================================
+   IMPILO TEMPLATE CARDS V3 — SIDEBAR FIX
+   Additive override only. Load this AFTER the existing
+   impilo-index-final.css / Luxe / Art-Directed CSS.
+
+   Purpose:
+   - Prevent the template cards from becoming two ultra-narrow columns.
+   - Keep cards readable in the left CMS toolbox.
+   - Preserve vertical scrolling.
+   - Leave the article canvas, themes, API and public magazine untouched.
+   ============================================================ */
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-auto-flow: row !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  max-height: 390px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 6px 7px 10px 3px !important;
+  box-sizing: border-box !important;
+  overscroll-behavior: contain;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid::-webkit-scrollbar-track {
+  background: rgba(255,255,255,.035);
+  border-radius: 999px;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(212,175,55,.78), rgba(91,43,130,.78));
+  border-radius: 999px;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 104px !important;
+  height: 104px !important;
+  box-sizing: border-box !important;
+  padding: 14px 42px 13px 84px !important;
+  margin: 0 !important;
+  text-align: left !important;
+  white-space: normal !important;
+  overflow: hidden !important;
+  border-radius: 14px !important;
+}
+
+/* Keep the paper/card thumbnail entirely inside the card. */
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button::before {
+  left: 14px !important;
+  top: 15px !important;
+  width: 54px !important;
+  height: 72px !important;
+}
+
+/* Ribbon stays attached to the paper thumbnail rather than crossing the text. */
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button::after {
+  left: 7px !important;
+  top: 23px !important;
+  width: 46px !important;
+  height: 15px !important;
+  transform: rotate(-7deg) !important;
+  transform-origin: center !important;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button .impilo-template-number {
+  position: absolute !important;
+  top: 10px !important;
+  right: 11px !important;
+  margin: 0 !important;
+  z-index: 5 !important;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button strong {
+  display: block !important;
+  position: relative !important;
+  z-index: 4 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 4px 0 5px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: normal !important;
+  color: #f2ead8 !important;
+  font-family: Playfair Display, Didot, Georgia, serif !important;
+  font-size: .94rem !important;
+  line-height: 1.06 !important;
+  letter-spacing: -.01em !important;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button small {
+  display: block !important;
+  position: relative !important;
+  z-index: 4 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: rgba(255,255,255,.56) !important;
+  font-family: Montserrat, Arial, sans-serif !important;
+  font-size: .55rem !important;
+  line-height: 1.45 !important;
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 3 !important;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button:hover {
+  transform: translateY(-2px) !important;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button.is-selected {
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.18),
+    inset 0 0 0 1px rgba(212,175,55,.16) !important;
+}
+
+/* Narrow sidebars still get one readable card per row. */
+@media (max-width: 900px) {
+  .impilo-design-panel .impilo-template-list.impilo-template-grid {
+    max-height: 340px !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .impilo-design-panel .impilo-template-list.impilo-template-grid {
+    max-height: 300px !important;
+  }
+
+  .impilo-design-panel .impilo-template-list.impilo-template-grid > button {
+    min-height: 98px !important;
+    height: 98px !important;
+    padding-left: 78px !important;
+  }
+
+  .impilo-design-panel .impilo-template-list.impilo-template-grid > button::before {
+    width: 50px !important;
+    height: 68px !important;
+  }
+
+  .impilo-design-panel .impilo-template-list.impilo-template-grid > button strong {
+    font-size: .88rem !important;
+  }
+}

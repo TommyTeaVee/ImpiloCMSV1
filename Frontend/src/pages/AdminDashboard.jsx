@@ -9,15 +9,21 @@ import {
 
 import api from "../services/api";
 
-import EditorialCMS from "./EditorialCMS.jsx";
+import EditorialCMS
+  from "./EditorialCMS.jsx";
 
 import UserManagement
   from "../components/editorial/UserManagement.jsx";
 
-import AdminMedia from "../components/editorial/AdminMedia.jsx";
+import AdminMedia
+  from "../components/editorial/AdminMedia.jsx";
 
 import MagazineManagement
   from "../components/editorial/MagazineManagement.jsx";
+
+import InReviewArticles
+  from "../pages/InReviewArticle";
+
 export default function AdminDashboard() {
 
   const navigate = useNavigate();
@@ -63,7 +69,6 @@ export default function AdminDashboard() {
             "/auth/me"
           );
 
-
         const currentUser =
           response.data?.user;
 
@@ -95,6 +100,7 @@ export default function AdminDashboard() {
           );
 
           return;
+
         }
 
 
@@ -392,7 +398,64 @@ export default function AdminDashboard() {
             </div>
 
 
-            <EditorialCMS />
+            <EditorialCMS
+              onOpenInReview={() =>
+                selectTab(
+                  "in-review"
+                )
+              }
+            />
+
+          </section>
+
+        );
+
+
+      // ==============================================
+      // IN REVIEW
+      // ==============================================
+
+      case "in-review":
+
+        return (
+
+          <section
+            className="impilo-admin-module"
+          >
+
+            <div
+              className="impilo-admin-module-header"
+            >
+
+              <div>
+
+                <span>
+                  EDITORIAL
+                </span>
+
+                <h2>
+                  In Review
+                </h2>
+
+              </div>
+
+
+              <button
+                type="button"
+                className="impilo-admin-back-module"
+                onClick={() =>
+                  selectTab(
+                    "editorial"
+                  )
+                }
+              >
+                ← Articles
+              </button>
+
+            </div>
+
+
+            <InReviewArticles />
 
           </section>
 
@@ -453,91 +516,53 @@ export default function AdminDashboard() {
       // ==============================================
       // MEDIA
       // ==============================================
-case "media":
 
-  return (
+      case "media":
 
-    <section
-      className="impilo-admin-module"
-    >
+        return (
 
-      <div
-        className="impilo-admin-module-header"
-      >
+          <section
+            className="impilo-admin-module"
+          >
 
-        <div>
+            <div
+              className="impilo-admin-module-header"
+            >
 
-          <span>
-            IMPILO MEDIA
-          </span>
+              <div>
 
-          <h2>
-            Media Management
-          </h2>
+                <span>
+                  IMPILO MEDIA
+                </span>
 
-        </div>
+                <h2>
+                  Media Management
+                </h2>
 
-
-        <button
-          type="button"
-          className="impilo-admin-back-module"
-          onClick={() =>
-            selectTab("overview")
-          }
-        >
-          ← Overview
-        </button>
-
-      </div>
+              </div>
 
 
-      <AdminMedia />
+              <button
+                type="button"
+                className="impilo-admin-back-module"
+                onClick={() =>
+                  selectTab(
+                    "overview"
+                  )
+                }
+              >
+                ← Overview
+              </button>
 
-    </section>
-
-  );
-
-  return (
-
-    <section
-      className="impilo-admin-module"
-    >
-
-      <div
-        className="impilo-admin-module-header"
-      >
-
-        <div>
-
-          <span>
-            IMPILO MEDIA
-          </span>
-
-          <h2>
-            Media Management
-          </h2>
-
-        </div>
+            </div>
 
 
-        <button
-          type="button"
-          className="impilo-admin-back-module"
-          onClick={() =>
-            selectTab("overview")
-          }
-        >
-          ← Overview
-        </button>
+            <AdminMedia />
 
-      </div>
+          </section>
 
+        );
 
-      <AdminMedia />
-
-    </section>
-
-  );
 
       // ==============================================
       // USERS
@@ -653,6 +678,10 @@ case "media":
 
         );
 
+
+      // ==============================================
+      // DEFAULT
+      // ==============================================
 
       default:
 
@@ -779,6 +808,29 @@ case "media":
 
             <span>
               Editorial
+            </span>
+
+          </button>
+
+
+          {/* IN REVIEW */}
+
+          <button
+            type="button"
+            className={
+              activeTab === "in-review"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              selectTab(
+                "in-review"
+              )
+            }
+          >
+
+            <span>
+              In Review
             </span>
 
           </button>
@@ -913,9 +965,7 @@ case "media":
               logout
             }
           >
-
             Sign Out
-
           </button>
 
         </div>

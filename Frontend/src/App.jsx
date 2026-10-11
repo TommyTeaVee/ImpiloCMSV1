@@ -1,3 +1,4 @@
+
 import {
   BrowserRouter,
   Routes,
@@ -6,68 +7,31 @@ import {
 } from "react-router-dom";
 
 import Home from "./pages/Home";
-
 import ReaderDashboard from "./pages/ReaderDashboard.jsx";
-
-
-
-// ==================================================
-// MAGAZINE READER COMPONENT
-// ==================================================
-
-import MagazineReader from "./components/magazine/MagazineReader.jsx"; 
-
-
+import MagazineReader from "./components/magazine/MagazineReader.jsx";
 
 import EditorialCMS from "./pages/EditorialCMS.jsx";
-
 import EditorialWorkspace from "./components/editorial/EditorialWorkspace.jsx";
-
 import EditorialLogin from "./pages/EditorialLogin.jsx";
 
 import AdminDashboard from "./pages/AdminDashboard.jsx";
-
 import MediaPickerTest from "./pages/MediaPickerTest.jsx";
-
 import CloudFrontMediaTest from "./pages/CloudFrontMediaTest.jsx";
 
-
-
 function App() {
-
   return (
-
     <BrowserRouter>
-
       <Routes>
+        {/* Public */}
+        <Route path="/" element={<Home />} />
 
-
-
-        {/* ==========================================
-            PUBLIC
-        ========================================== */}
-
-        <Route
-          path="/"
-          element={<Home />}
-        />
-
-
-
-        {/* ==========================================
-            READER / MAGAZINE VIEWER
-        ========================================== */}
-
+        {/* Reader dashboard */}
         <Route
           path="/reader"
           element={<ReaderDashboard />}
         />
-        
-        {/* 
-          Supports both standard issue loading 
-          and dynamic page number tracking in the URL
-        */}
 
+        {/* Magazine reader */}
         <Route
           path="/read/:slug"
           element={<MagazineReader />}
@@ -78,12 +42,7 @@ function App() {
           element={<MagazineReader />}
         />
 
-
-
-        {/* ==========================================
-            EDITORIAL LOGIN & CMS
-        ========================================== */}
-
+        {/* Editorial CMS */}
         <Route
           path="/editorial/login"
           element={<EditorialLogin />}
@@ -99,23 +58,13 @@ function App() {
           element={<EditorialWorkspace />}
         />
 
-
-
-        {/* ==========================================
-            ADMINISTRATION
-        ========================================== */}
-
+        {/* Administration */}
         <Route
           path="/admin"
           element={<AdminDashboard />}
         />
 
-
-
-        {/* ==========================================
-            DEVELOPMENT / TEST
-        ========================================== */}
-
+        {/* Development and testing */}
         <Route
           path="/media-picker-test"
           element={<MediaPickerTest />}
@@ -126,32 +75,14 @@ function App() {
           element={<CloudFrontMediaTest />}
         />
 
-
-
-        {/* ==========================================
-            FALLBACK
-        ========================================== */}
-
+        {/* Fallback */}
         <Route
           path="*"
-          element={
-            <Navigate
-              to="/"
-              replace
-            />
-          }
+          element={<Navigate to="/" replace />}
         />
-
-
-
       </Routes>
-
     </BrowserRouter>
-
   );
-
 }
-
-
 
 export default App;
