@@ -11,7 +11,7 @@ const MagazinePage = React.forwardRef(
       return (
         <div
           ref={ref}
-          className="impilo-magazine-page"
+         
         />
       );
     }
@@ -19,7 +19,7 @@ const MagazinePage = React.forwardRef(
     return (
       <div
         ref={ref}
-        className="impilo-magazine-page"
+       
         data-page-id={page.id}
         data-page-type={page.type}
       >

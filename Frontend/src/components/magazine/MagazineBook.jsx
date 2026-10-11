@@ -1,6 +1,6 @@
 import React from "react";
 import HTMLFlipBook from "react-pageflip";
-import MagazinePage from "./MagazinePage";
+import MagazinePage from "../magazine/MagazinePage";
 
 class MagazineBook extends React.Component {
 
@@ -215,13 +215,13 @@ class MagazineBook extends React.Component {
 
           ref={this.flipBook}
 
-          width={450}
+          width={500}
           height={800}
 
           minWidth={315}
           minHeight={400}
 
-          maxWidth={900}
+          maxWidth={750}
           maxHeight={1000}
 
           size="fixed"
