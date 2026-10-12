@@ -199,7 +199,7 @@ export default function YouTubeMediaForm({
             src={`https://www.youtube.com/embed/${previewId}`}
             title="YouTube video preview"
             width="100%"
-            height="315"
+            height="550"
             allowFullScreen
           />
 

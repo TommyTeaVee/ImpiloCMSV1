@@ -152,26 +152,36 @@ class MagazineBook extends React.Component {
   // ==================================================
 
   componentDidMount() {
+  this.mediaQuery = window.matchMedia("(max-width: 767px)");
 
-    const initialPage =
-      this.props.initialPage || 0;
+  this.handleScreenSize = (event) => {
+    this.setState({ isMobile: event.matches });
+  };
 
-    if (initialPage > 0) {
+  this.setState({ isMobile: this.mediaQuery.matches });
 
-      const flip =
-        this.getFlip();
+  this.mediaQuery.addEventListener(
+    "change",
+    this.handleScreenSize
+  );
 
-      if (flip) {
+  const initialPage = this.props.initialPage || 0;
 
-        flip.flip(
-          initialPage
-        );
+  if (initialPage > 0) {
+    const flip = this.getFlip();
 
-      }
-
+    if (flip) {
+      flip.flip(initialPage);
     }
-
   }
+}
+
+componentWillUnmount() {
+  this.mediaQuery?.removeEventListener(
+    "change",
+    this.handleScreenSize
+  );
+}
 
 
   // ==================================================
@@ -215,26 +225,25 @@ class MagazineBook extends React.Component {
 
           ref={this.flipBook}
 
-          width={500}
-          height={800}
-
-          minWidth={315}
-          minHeight={400}
-
-          maxWidth={750}
-          maxHeight={1000}
-
-          size="fixed"
-
+          
+width={600}
+height={1050}
+minWidth={315}
+minHeight={400}
+maxWidth={700}
+maxHeight={1024}
+size="stretch"
+          
           showCover={true}
 
           usePortrait={true}
 
           startPage={initialPage}
 
+
           onFlip={this.onPage}
 
-          className="impilo-magazine-book"
+          
 
           drawShadow={false}
 
