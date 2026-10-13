@@ -5611,14 +5611,8 @@
 
 .impilo-reader {
   width: 100%;
-  min-height: 100vh;
-
-
-
-  padding:
-    12px
-    20px
-    36px;
+  min-height: 800px;
+   padding: 12px 20px 0;
 
   background:
     radial-gradient(
@@ -9352,7 +9346,10 @@ button.impilo-glass-btn {
 
   box-sizing: border-box;
 
-  overflow: hidden;
+   overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 
   padding: 32px 34px;
 
@@ -17384,6 +17381,11 @@ backdrop-filter:
   color: #f5f5f5;
   display: flex;
   flex-direction: column;
+    overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  
 }
 
 .impilo-contents-header h2 {
@@ -19887,6 +19889,7 @@ padding: 0 12px 24px !important;
   display: block;
   margin: 0 right;
   max-width: 100%;
+  height: 800px ;
 }
  
 
@@ -19987,7 +19990,7 @@ padding: 0 12px 24px !important;
     align-items: flex-start !important;
     margin: 0 auto !important;
     padding: 0 right !important;
-    box-sizing: border-box !important;
+
     overflow: visible !important;
   }
 
@@ -19996,6 +19999,7 @@ padding: 0 12px 24px !important;
     max-width: 100% !important;
   }
 }
+
 
 /* IMPILO MAGAZINE — ARTICLE TYPOGRAPHY */
 .impilo-magazine-page-content {
