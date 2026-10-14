@@ -24,7 +24,7 @@ export default function Home() {
       ========================================== */}
 
       <div
-        className="impilo-home-reader-wrapper"
+        className="impilo-magazine-book-wrapper"
       >
 
         <MagazineReader

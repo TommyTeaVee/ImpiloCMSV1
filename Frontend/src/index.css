@@ -30,8 +30,8 @@
 
   --impilo-shadow:
     0 18px 50px rgba(0, 0, 0, 0.35);
+    height: 700px;
 }
-
 
 /* =========================================================
    02. IMPILO EDITORIAL CMS
@@ -5611,7 +5611,7 @@
 
 .impilo-reader {
   width: 100%;
-  min-height: 800px;
+  min-height: 100vh;
    padding: 12px 20px 0;
 
   background:
@@ -5692,7 +5692,7 @@
 }
 .impilo-reader-book {
   width: 900px;
-  height: 800px;
+min-height: 800px;
 
   max-width: 100%;
 
@@ -17381,10 +17381,7 @@ backdrop-filter:
   color: #f5f5f5;
   display: flex;
   flex-direction: column;
-    overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: contain;
+ 
   
 }
 
@@ -17908,6 +17905,11 @@ backdrop-filter:
 
   background: #fff !important;
   color: #161616 !important;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  
 }
 
 /* Do not let PageRenderer's inline max-height create a short page. */
@@ -19699,7 +19701,7 @@ padding: 0 12px 24px !important;
 .impilo-magazine-page .editorial-article.impilo-themed-article .impilo-editorial-image[data-editorial-role="hero"] img,
 .impilo-magazine-page .editorial-article.impilo-themed-article .impilo-editorial-image[data-editorial-role="portrait-hero"] img,
 .impilo-magazine-page .editorial-article.impilo-themed-article .impilo-editorial-video[data-editorial-role="hero-video"] video {
-  max-height: 490px !important;
+  max-height: 800px !important;
   aspect-ratio: 16 / 10 !important;
   object-fit: cover !important;
 }
@@ -19882,6 +19884,8 @@ padding: 0 12px 24px !important;
   max-width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
+
+  
 }
 
 
@@ -19889,7 +19893,7 @@ padding: 0 12px 24px !important;
   display: block;
   margin: 0 right;
   max-width: 100%;
-  height: 800px ;
+ 
 }
  
 
@@ -19904,7 +19908,7 @@ padding: 0 12px 24px !important;
     max-width: 100%;
     padding: 20px 2400px;
     margin-inline: auto;
-    height: auto;
+  height: 100vh;
   }
 
 
@@ -19913,15 +19917,10 @@ padding: 0 12px 24px !important;
   }
 }
 
-@media (max-width: 767px) {
-  .impilo-magazine-book-wrapper--mobile {
-    width: 100%;
-    padding: 0 8px;
-    min-height: 0;
-  }
-}
+
 .impilo-magazine-book-wrapper--desktop {
   width: 100%;
+  min-height: 100vh;
 }
 
 
@@ -19931,11 +19930,13 @@ padding: 0 12px 24px !important;
   max-width: 100% !important;
   min-width: 0;
   box-sizing: border-box;
+ 
 }
 
 @media (min-width: 768px) {
   .impilo-magazine-book-wrapper--desktop .stf__parent {
     margin-inline: auto !important;
+    min-height: 100vh;
   }
 
   .impilo-magazine-book-wrapper--desktop .stf__wrapper {
@@ -20008,6 +20009,10 @@ padding: 0 12px 24px !important;
   text-align: justify !important;
   text-justify: inter-word;
   overflow-wrap: break-word;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 }
 
 /* Article paragraphs */
@@ -20180,4 +20185,8 @@ padding: 0 12px 24px !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
   padding: 0 12px 24px !important;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 }
