@@ -12,6 +12,8 @@ import MediaControls from "../../components/magazine/MediaControls.jsx";
 import api from "../../services/api";
 import MediaPicker from "./MediaPicker.jsx";
 import EditorialArticlePreview from "./EditorialArticlePreview.jsx";
+import RichTextBlockEditor from "../../components/editorial/RichTextBlockEditor.jsx";
+import LayoutBuilder from "../../components/editorial/LayoutBuilder.jsx";
 
 
 /* ============================================================
@@ -735,6 +737,10 @@ export default function EditorialWorkspace() {
     useState(false);
   const [previewOpen, setPreviewOpen] =
     useState(false);
+  const [layoutBuilderOpen, setLayoutBuilderOpen] =
+    useState(false);
+  const [columnLayout, setColumnLayout] =
+    useState("two");
   const [loadingArticle, setLoadingArticle] =
     useState(isEditing);
 
@@ -1192,28 +1198,44 @@ const [
   // UPDATE TEXT
   // ==================================================
 
-  function updateText(
-    index,
-    value
-  ) {
-    setBlocks(
-      (current) => {
-        const next =
-          [...current];
+  function updateText(index, value, richText = null) {
+    setBlocks((current) => {
+      const next = [...current];
+      const previous = next[index];
+      if (!previous) return current;
+      next[index] = {
+        ...previous,
+        content: {
+          ...(previous.content || {}),
+          text: value,
+          ...(richText ? { richText } : {})
+        }
+      };
+      return next;
+    });
+  }
 
-        next[index] = {
-          ...next[index],
+  // ==================================================
+  // PER-BLOCK TEXT LAYOUT
+  // Stores presentation metadata inside the existing JSON content field.
+  // ==================================================
 
-          content: {
-            ...(next[index]
-              .content || {}),
-            text: value
-          }
-        };
-
-        return next;
-      }
-    );
+  function updateBlockColumns(index, value) {
+    const columns = Math.max(1, Math.min(3, Number(value) || 1));
+    setBlocks((current) => current.map((block, blockIndex) => {
+      if (blockIndex !== index) return block;
+      const content = block.content || {};
+      const editorialLayout = { ...(content.editorialLayout || {}) };
+      if (columns === 1) delete editorialLayout.columns;
+      else editorialLayout.columns = columns;
+      return {
+        ...block,
+        content: {
+          ...content,
+          editorialLayout
+        }
+      };
+    }));
   }
 
   // ==================================================
@@ -2372,6 +2394,15 @@ async function saveDraft() {
 
           </div>
 
+          <div className="impilo-layout-launcher-row">
+            <div>
+              <span className="impilo-editorial-preview-launcher-kicker">VISUAL PAGE DESIGN</span>
+              <strong>Arrange your story in magazine columns</strong>
+              <small>Preview one, two, or three columns and feature spreads before applying a layout.</small>
+            </div>
+            <button type="button" className="impilo-layout-open-button" onClick={() => setLayoutBuilderOpen(true)}>Open Layout Builder</button>
+          </div>
+
           <div className="impilo-editorial-preview-launcher">
 
             <div>
@@ -2534,17 +2565,12 @@ async function saveDraft() {
                             "QUOTE") && (
 
                           <>
-                            <textarea
-                              value={
-                                block.content
-                                  ?.text ||
-                                ""
-                              }
-                              onChange={(event) =>
-                                updateText(
-                                  index,
-                                  event.target.value
-                                )
+                            <RichTextBlockEditor
+                              blockType={block.type}
+                              richText={block.content?.richText}
+                              legacyText={block.content?.text || ""}
+                              onChange={({ text, richText }) =>
+                                updateText(index, text, richText)
                               }
                               placeholder={
                                 isFootnoteBlock(block)
@@ -2555,15 +2581,22 @@ async function saveDraft() {
                                       ? "Enter editorial quote..."
                                       : "Write your content..."
                               }
-                              rows={
-                                block.type === "HEADING"
-                                  ? 2
-                                  : isFootnoteBlock(block)
-                                    ? 5
-                                    : 7
-                              }
-                              className="impilo-block-textarea"
                             />
+
+                            {!isFootnoteBlock(block) && block.type !== "HEADING" && (
+                              <label className="impilo-editorial-block-layout-control">
+                                <span>Text columns</span>
+                                <select
+                                  value={block.content?.editorialLayout?.columns || 1}
+                                  onChange={(event) => updateBlockColumns(index, event.target.value)}
+                                  aria-label="Text columns"
+                                >
+                                  <option value={1}>Single column</option>
+                                  <option value={2}>Two columns</option>
+                                  <option value={3}>Three columns</option>
+                                </select>
+                              </label>
+                            )}
 
                             {isFootnoteBlock(block) && (
                               <div className="impilo-footnote-fields">
@@ -2796,6 +2829,34 @@ async function saveDraft() {
         </section>
 
       </section>
+
+      <LayoutBuilder
+        open={layoutBuilderOpen}
+        title={title}
+        excerpt={excerpt}
+        blocks={blocks}
+        initialLayout={columnLayout}
+        onClose={() => setLayoutBuilderOpen(false)}
+        onApply={(layout) => {
+          setColumnLayout(layout.id);
+          setBlocks((current) => current.map((block) => ({
+            ...block,
+            content: {
+              ...(block.content || {}),
+              editorialLayout: {
+                ...(block.content?.editorialLayout || {}),
+                template: layoutTemplate,
+                theme: themeId,
+                columnLayout: layout.id,
+                columns: layout.columns
+              }
+            }
+          })));
+          setLayoutBuilderOpen(false);
+          setMessage(`Magazine layout applied: ${layout.id}. Save the article to keep the changes.`);
+          setError("");
+        }}
+      />
 
       <EditorialArticlePreview
         open={previewOpen}

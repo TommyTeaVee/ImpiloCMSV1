@@ -1,4 +1,6 @@
 import React from "react";
+import GamePageRenderer from "../editorial/GamePageRenderer";
+
 
 
 const DEV_COVER =
@@ -228,6 +230,11 @@ export default function PageRenderer({ page }) {
   if (!page) return null;
 
   const article = page.article;
+
+  // Interactive game pages are rendered as first-class magazine pages.
+  if (page.type === "GAME") {
+    return <GamePageRenderer page={page} />;
+  }
 
   // ------------------------------------------------------------
   // COVER — preserve the existing full-bleed cover presentation.

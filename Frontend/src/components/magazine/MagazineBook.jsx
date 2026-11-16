@@ -227,9 +227,9 @@ componentWillUnmount() {
 
           
 width={600}
-height={1020}
+height={1024}
 minWidth={315}
-minHeight={400}
+minHeight={500}
 maxWidth={800}
 maxHeight={1024}
 size="stretch"

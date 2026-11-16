@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import MagazineBook from "./MagazineBook";
 import paginateArticle from "./paginateArticle";
 import api from "../../services/api";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+
 export default function MagazineReader({ slug = "impilo-101" }) {
   const params = useParams();
   const navigate = useNavigate();
@@ -21,8 +22,7 @@ export default function MagazineReader({ slug = "impilo-101" }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isInitialized, setIsInitialized] = useState(false);
-const location = useLocation();
-const isPreview = new URLSearchParams(location.search).get("preview") === "1";
+
   // ==================================================
   // LOAD MAGAZINE
   // Reset reader state whenever the requested slug changes.
@@ -43,47 +43,37 @@ const isPreview = new URLSearchParams(location.search).get("preview") === "1";
       clearTimeout(initTimerRef.current);
       initTimerRef.current = null;
     }
-async function loadMagazine() {
-  try {
-    const response = isPreview
-      ? await api.get(
-          `/magazine-admin/issues/${encodeURIComponent(activeSlug)}`
-        )
-      : await api.get(
-          `/magazines/public/${encodeURIComponent(activeSlug)}`
+
+    async function loadMagazine() {
+      try {
+        const response = await api.get(`/magazines/public/${activeSlug}`);
+        if (!mounted) return;
+
+        setMagazine(response.data.magazine || null);
+        setLoadedSlug(activeSlug);
+      } catch (err) {
+        console.error("Failed to load magazine:", err);
+        if (!mounted) return;
+
+        setError(
+          err.response?.data?.message || "Unable to load magazine"
         );
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
 
-    if (!mounted) return;
+    loadMagazine();
 
-    const loadedMagazine = isPreview
-      ? response.data.issue
-      : response.data.magazine;
+    return () => {
+      mounted = false;
+      if (initTimerRef.current) {
+        clearTimeout(initTimerRef.current);
+        initTimerRef.current = null;
+      }
+    };
+  }, [activeSlug]);
 
-    setMagazine(loadedMagazine || null);
-    setLoadedSlug(activeSlug);
-  } catch (err) {
-    console.error("Failed to load magazine:", err);
-    if (!mounted) return;
-
-    setError(
-      err.response?.data?.message || "Unable to load magazine"
-    );
-  } finally {
-    if (mounted) setLoading(false);
-  }
-}
-
-loadMagazine();
-
-return () => {
-  mounted = false;
-
-  if (initTimerRef.current) {
-    clearTimeout(initTimerRef.current);
-    initTimerRef.current = null;
-  }
-};
-}, [activeSlug, isPreview]);
   // ==================================================
   // DATABASE PAGES
   // Keep the page collection stable for the current issue.
@@ -121,9 +111,15 @@ return () => {
         page.article &&
         Array.isArray(page.article.blocks)
       ) {
+        // Preserve each block's editorialLayout metadata. Use slightly fuller
+        // reading sections to avoid creating short pages with large blank areas.
+        const templateId = page.article.blocks.find(
+          (block) => block?.content?.editorialLayout?.template
+        )?.content?.editorialLayout?.template;
+        const isImageLed = ["PORTFOLIO", "MODEL_ALBUM", "PHOTO_ESSAY", "FASHION_RUNWAY"].includes(templateId);
         const parts = paginateArticle(page.article.blocks, {
-          targetWords: 350,
-          maxWords: 450,
+          targetWords: isImageLed ? 240 : 430,
+          maxWords: isImageLed ? 360 : 600,
         });
 
         parts.forEach((blocks, index) => {
@@ -233,7 +229,7 @@ return () => {
   // ==================================================
   // LOADING
   // ==================================================
-  if (loading || (loadedSlug !== activeSlug && !error)) {
+  if (loading || loadedSlug !== activeSlug) {
     return (
       <div className="impilo-reader-loading">
         <p>Loading IMPILO...</p>

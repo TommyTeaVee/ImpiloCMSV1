@@ -55,6 +55,76 @@ export const EDITORIAL_TEMPLATES = {
     eyebrow: "VISUAL PORTFOLIO",
     accent: "PURPLE",
   },
+  MODEL_ALBUM: {
+  id: "MODEL_ALBUM",
+  name: "Model Album",
+  shortName: "Model Album",
+  description:
+    "Portrait-led model portfolio with a photo gallery, biography and career details.",
+  eyebrow: "IMPILO MODEL PORTFOLIO",
+  accent: "NUDE",
+},
+
+FASHION_RUNWAY: {
+  id: "FASHION_RUNWAY",
+  name: "Fashion Runway",
+  shortName: "Runway",
+  description:
+    "Runway coverage with hero photography, designer credits and event highlights.",
+  eyebrow: "IMPILO FASHION",
+  accent: "GOLD",
+},
+
+PHOTO_ESSAY: {
+  id: "PHOTO_ESSAY",
+  name: "Photo Essay",
+  shortName: "Photo Essay",
+  description:
+    "Image-led storytelling with flexible galleries, captions and editorial notes.",
+  eyebrow: "IMPILO VISUAL STORY",
+  accent: "PURPLE",
+},
+MODEL_ALBUM: [
+  ["TEXT", "eyebrow", "IMPILO MODEL PORTFOLIO"],
+  ["HEADING", "title", ""],
+  ["TEXT", "model-deck", ""],
+  ["IMAGE", "portrait-hero", ""],
+  ["TEXT", "model-biography", ""],
+  ["QUOTE", "signature-quote", ""],
+  ["HEADING", "section-heading", "Portfolio Gallery"],
+  ["IMAGE", "gallery-1", ""],
+  ["IMAGE", "gallery-2", ""],
+  ["IMAGE", "gallery-3", ""],
+  ["HEADING", "section-heading", "Career & Direction"],
+  ["TEXT", "career-details", ""],
+],
+
+FASHION_RUNWAY: [
+  ["TEXT", "eyebrow", "IMPILO FASHION"],
+  ["HEADING", "title", ""],
+  ["TEXT", "deck", ""],
+  ["IMAGE", "runway-hero", ""],
+  ["TEXT", "event-introduction", ""],
+  ["HEADING", "section-heading", "On the Runway"],
+  ["IMAGE", "runway-gallery-1", ""],
+  ["IMAGE", "runway-gallery-2", ""],
+  ["QUOTE", "designer-quote", ""],
+  ["TEXT", "designer-credits", ""],
+],
+
+PHOTO_ESSAY: [
+  ["TEXT", "eyebrow", "IMPILO VISUAL STORY"],
+  ["HEADING", "title", ""],
+  ["TEXT", "deck", ""],
+  ["IMAGE", "photo-hero", ""],
+  ["TEXT", "photo-introduction", ""],
+  ["IMAGE", "gallery-1", ""],
+  ["TEXT", "image-caption", ""],
+  ["IMAGE", "gallery-2", ""],
+  ["QUOTE", "photo-quote", ""],
+  ["IMAGE", "gallery-3", ""],
+  ["TEXT", "closing-note", ""],
+],
 };
 
 export const EDITORIAL_THEMES = {
@@ -157,6 +227,18 @@ export const EDITORIAL_THEMES = {
     ink: "#191b1e",
     muted: "#61676d",
   },
+  BROWN_NUDE: {
+  id: "BROWN_NUDE",
+  name: "Brown & Nude",
+  description:
+    "Warm editorial tones for model portfolios, portraits and lifestyle features.",
+  accent: "#8A5A44",
+  accentStrong: "#4A3028",
+  surface: "#F6EDE5",
+  soft: "#E8D3C3",
+  ink: "#2C211C",
+  muted: "#786459",
+},
 };
 
 const templateBlueprints = {

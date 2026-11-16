@@ -89,6 +89,11 @@ const THEMES = {
     header: "#283001",
     headerInk: "#fff",
   },
+  BROWN_NUDE: {
+    id: "BROWN_NUDE", name: "Brown & Nude", description: "Warm editorial tones for model portfolios and portraits.",
+    accent: "#8a5a44", accentStrong: "#4a3028", surface: "#f6ede5", soft: "#e8d3c3",
+    ink: "#2c211c", muted: "#786459",
+  },
   SILVER: {
     name: "Silver",
     accent: "#667078",
@@ -109,6 +114,9 @@ const TEMPLATE_NAMES = {
   EDUCATIONAL: "Educational / Essay",
   MEDIA_FEATURE: "Media Feature",
   PORTFOLIO: "Visual Portfolio",
+  MODEL_ALBUM: "Model Album",
+  FASHION_RUNWAY: "Fashion Runway",
+  PHOTO_ESSAY: "Photo Essay",
 };
 
 function plainText(value) {

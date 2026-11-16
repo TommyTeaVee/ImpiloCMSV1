@@ -10,7 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^1.19.0",
+    "@tiptap/extension-link": "^3.32.0",
+    "@tiptap/extension-text-align": "^3.32.0",
+    "@tiptap/extension-underline": "^3.32.0",
+    "@tiptap/react": "^3.32.0",
+    "@tiptap/starter-kit": "^3.32.0",
+    "axios": "^1.19.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-pageflip": "^2.0.3",

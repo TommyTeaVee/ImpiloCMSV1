@@ -1,278 +1,98 @@
-// src/components/magazine/paginateArticle.js
+/**
+ * Paginates article blocks without flattening or mutating them. Tiptap JSON,
+ * legacy content.text, editorialLayout metadata and media references all stay
+ * on the original block object.
+ */
+export default function paginateArticle(blocks = [], options = {}) {
+  if (!Array.isArray(blocks) || blocks.length === 0) return [];
 
-export default function paginateArticle(blocks = []) {
-  if (!Array.isArray(blocks) || blocks.length === 0) {
-    return [];
+  const targetWords = Math.max(100, Number(options.targetWords) || 350);
+  const maxWords = Math.max(targetWords, Number(options.maxWords) || 450);
+  const typeOf = (block) => String(block?.type || "TEXT").toUpperCase();
+  const isText = (block) => ["TEXT", "PARAGRAPH"].includes(typeOf(block));
+  const isHeading = (block) => ["HEADING", "SUBHEADING", "TITLE"].includes(typeOf(block));
+  const isVisual = (block) => ["IMAGE", "VIDEO", "AUDIO", "GALLERY"].includes(typeOf(block));
+
+  function richTextPlainText(node) {
+    if (!node) return "";
+    if (node.type === "text") return node.text || "";
+    if (node.type === "hardBreak") return " ";
+    return (node.content || []).map(richTextPlainText).join(" ");
   }
 
-  // ==========================================================
-  // HELPERS
-  // ==========================================================
-
-  const typeOf = (block) =>
-    String(block?.type || "TEXT").toUpperCase();
-
-  const isText = (block) => {
-    const type = typeOf(block);
-
-    return (
-      type === "TEXT" ||
-      type === "PARAGRAPH"
-    );
-  };
-
-  const isHeading = (block) => {
-    const type = typeOf(block);
-
-    return (
-      type === "HEADING" ||
-      type === "SUBHEADING" ||
-      type === "TITLE"
-    );
-  };
-
-  const isVisual = (block) => {
-    const type = typeOf(block);
-
-    return (
-      type === "IMAGE" ||
-      type === "VIDEO" ||
-      type === "GALLERY"
-    );
-  };
-
-  const getText = (block) => {
+  function getText(block) {
     const content = block?.content;
-
-    if (!content) {
-      return "";
-    }
-
-    if (typeof content === "string") {
-      return content;
-    }
-
-    if (
-      typeof content === "object" &&
-      typeof content.text === "string"
-    ) {
-      return content.text;
-    }
-
+    if (typeof content === "string") return content;
+    if (content?.richText?.type === "doc") return richTextPlainText(content.richText);
+    if (typeof content?.text === "string") return content.text;
     return "";
-  };
+  }
 
-  const words = (block) => {
-    const text = getText(block);
+  function wordCount(block) {
+    const text = getText(block).trim();
+    return text ? text.split(/\s+/).filter(Boolean).length : 0;
+  }
 
-    if (!text.trim()) {
-      return 0;
+  // Keep headings with the next meaningful block; keep media blocks atomic
+  // and pair them with at most one following paragraph when possible.
+  const units = [];
+  let index = 0;
+  while (index < blocks.length) {
+    const unit = [blocks[index]];
+    const first = blocks[index];
+    index += 1;
+
+    if (isHeading(first)) {
+      while (index < blocks.length && !getText(blocks[index]).trim() && !isVisual(blocks[index])) {
+        unit.push(blocks[index]);
+        index += 1;
+      }
+      if (index < blocks.length && !isHeading(blocks[index])) {
+        unit.push(blocks[index]);
+        index += 1;
+      }
+    } else if (isVisual(first)) {
+      if (index < blocks.length && isText(blocks[index]) && wordCount(blocks[index]) <= maxWords) {
+        unit.push(blocks[index]);
+        index += 1;
+      }
     }
 
-    return text
-      .trim()
-      .split(/\s+/)
-      .filter(Boolean).length;
-  };
-
-  // ==========================================================
-  // PAGE BUILDER
-  // ==========================================================
+    units.push({ blocks: unit, words: unit.reduce((sum, block) => sum + wordCount(block), 0), visual: unit.some(isVisual) });
+  }
 
   const pages = [];
+  let current = [];
+  let currentWords = 0;
+  let currentHasVisual = false;
 
-  let i = 0;
+  const flush = () => {
+    if (current.length) pages.push(current);
+    current = [];
+    currentWords = 0;
+    currentHasVisual = false;
+  };
 
-  while (i < blocks.length) {
-    const page = [];
-
-    // --------------------------------------------------------
-    // RULE 1
-    //
-    // A heading starts a new editorial section.
-    // --------------------------------------------------------
-
-    if (isHeading(blocks[i])) {
-      page.push(blocks[i]);
-      i++;
-    }
-
-    // --------------------------------------------------------
-    // RULE 2
-    //
-    // Put ONLY ONE paragraph before looking for a visual.
-    //
-    // This is the major change.
-    // We don't want 3 pages of text before an image/video.
-    // --------------------------------------------------------
-
-    if (
-      i < blocks.length &&
-      isText(blocks[i])
-    ) {
-      page.push(blocks[i]);
-      i++;
-    }
-
-    // --------------------------------------------------------
-    // RULE 3
-    //
-    // If a visual is next, PUT IT ON THIS PAGE.
-    // --------------------------------------------------------
-
-    if (
-      i < blocks.length &&
-      isVisual(blocks[i])
-    ) {
-      page.push(blocks[i]);
-      i++;
-
-      // ------------------------------------------------------
-      // RULE 4
-      //
-      // Give the visual 1–2 paragraphs afterwards.
-      // ------------------------------------------------------
-
-      let afterVisual = 0;
-
-      while (
-        i < blocks.length &&
-        isText(blocks[i]) &&
-        afterVisual < 2
-      ) {
-        page.push(blocks[i]);
-
-        i++;
-        afterVisual++;
-      }
-
-      pages.push(page);
-
-      continue;
-    }
-
-    // --------------------------------------------------------
-    // RULE 5
-    //
-    // If there wasn't a visual immediately after the first
-    // paragraph, allow ONE additional paragraph.
-    // --------------------------------------------------------
-
-    if (
-      i < blocks.length &&
-      isText(blocks[i])
-    ) {
-      page.push(blocks[i]);
-      i++;
-    }
-
-    // --------------------------------------------------------
-    // RULE 6
-    //
-    // If a visual appears now, use it immediately.
-    // --------------------------------------------------------
-
-    if (
-      i < blocks.length &&
-      isVisual(blocks[i])
-    ) {
-      page.push(blocks[i]);
-      i++;
-
-      let afterVisual = 0;
-
-      while (
-        i < blocks.length &&
-        isText(blocks[i]) &&
-        afterVisual < 2
-      ) {
-        page.push(blocks[i]);
-
-        i++;
-        afterVisual++;
-      }
-
-      pages.push(page);
-
-      continue;
-    }
-
-    // --------------------------------------------------------
-    // RULE 7
-    //
-    // No visual nearby.
-    //
-    // We can safely add more text, but DON'T create huge
-    // text walls.
-    // --------------------------------------------------------
-
-    let pageWords = page.reduce(
-      (total, block) =>
-        total + words(block),
-      0
+  for (const unit of units) {
+    const startsHeading = isHeading(unit.blocks[0]);
+    const shouldBreakBefore = current.length > 0 && (
+      (startsHeading && currentWords > 0) ||
+      (currentWords + unit.words > maxWords) ||
+      (unit.visual && currentHasVisual && currentWords >= targetWords) ||
+      (unit.visual && currentWords >= targetWords)
     );
 
-    while (
-      i < blocks.length &&
-      isText(blocks[i]) &&
-      pageWords < 300
-    ) {
-      const blockWords = words(blocks[i]);
+    if (shouldBreakBefore) flush();
+    current.push(...unit.blocks);
+    currentWords += unit.words;
+    currentHasVisual = currentHasVisual || unit.visual;
 
-      if (
-        pageWords > 0 &&
-        pageWords + blockWords > 350
-      ) {
-        break;
-      }
-
-      page.push(blocks[i]);
-
-      pageWords += blockWords;
-
-      i++;
-    }
-
-    // --------------------------------------------------------
-    // RULE 8
-    //
-    // If a visual is now directly ahead, include it.
-    // --------------------------------------------------------
-
-    if (
-      i < blocks.length &&
-      isVisual(blocks[i])
-    ) {
-      page.push(blocks[i]);
-      i++;
-
-      let afterVisual = 0;
-
-      while (
-        i < blocks.length &&
-        isText(blocks[i]) &&
-        afterVisual < 2
-      ) {
-        page.push(blocks[i]);
-
-        i++;
-        afterVisual++;
-      }
-    }
-
-    // --------------------------------------------------------
-    // SAFETY
-    //
-    // Never allow the loop to get stuck.
-    // --------------------------------------------------------
-
-    if (page.length === 0 && i < blocks.length) {
-      page.push(blocks[i]);
-      i++;
-    }
-
-    pages.push(page);
+    // Don't automatically end every page after an image/video. Short visual
+    // blocks can otherwise create large blank regions in the fixed-size reader.
+    // Let adjacent editorial blocks share the page unless the word target is met.
+    if (currentWords >= targetWords) flush();
   }
 
-  return pages;
+  flush();
+  return pages.length ? pages : [blocks.slice()];
 }

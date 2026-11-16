@@ -413,6 +413,8 @@ enum MagazinePageType {
   ARTICLE
   AD
   STATIC
+  GAME
+  
 }
 
 enum CommentStatus {
