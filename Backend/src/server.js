@@ -30,6 +30,28 @@ const PORT = process.env.SERVER_PORT || 35050;
 // --------------------------------------------------
 
 app.use(cors());
+// 1. Parse the comma-separated environment string into a clean array
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim())
+  : [];
+
+// 2. Wire up the dynamic CORS engine onto your Express app instance
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow server-to-server requests or tools like Postman/Insomnia (no origin header)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.warn(`[CORS Blocked]: Request from unauthorized origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Crucial for auth endpoints using HTTP cookies or sessions
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.use(express.json());
 
