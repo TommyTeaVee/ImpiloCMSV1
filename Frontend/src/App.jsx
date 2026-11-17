@@ -9,7 +9,8 @@ import {
 import Home from "./pages/Home";
 import ReaderDashboard from "./pages/ReaderDashboard.jsx";
 import MagazineReader from "./components/magazine/MagazineReader.jsx";
-
+import { useEffect } from "react";
+import { initMatomo } from "./services/Matomo";
 import EditorialCMS from "./pages/EditorialCMS.jsx";
 import EditorialWorkspace from "./components/editorial/EditorialWorkspace.jsx";
 import EditorialLogin from "./pages/EditorialLogin.jsx";
@@ -19,6 +20,12 @@ import MediaPickerTest from "./pages/MediaPickerTest.jsx";
 import CloudFrontMediaTest from "./pages/CloudFrontMediaTest.jsx";
 
 function App() {
+    useEffect(() => {
+    const userId = localStorage.getItem("userId");
+
+    initMatomo(userId);
+  }, []);
+  
   return (
     <BrowserRouter>
       <Routes>
