@@ -1,94 +1,57 @@
-
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { lazy, Suspense, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
-import ReaderDashboard from "./pages/ReaderDashboard.jsx";
 import MagazineReader from "./components/magazine/MagazineReader.jsx";
-import { useEffect } from "react";
+import ArticlePage from "./pages/ArticlePage.jsx";
+import NotFound from "./pages/NotFound.jsx";
 import { initMatomo } from "./services/Matomo";
-import EditorialCMS from "./pages/EditorialCMS.jsx";
-import EditorialWorkspace from "./components/editorial/EditorialWorkspace.jsx";
-import EditorialLogin from "./pages/EditorialLogin.jsx";
 
-import AdminDashboard from "./pages/AdminDashboard.jsx";
-import MediaPickerTest from "./pages/MediaPickerTest.jsx";
-import CloudFrontMediaTest from "./pages/CloudFrontMediaTest.jsx";
+// Private pages: client-only, not prerendered
+const ReaderDashboard = lazy(() => import("./pages/ReaderDashboard.jsx"));
+const EditorialCMS = lazy(() => import("./pages/EditorialCMS.jsx"));
+const EditorialWorkspace = lazy(() => import("./components/editorial/EditorialWorkspace.jsx"));
+const EditorialLogin = lazy(() => import("./pages/EditorialLogin.jsx"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard.jsx"));
+const MediaPickerTest = lazy(() => import("./pages/MediaPickerTest.jsx"));
+const CloudFrontMediaTest = lazy(() => import("./pages/CloudFrontMediaTest.jsx"));
 
 function App() {
-    useEffect(() => {
+  useEffect(() => {
     const userId = localStorage.getItem("userId");
-
     initMatomo(userId);
   }, []);
-  
+
   return (
-    <BrowserRouter>
+    <Suspense fallback={null}>
       <Routes>
         {/* Public */}
         <Route path="/" element={<Home />} />
-
-        {/* Reader dashboard */}
-        <Route
-          path="/reader"
-          element={<ReaderDashboard />}
-        />
+        <Route path="/articles/:slug" element={<ArticlePage />} />
 
         {/* Magazine reader */}
-        <Route
-          path="/read/:slug"
-          element={<MagazineReader />}
-        />
+        <Route path="/read/:slug" element={<MagazineReader />} />
+        <Route path="/read/:slug/page/:pageNumber" element={<MagazineReader />} />
 
-        <Route
-          path="/read/:slug/page/:pageNumber"
-          element={<MagazineReader />}
-        />
+        {/* Reader dashboard */}
+        <Route path="/reader" element={<ReaderDashboard />} />
 
         {/* Editorial CMS */}
-        <Route
-          path="/editorial/login"
-          element={<EditorialLogin />}
-        />
-
-        <Route
-          path="/editorial"
-          element={<EditorialCMS />}
-        />
-
-        <Route
-          path="/editorial/new"
-          element={<EditorialWorkspace />}
-        />
+        <Route path="/editorial/login" element={<EditorialLogin />} />
+        <Route path="/editorial" element={<EditorialCMS />} />
+        <Route path="/editorial/new" element={<EditorialWorkspace />} />
 
         {/* Administration */}
-        <Route
-          path="/admin"
-          element={<AdminDashboard />}
-        />
+        <Route path="/admin" element={<AdminDashboard />} />
 
         {/* Development and testing */}
-        <Route
-          path="/media-picker-test"
-          element={<MediaPickerTest />}
-        />
+        <Route path="/media-picker-test" element={<MediaPickerTest />} />
+        <Route path="/cloudfront-test" element={<CloudFrontMediaTest />} />
 
-        <Route
-          path="/cloudfront-test"
-          element={<CloudFrontMediaTest />}
-        />
-
-        {/* Fallback */}
-        <Route
-          path="*"
-          element={<Navigate to="/" replace />}
-        />
+        {/* Fallback: a real not-found page, not a redirect */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    </Suspense>
   );
 }
 
