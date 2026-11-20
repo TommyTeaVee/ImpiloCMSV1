@@ -58,69 +58,39 @@ api.interceptors.request.use(
  * =========================================================
  */
 
+const ISSUES = "/magazine-admin/issues";
+
 export const magazineApi = {
   getIssues() {
-    return api.get("/magazine-admin");
+    return api.get(ISSUES);
   },
-
   getIssue(issueId) {
-    return api.get(`/magazine-admin/${issueId}`);
+    return api.get(`${ISSUES}/${issueId}`);
   },
-
   createIssue(data) {
-    return api.post(
-      "/magazine-admin",
-      data
-    );
+    return api.post(ISSUES, data);
   },
-
   updateIssue(issueId, data) {
-    return api.put(
-      `/magazine-admin/${issueId}`,
-      data
-    );
+    return api.put(`${ISSUES}/${issueId}`, data);
   },
-
   publishIssue(issueId) {
-    return api.post(
-      `/magazine-admin/${issueId}/publish`
-    );
+    return api.post(`${ISSUES}/${issueId}/publish`);
   },
-
   unpublishIssue(issueId) {
-    return api.post(
-      `/magazine-admin/${issueId}/unpublish`
-    );
+    return api.post(`${ISSUES}/${issueId}/unpublish`);
   },
-
   addPage(issueId, data) {
-    return api.post(
-      `/magazine-admin/${issueId}/pages`,
-      data
-    );
+    return api.post(`${ISSUES}/${issueId}/pages`, data);
   },
-
   updatePage(issueId, pageId, data) {
-    return api.put(
-      `/magazine-admin/${issueId}/pages/${pageId}`,
-      data
-    );
+    return api.put(`${ISSUES}/${issueId}/pages/${pageId}`, data);
   },
-
   deletePage(issueId, pageId) {
-    return api.delete(
-      `/magazine-admin/${issueId}/pages/${pageId}`
-    );
+    return api.delete(`${ISSUES}/${issueId}/pages/${pageId}`);
   },
-
-  reorderPages(issueId, pages) {
-    return api.patch(
-      `/magazine-admin/${issueId}/pages/reorder`,
-      {
-        pages,
-      }
-    );
-  },
+  reorderPages(issueId, pageIds) {
+  return api.patch(`${ISSUES}/${issueId}/pages/reorder`, { pageIds });
+},
 };
 
 export default api;

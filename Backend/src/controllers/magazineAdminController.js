@@ -639,7 +639,9 @@ async function addMagazinePage(req, res) {
             articleId || null,
 
           content:
-            content ?? null
+  content === null || content === undefined
+    ? prisma.DbNull
+    : content
         },
 
         include: {
@@ -738,10 +740,12 @@ async function updateMagazinePage(req, res) {
         articleId || null;
     }
 
-    if (content !== undefined) {
-      data.content =
-        content;
-    }
+   if (content !== undefined) {
+  data.content =
+    content === null
+      ? prisma.DbNull
+      : content;
+}
 
     const updated =
       await prisma.magazinePage.update({
