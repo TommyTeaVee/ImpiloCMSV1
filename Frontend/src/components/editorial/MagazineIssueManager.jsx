@@ -258,21 +258,55 @@ export default function MagazineIssueManager({ issue, onBack, onUpdated }) {
     setPageForm({ ...EMPTY_PAGE, ...EMPTY_GAME_FIELDS });
   }
 
-  function handlePageFormChange(event) {
-    const { name, value } = event.target;
+ function handlePageFormChange(event) {
+  const { name, value } = event.target;
 
+  setPageForm((current) => {
     if (name === "gameId") {
-      const selectedGame = mockGames.find((game) => game.gameId === value);
-      setPageForm((current) => ({
+      const game = mockGames.find((g) => g.gameId === value);
+      if (!game) return { ...current, gameId: value };
+
+      const obj = readJsonObject(current.content) || {};
+      const config = buildGameConfig(game, {
+        theme: current.gameTheme || DEFAULT_EDITORIAL_THEME,
+        title: current.title.trim() || game.title,
+      });
+
+      return {
         ...current,
         gameId: value,
-        gameUrl: selectedGame?.url || "",
-      }));
-      return;
+        gameUrl: game.url || "",
+        content: JSON.stringify({ ...obj, game: config }, null, 2),
+      };
     }
 
-    setPageForm((current) => ({ ...current, [name]: value }));
-  }
+    if (name === "gameUrl") {
+      return {
+        ...current,
+        gameUrl: value,
+        content: withGameField(current.content, { url: value }),
+      };
+    }
+
+    if (name === "gameTheme") {
+      return {
+        ...current,
+        gameTheme: value,
+        content: withGameField(current.content, { theme: value }),
+      };
+    }
+
+    if (name === "content") {
+      const game = readJsonObject(value)?.game;
+      const next = { ...current, content: value };
+      if (game && typeof game.url === "string") next.gameUrl = game.url;
+      if (game && typeof game.theme === "string") next.gameTheme = game.theme;
+      return next;
+    }
+
+    return { ...current, [name]: value };
+  });
+}
 
   function parseContent(value) {
     const clean = String(value || "").trim();
@@ -326,25 +360,19 @@ export default function MagazineIssueManager({ issue, onBack, onUpdated }) {
 
       const pageContent =
         pageForm.type === "GAME"
-          ? {
-              ...existingContent,
-              game: {
-                ...existingGame,
-                gameId: selectedGame.gameId,
-                title: pageForm.title.trim() || selectedGame.title,
-                description: selectedGame.description,
-                url: gameUrl,
-                coverImage: selectedGame.coverImage,
-                displayMode: selectedGame.displayMode,
-                allowFullscreen: selectedGame.allowFullscreen,
-                status: selectedGame.status,
-                category: selectedGame.category,
-                shortDescription: selectedGame.shortDescription,
-                estimatedMinutes: selectedGame.estimatedMinutes,
-                theme: pageForm.gameTheme || DEFAULT_EDITORIAL_THEME,
-              },
-            }
-          : parsedContent;
+    ? {
+        ...existingContent,
+        game: {
+          ...buildGameConfig(selectedGame),
+          ...existingGame,
+          gameId: selectedGame.gameId,
+          title:
+            pageForm.title.trim() || existingGame.title || selectedGame.title,
+          url: gameUrl,
+          theme: pageForm.gameTheme || DEFAULT_EDITORIAL_THEME,
+        },
+      }
+    : parsedContent;
 
       const payload = {
         type: pageForm.type,
@@ -515,7 +543,44 @@ export default function MagazineIssueManager({ issue, onBack, onUpdated }) {
 
     navigate(`/editorial/new?${params.toString()}`);
   }
+function buildGameConfig(game, overrides = {}) {
+  return {
+    gameId: game.gameId,
+    title: game.title,
+    description: game.description,
+    url: game.url || "",
+    coverImage: game.coverImage,
+    displayMode: game.displayMode,
+    allowFullscreen: game.allowFullscreen,
+    status: game.status,
+    category: game.category,
+    shortDescription: game.shortDescription,
+    estimatedMinutes: game.estimatedMinutes,
+    theme: DEFAULT_EDITORIAL_THEME,
+    ...overrides,
+  };
+}
 
+function readJsonObject(text) {
+  try {
+    const parsed = JSON.parse(String(text || ""));
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+      ? parsed
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+function withGameField(contentText, patch) {
+  const obj = readJsonObject(contentText);
+  if (!obj) return contentText;
+  return JSON.stringify(
+    { ...obj, game: { ...(obj.game || {}), ...patch } },
+    null,
+    2
+  );
+}
   if (loading) {
     return (
       <section className="impilo-issue-manager">
