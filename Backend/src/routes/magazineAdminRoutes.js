@@ -15,7 +15,8 @@
     addMagazinePage,
     updateMagazinePage,
     deleteMagazinePage,
-    reorderMagazinePages
+    reorderMagazinePages,
+    previewMagazineIssue
   } = require("../controllers/magazineAdminController");
 
   const router = express.Router();
@@ -70,7 +71,11 @@
     "/:id/unpublish",
     unpublishMagazineIssue
   );
-
+// Preview an issue (drafts allowed)
+router.get(
+  "/:id/preview",
+  previewMagazineIssue
+);
   // ==================================================
   // MAGAZINE PAGES
   // ==================================================

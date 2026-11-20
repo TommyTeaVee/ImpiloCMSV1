@@ -535,6 +535,77 @@ async function unpublishMagazineIssue(req, res) {
     });
   }
 }
+/* ============================================================
+   PREVIEW ISSUE (drafts allowed)
+   GET /api/magazine-admin/issues/:id/preview
+   Same response shape as the public reader route: { magazine }
+   ============================================================ */
+
+async function previewMagazineIssue(req, res) {
+  try {
+    const { id } = req.params;
+
+    const magazine = await prisma.magazineIssue.findUnique({
+      where: { id },
+
+      include: {
+        pages: {
+          orderBy: { position: "asc" },
+
+          include: {
+            article: {
+              include: {
+                author: {
+                  select: {
+                    id: true,
+                    username: true,
+                    displayName: true,
+                    avatarUrl: true
+                  }
+                },
+                blocks: {
+                  orderBy: { position: "asc" },
+                  include: { media: true }
+                },
+                categories: { include: { category: true } },
+                tags: { include: { tag: true } },
+                quiz: {
+                  include: {
+                    questions: {
+                      orderBy: { position: "asc" },
+                      include: {
+                        options: {
+                          orderBy: { position: "asc" },
+                          select: { id: true, text: true, position: true }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+
+    if (!magazine) {
+      return res.status(404).json({
+        success: false,
+        message: "Magazine issue not found."
+      });
+    }
+
+    return res.json({ success: true, magazine });
+  } catch (error) {
+    console.error("Preview magazine issue error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to load magazine preview."
+    });
+  }
+}
 
 
 /* ============================================================
@@ -1052,5 +1123,6 @@ module.exports = {
   addMagazinePage,
   updateMagazinePage,
   deleteMagazinePage,
-  reorderMagazinePages
+  reorderMagazinePages,
+   previewMagazineIssue
 };
