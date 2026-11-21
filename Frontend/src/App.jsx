@@ -40,7 +40,8 @@ function App() {
         <Route path="/editorial/login" element={<EditorialLogin />} />
         <Route path="/editorial" element={<EditorialCMS />} />
         <Route path="/editorial/new" element={<EditorialWorkspace />} />
-
+      <Route path="/preview/:slug" element={<MagazineReader />} />
+<Route path="/preview/:slug/page/:pageNumber" element={<MagazineReader />} />
         {/* Administration */}
         <Route path="/admin" element={<AdminDashboard />} />
 

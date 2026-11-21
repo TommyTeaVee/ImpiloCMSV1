@@ -240,7 +240,14 @@ export default function PageRenderer({ page }) {
   // COVER — preserve the existing full-bleed cover presentation.
   // ------------------------------------------------------------
   if (page.type === "COVER") {
+        const content = page.content;
+    const contentUrl =
+      typeof content === "string"
+        ? content.trim()
+        : content?.url || content?.coverUrl || content?.imageUrl || "";
+
     const coverImage =
+      contentUrl ||
       page.imageUrl ||
       page.image?.url ||
       page.media?.url ||

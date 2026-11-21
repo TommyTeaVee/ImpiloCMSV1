@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import MagazineBook from "./MagazineBook";
 import paginateArticle from "./paginateArticle";
 import api from "../../services/api";
@@ -7,7 +7,8 @@ import api from "../../services/api";
 export default function MagazineReader({ slug = "impilo-101" }) {
   const params = useParams();
   const navigate = useNavigate();
-
+  const location = useLocation();
+const isPreview = location.pathname.startsWith("/preview/");
   const activeSlug = params.slug || slug;
   const urlPageNumber = params.pageNumber
     ? parseInt(params.pageNumber, 10)
@@ -46,7 +47,11 @@ export default function MagazineReader({ slug = "impilo-101" }) {
 
     async function loadMagazine() {
       try {
-        const response = await api.get(`/magazines/public/${activeSlug}`);
+        const response = await api.get(
+  isPreview
+    ? `/magazine-admin/issues/${activeSlug}/preview`
+    : `/magazines/public/${activeSlug}`
+);
         if (!mounted) return;
 
         setMagazine(response.data.magazine || null);

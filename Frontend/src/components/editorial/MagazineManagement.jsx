@@ -591,7 +591,7 @@ function previewIssue(issue) {
   }
 
   window.open(
-    `/read/${encodeURIComponent(issue.id)}?preview=1`,
+    `/preview/${encodeURIComponent(issue.id)}`,
     "_blank",
     "noopener,noreferrer"
   );

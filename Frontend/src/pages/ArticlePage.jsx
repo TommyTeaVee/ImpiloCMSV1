@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import api from "../services/api";
 import NotFound from "./NotFound";
-
+import { useInitialData } from "../initialData";
 const unwrap = (j) => j?.article ?? j?.data ?? j;
 
 // Block content normally arrives as an object; tolerate a JSON string too
