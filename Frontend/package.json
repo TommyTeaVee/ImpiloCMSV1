@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --outDir dist/client && vite build --ssr src/entry-server.jsx --outDir dist/server && node scripts/prerender.mjs",
-"preview:static": "npx serve dist/client",
+    "build": "vite build --outDir dist/client && vite build --ssr src/entry-server.jsx --outDir dist/server",
+    "start:ssr": "node server/ssr-server.mjs",
+    "preview:static": "npx serve dist/client",
     "lint": "oxlint",
     "preview": "vite preview"
   },

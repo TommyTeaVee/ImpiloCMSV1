@@ -1,11 +1,11 @@
 import { lazy, Suspense, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import Home from "./pages/Home";
 import MagazineReader from "./components/magazine/MagazineReader.jsx";
 import ArticlePage from "./pages/ArticlePage.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import { initMatomo } from "./services/Matomo";
+import { initMatomo, trackPageView } from "./services/Matomo";
 
 // Private pages: client-only, not prerendered
 const ReaderDashboard = lazy(() => import("./pages/ReaderDashboard.jsx"));
@@ -16,6 +16,15 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard.jsx"));
 const MediaPickerTest = lazy(() => import("./pages/MediaPickerTest.jsx"));
 const CloudFrontMediaTest = lazy(() => import("./pages/CloudFrontMediaTest.jsx"));
 
+// Counts one page view per route change (private pages are skipped inside trackPageView)
+function RouteTracker() {
+  const location = useLocation();
+  useEffect(() => {
+    trackPageView(document.title);
+  }, [location.pathname]);
+  return null;
+}
+
 function App() {
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -24,6 +33,7 @@ function App() {
 
   return (
     <Suspense fallback={null}>
+      <RouteTracker />
       <Routes>
         {/* Public */}
         <Route path="/" element={<Home />} />
@@ -33,6 +43,10 @@ function App() {
         <Route path="/read/:slug" element={<MagazineReader />} />
         <Route path="/read/:slug/page/:pageNumber" element={<MagazineReader />} />
 
+        {/* Issue preview (admin/editor only, not indexed) */}
+        <Route path="/preview/:slug" element={<MagazineReader />} />
+        <Route path="/preview/:slug/page/:pageNumber" element={<MagazineReader />} />
+
         {/* Reader dashboard */}
         <Route path="/reader" element={<ReaderDashboard />} />
 
@@ -40,8 +54,7 @@ function App() {
         <Route path="/editorial/login" element={<EditorialLogin />} />
         <Route path="/editorial" element={<EditorialCMS />} />
         <Route path="/editorial/new" element={<EditorialWorkspace />} />
-      <Route path="/preview/:slug" element={<MagazineReader />} />
-<Route path="/preview/:slug/page/:pageNumber" element={<MagazineReader />} />
+
         {/* Administration */}
         <Route path="/admin" element={<AdminDashboard />} />
 
