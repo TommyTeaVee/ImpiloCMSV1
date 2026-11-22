@@ -157,16 +157,92 @@ function shellPage() {
   return buildPage({ head: SHELL_HEAD });
 }
 
-function headFor({ title, desc, canonicalPath, type = "website" }) {
-  const canonical = `${SITE}${canonicalPath === "/" ? "" : canonicalPath}`;
-  return `<title>${esc(title)}</title>
-<meta name="description" content="${esc(desc)}">
-<link rel="canonical" href="${esc(canonical)}">
-<meta property="og:type" content="${type}">
-<meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(desc)}">
-<meta property="og:url" content="${esc(canonical)}">`;
+const SITE_NAME = "Impilo Magazine";
+const SITE_DESC =
+  "Impilo Magazine is a South African digital magazine covering fashion, lifestyle, culture and business.";
+const PARENT_SITE = "https://co.impilomag.co.za"; // Impilo Digital Media Group
+
+// Collapse whitespace, strip tags, cut at a word boundary.
+function clip(text, max = 160) {
+  const t = String(text || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max - 1);
+  return cut.slice(0, cut.lastIndexOf(" ") > 80 ? cut.lastIndexOf(" ") : cut.length) + "…";
 }
+
+const absoluteUrl = (u) => {
+  if (!u) return "";
+  if (/^https?:\/\//i.test(u)) return u;
+  return u.startsWith("/") ? `${SITE}${u}` : "";
+};
+
+const sortedBlocks = (article) =>
+  [...(article?.blocks || [])].sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
+
+// Description: CMS excerpt, else the first paragraph of the article.
+function articleDescription(article) {
+  const excerpt = clip(article?.excerpt);
+  if (excerpt) return excerpt;
+  const firstText = sortedBlocks(article).find((b) => b.type === "TEXT" && b.content?.text);
+  return clip(firstText?.content?.text) || SITE_DESC;
+}
+
+// Social/search image: the first image block in the article.
+function articleImage(article) {
+  const img = sortedBlocks(article).find((b) => b.type === "IMAGE" && b.media?.url);
+  return absoluteUrl(img?.media?.url);
+}
+
+// JSON-LD must not be able to close the script tag.
+const jsonLdTag = (obj) =>
+  `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, "\\u003c")}</script>`;
+
+function headFor({
+  title,
+  desc,
+  canonicalPath,
+  type = "website",
+  image = "",
+  published = "",
+  modified = "",
+  author = "",
+  jsonLd = null,
+}) {
+  const canonical = `${SITE}${canonicalPath === "/" ? "" : canonicalPath}`;
+  const lines = [
+    `<title>${esc(title)}</title>`,
+    `<meta name="description" content="${esc(desc)}">`,
+    `<link rel="canonical" href="${esc(canonical)}">`,
+    `<meta name="robots" content="index, follow, max-image-preview:large">`,
+    `<meta property="og:site_name" content="${esc(SITE_NAME)}">`,
+    `<meta property="og:locale" content="en_ZA">`,
+    `<meta property="og:type" content="${type}">`,
+    `<meta property="og:title" content="${esc(title)}">`,
+    `<meta property="og:description" content="${esc(desc)}">`,
+    `<meta property="og:url" content="${esc(canonical)}">`,
+    `<meta name="twitter:card" content="${image ? "summary_large_image" : "summary"}">`,
+    `<meta name="twitter:title" content="${esc(title)}">`,
+    `<meta name="twitter:description" content="${esc(desc)}">`,
+  ];
+  if (image) {
+    lines.push(`<meta property="og:image" content="${esc(image)}">`);
+    lines.push(`<meta name="twitter:image" content="${esc(image)}">`);
+  }
+  if (type === "article") {
+    if (published) lines.push(`<meta property="article:published_time" content="${esc(published)}">`);
+    if (modified) lines.push(`<meta property="article:modified_time" content="${esc(modified)}">`);
+    if (author) lines.push(`<meta name="author" content="${esc(author)}">`);
+  }
+  if (jsonLd) lines.push(jsonLdTag(jsonLd));
+  return lines.join("\n");
+}
+
+const PUBLISHER = {
+  "@type": "Organization",
+  name: SITE_NAME,
+  url: SITE,
+  parentOrganization: { "@type": "Organization", name: "Impilo Digital Media Group", url: PARENT_SITE },
+};
 
 const unwrapArticle = (j) => j?.article ?? j?.data ?? j;
 const listArticles = (j) =>
@@ -192,9 +268,28 @@ async function homePage() {
     headers: { "Content-Type": HTML, "Cache-Control": PUBLIC_CACHE },
     body: buildPage({
       head: headFor({
-        title: "Impilo Magazine",
-        desc: "Impilo Magazine: stories, culture and ideas.",
+        title: "Impilo Magazine | Fashion, Culture & Lifestyle from South Africa",
+        desc: SITE_DESC,
         canonicalPath: "/",
+        jsonLd: {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              name: SITE_NAME,
+              url: SITE,
+              inLanguage: "en-ZA",
+              publisher: { "@type": "Organization", name: SITE_NAME },
+            },
+            {
+              "@type": "Organization",
+              name: SITE_NAME,
+              url: SITE,
+              parentOrganization: { "@type": "Organization", name: "Impilo Digital Media Group", url: PARENT_SITE },
+              sameAs: [PARENT_SITE],
+            },
+          ],
+        },
       }),
       html: safeRender("/", payload),
       data: payload,
@@ -224,10 +319,29 @@ async function articlePage(slug) {
     headers: { "Content-Type": HTML, "Cache-Control": PUBLIC_CACHE },
     body: buildPage({
       head: headFor({
-        title: article.title,
-        desc: String(article.excerpt || "").slice(0, 160),
+        title: `${article.title} | ${SITE_NAME}`,
+        desc: articleDescription(article),
         canonicalPath: `/articles/${slug}`,
         type: "article",
+        image: articleImage(article),
+        published: article.publishedAt || "",
+        modified: article.updatedAt || article.publishedAt || "",
+        author: article.author?.displayName || "",
+        jsonLd: {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: String(article.title).slice(0, 110),
+          description: articleDescription(article),
+          mainEntityOfPage: `${SITE}/articles/${slug}`,
+          inLanguage: "en-ZA",
+          ...(articleImage(article) ? { image: [articleImage(article)] } : {}),
+          ...(article.publishedAt ? { datePublished: article.publishedAt } : {}),
+          dateModified: article.updatedAt || article.publishedAt || undefined,
+          ...(article.author?.displayName
+            ? { author: { "@type": "Person", name: article.author.displayName } }
+            : { author: { "@type": "Organization", name: SITE_NAME } }),
+          publisher: PUBLISHER,
+        },
       }),
       html: safeRender(`/articles/${slug}`, payload),
       data: payload,
