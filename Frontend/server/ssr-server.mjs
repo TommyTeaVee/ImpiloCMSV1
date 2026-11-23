@@ -301,6 +301,45 @@ async function homePage() {
   return result;
 }
 
+// Fixed pages: About, Contact, Privacy (rendered on the server, listed in the sitemap).
+const STATIC_PAGES = {
+  "/about": {
+    title: `About | ${SITE_NAME}`,
+    desc: "Impilo Magazine is a South African digital magazine covering fashion, lifestyle and culture, published by Impilo Digital Media Group.",
+  },
+  "/contact": {
+    title: `Contact | ${SITE_NAME}`,
+    desc: "Contact Impilo Magazine for editorial enquiries, story ideas, advertising, partnerships and corrections: info@impilomag.co.za.",
+  },
+  "/privacy": {
+    title: `Privacy Policy | ${SITE_NAME}`,
+    desc: "How Impilo Magazine collects and uses information, including cookies, analytics and Google advertising, and how to exercise your rights under POPIA.",
+  },
+};
+
+function staticPage(pathname) {
+  const meta = STATIC_PAGES[pathname];
+  if (!meta) return null;
+
+  const key = `page:${pathname}`;
+  const cached = cacheGet(key);
+  if (cached) return cached;
+
+  const result = {
+    status: 200,
+    headers: { "Content-Type": HTML, "Cache-Control": PUBLIC_CACHE },
+    body: buildPage({
+      head: headFor({ title: meta.title, desc: meta.desc, canonicalPath: pathname }),
+      html: safeRender(pathname, {}),
+      data: {},
+      url: pathname,
+    }),
+  };
+
+  cacheSet(key, result);
+  return result;
+}
+
 async function articlePage(slug) {
   const key = `page:/articles/${slug}`;
   const cached = cacheGet(key);
@@ -393,6 +432,7 @@ async function sitemap() {
 
   const urls = [
     `<url><loc>${esc(SITE)}</loc></url>`,
+    ...Object.keys(STATIC_PAGES).map((p) => `<url><loc>${esc(`${SITE}${p}`)}</loc></url>`),
     ...articles
       .filter((a) => a?.slug)
       .map((a) => {
@@ -414,6 +454,17 @@ ${urls.join("\n")}
 
   cacheSet("sitemap", result, SITEMAP_TTL_MS);
   return result;
+}
+
+// Google AdSense authorised-sellers file, served at /ads.txt
+const ADSENSE_PUB_ID = process.env.ADSENSE_PUB_ID || "pub-6553808631548762";
+
+function adsTxt() {
+  return {
+    status: 200,
+    headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
+    body: `google.com, ${ADSENSE_PUB_ID}, DIRECT, f08c47fec0942fa0\n`,
+  };
 }
 
 function robots() {
@@ -465,6 +516,7 @@ const isPrivate = (p) =>
 async function route(pathname) {
   if (pathname === "/robots.txt") return robots();
   if (pathname === "/sitemap.xml") return sitemap();
+  if (pathname === "/ads.txt") return adsTxt();
 
   if (path.extname(pathname)) {
     const file = await staticFile(pathname);
@@ -477,6 +529,8 @@ async function route(pathname) {
   }
 
   if (pathname === "/") return homePage();
+
+  if (STATIC_PAGES[pathname]) return staticPage(pathname);
 
   const article = pathname.match(/^\/articles\/([A-Za-z0-9_-]+)$/);
   if (article) return articlePage(article[1]);

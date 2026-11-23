@@ -1,5 +1,6 @@
 import React from "react";
 import GamePageRenderer from "../editorial/GamePageRenderer";
+import About from "../../pages/AboutPage";
 
 
 
@@ -279,14 +280,14 @@ export default function PageRenderer({ page }) {
 
   if (page.type === "ABOUT") {
     return (
-      <section className="impilo-page impilo-page-about impilo-magazine-editorial-page">
+      <About className="impilo-page impilo-page-about impilo-magazine-editorial-page">
         <div className="impilo-magazine-section-inner">
           <span className="impilo-magazine-eyebrow">THE MAGAZINE</span>
           <h1 className="impilo-magazine-section-title">{page.title || "About IMPILO"}</h1>
           <div className="impilo-magazine-gold-rule" />
-          <p className="impilo-magazine-placeholder">About IMPILO content will appear here.</p>
+         
         </div>
-      </section>
+      </About>
     );
   }
 
