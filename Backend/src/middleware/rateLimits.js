@@ -18,6 +18,9 @@ const loginLimiter = make(15, 10, "Too many login attempts. Try again in 15 minu
 // Anonymous reader account creation.
 const identityLimiter = make(60, 30, "Too many sign-ups from this network. Try again later.");
 
-module.exports = { apiLimiter, loginLimiter, identityLimiter };
+// Username attempts (the once-a-day rule is enforced separately in the controller).
+const usernameLimiter = make(60, 20, "Too many username attempts. Try again later.");
+
+module.exports = { apiLimiter, loginLimiter, identityLimiter, usernameLimiter };
 // NOTE: the default store is in memory, per pm2 process. With "instances: max" the real limit is
 // multiplied by the number of CPU cores. Use fewer instances (see ecosystem.config.js).

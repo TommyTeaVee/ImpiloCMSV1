@@ -6,7 +6,7 @@ import MagazineReader from "./components/magazine/MagazineReader.jsx";
 import ArticlePage from "./pages/ArticlePage.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import { initMatomo, trackPageView } from "./services/Matomo";
-
+ import { ensureReader } from "./services/readerIdentity";
 // Private pages: client-only, not prerendered
 const ReaderDashboard = lazy(() => import("./pages/ReaderDashboard.jsx"));
 const EditorialCMS = lazy(() => import("./pages/EditorialCMS.jsx"));
@@ -27,9 +27,10 @@ function RouteTracker() {
 
 function App() {
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    initMatomo(userId);
-  }, []);
+       initMatomo(localStorage.getItem("userId"));
+       ensureReader().then((u) => { if (u) window._paq?.push(["setUserId", u.id]); });
+     }, []);
+  
 
   return (
     <Suspense fallback={null}>

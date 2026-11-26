@@ -17,6 +17,8 @@ model User {
   passwordHash       String?
   avatarUrl          String?
   readerTokenHash    String?             @unique
+   readerSecretHash   String?
+  usernameChangedAt  DateTime?
   approvedArticles   Article[]           @relation("ArticleApprover")
   articles           Article[]
   publishedArticles  Article[]           @relation("ArticlePublisher")
