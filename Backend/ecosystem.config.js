@@ -1,16 +1,16 @@
 module.exports = {
   apps: [
     {
-      name: "impilo-backend",
+      name: "backend-CMS", // matches the process already running on the VPS
       script: "src/server.js",
-      instances: "max", // Uses all available CPU cores
-      exec_mode: "cluster", // Enables load balancing
-      watch: false, // Keep false in production
-      max_memory_restart: "500M", // Restarts if memory leaks occur
+      instances: 2, // not "max": rate limits are counted per process
+      exec_mode: "cluster",
+      watch: false,
+      max_memory_restart: "500M",
       env: {
         NODE_ENV: "production",
-        PORT: 35050
-      }
-    }
-  ]
+        SERVER_PORT: 35050, // server.js reads SERVER_PORT
+      },
+    },
+  ],
 };

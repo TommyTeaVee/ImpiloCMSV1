@@ -1,76 +1,72 @@
+// Impilo Editorial CMS API (hardened). Replaces Backend/src/server.js.
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
+
+const { apiLimiter } = require("./middleware/rateLimits");
 
 const authRoutes = require("./routes/authRoutes");
 const articleRoutes = require("./routes/articleRoutes");
 const readerRoutes = require("./routes/readerRoutes");
- const commentRoutes = require("./routes/commentRoutes");
- const mediaRoutes = require("./routes/mediaRoutes");
- const articleBlockRoutes = require("./routes/articleBlockRoutes");
+const commentRoutes = require("./routes/commentRoutes");
+const mediaRoutes = require("./routes/mediaRoutes");
+const articleBlockRoutes = require("./routes/articleBlockRoutes");
 const quizRoutes = require("./routes/quizRoutes");
-const gamificationRoutes =
-  require("./routes/gamificationRoutes");
-const magazineRoutes =
-  require("./routes/magazineRoutes");
-const cloudfrontMediaRoutes =
-  require(
-    "./routes/cloudfrontMediaRoutes"
-  );
-  const userRoutes = require("./routes/userRoutes");
-const magazineAdminRoutes =
-  require("./routes/magazineAdminRoutes");
+const gamificationRoutes = require("./routes/gamificationRoutes");
+const magazineRoutes = require("./routes/magazineRoutes");
+const cloudfrontMediaRoutes = require("./routes/cloudfrontMediaRoutes");
+const userRoutes = require("./routes/userRoutes");
+const magazineAdminRoutes = require("./routes/magazineAdminRoutes");
 
+if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
+  console.error("JWT_SECRET is missing or shorter than 32 characters. Refusing to start.");
+  process.exit(1);
+}
 
 const app = express();
+const PORT = process.env.SERVER_PORT || process.env.PORT || 35050;
 
-const PORT = process.env.SERVER_PORT || 35050;
+app.disable("x-powered-by");
+// Behind Nginx: without this every request looks like 127.0.0.1 and rate limits hit everyone at once.
+app.set("trust proxy", 1);
 
-// --------------------------------------------------
-// Middleware
-// --------------------------------------------------
+app.use(
+  helmet({
+    // The API is called from other origins (www site, SSR); CORS below decides who may.
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
 
-app.use(cors());
-// 1. Parse the comma-separated environment string into a clean array
-const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim())
-  : [];
+// Only the origins in ALLOWED_ORIGINS (comma separated) may call this API from a browser.
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
 
-// 2. Wire up the dynamic CORS engine onto your Express app instance
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow server-to-server requests or tools like Postman/Insomnia (no origin header)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.warn(`[CORS Blocked]: Request from unauthorized origin: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true, // Crucial for auth endpoints using HTTP cookies or sessions
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(
+  cors({
+    origin(origin, callback) {
+      // no Origin header = server-to-server (the SSR server), curl, health checks
+      if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+      console.warn(`[CORS blocked] ${origin}`);
+      return callback(null, false);
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], // PATCH: magazine page reorder
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
-app.use(express.json());
-
-app.use(express.urlencoded({ extended: true }));
-
-// --------------------------------------------------
-// Health Check
-// --------------------------------------------------
+app.use(express.json({ limit: "2mb" }));
+app.use(express.urlencoded({ extended: true, limit: "2mb" }));
 
 app.get("/", (req, res) => {
-  res.json({
-    message: "Impilo Editorial CMS Server",
-    status: "running"
-  });
+  res.json({ message: "Impilo Editorial CMS Server", status: "running" });
 });
 
-// --------------------------------------------------
-// Routes
-// --------------------------------------------------
+app.use("/api", apiLimiter);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/articles", articleRoutes);
@@ -80,42 +76,26 @@ app.use("/api/media", mediaRoutes);
 app.use("/api/blocks", articleBlockRoutes);
 app.use("/api/quiz", quizRoutes);
 app.use("/api/gamification", gamificationRoutes);
-app.use(
-  "/api/cloudfront-media",cloudfrontMediaRoutes);
-app.use(
-  "/api/magazines",
-  magazineRoutes
-);
-app.use(
-  "/api/magazine-admin/issues",
-  magazineAdminRoutes
-);
+app.use("/api/cloudfront-media", cloudfrontMediaRoutes);
+app.use("/api/magazines", magazineRoutes);
+app.use("/api/magazine-admin/issues", magazineAdminRoutes);
 app.use("/api/users", userRoutes);
-// --------------------------------------------------
-// 404 Handler
-// --------------------------------------------------
 
 app.use((req, res) => {
-  res.status(404).json({
-    message: "Route not found"
-  });
+  res.status(404).json({ message: "Route not found" });
 });
-
-// --------------------------------------------------
-// Error Handler
-// --------------------------------------------------
 
 app.use((err, req, res, next) => {
+  // multer errors (too big, wrong type) are the client's fault, not a 500
+  if (err && err.name === "MulterError") {
+    return res.status(400).json({ message: err.message });
+  }
+  if (err && err.code === "UNSUPPORTED_MEDIA") {
+    return res.status(400).json({ message: err.message });
+  }
   console.error("Server error:", err);
-
-  res.status(500).json({
-    message: "Internal server error"
-  });
+  res.status(500).json({ message: "Internal server error" });
 });
-
-// --------------------------------------------------
-// Start Server
-// --------------------------------------------------
 
 app.listen(PORT, () => {
   console.log(`Impilo Editorial CMS running on port ${PORT}`);

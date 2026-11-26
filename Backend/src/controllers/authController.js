@@ -2,11 +2,19 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const prisma = require("../lib/prisma");
 
+// Compared against when the email is unknown, so "no such user" takes as long as "wrong password"
+// and response time cannot be used to find out which emails have accounts.
+const DUMMY_HASH = bcrypt.hashSync("not-a-real-password", 12);
+
 
 
 async function login(req, res) {
   try {
     const { email, password } = req.body;
+
+    if (typeof email !== "string" || typeof password !== "string" || password.length > 200) {
+      return res.status(400).json({ message: "Email and password are required" });
+    }
 
     if (!email || !password) {
       return res.status(400).json({
@@ -20,16 +28,16 @@ async function login(req, res) {
       }
     });
 
+    const passwordValid = await bcrypt.compare(
+      String(password),
+      user && user.passwordHash ? user.passwordHash : DUMMY_HASH
+    );
+
     if (!user || !user.passwordHash) {
       return res.status(401).json({
         message: "Invalid email or password"
       });
     }
-
-    const passwordValid = await bcrypt.compare(
-      password,
-      user.passwordHash
-    );
 
     if (!passwordValid) {
       return res.status(401).json({
