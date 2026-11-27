@@ -5,17 +5,10 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553808631548762" crossorigin="anonymous"></script>
 <!-- Matomo -->
 <script>
-  var _paq = window._paq = window._paq || [];
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u = 'https://analytics.impilomag.co.za/';
-    _paq.push(['setTrackerUrl', u + 'matomo.php']);
-    _paq.push(['setSiteId', '1']);
-    var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-    g.async = true;
-    g.src = u + 'matomo.js';
-    s.parentNode.insertBefore(g, s);
-  })();
+ var h = window.location.hostname;
+if (/(^|\.)impilomag\.co\.za$/.test(h)) {
+  _paq.push(['setCookieDomain', '*.impilomag.co.za']);
+}
 </script>
 <!-- End Matomo -->
 
