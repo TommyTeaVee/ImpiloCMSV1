@@ -1,0 +1,28 @@
+/* =========================================================
+   BASE: small, safe rules that keep every page usable on a phone.
+   Nothing here restyles a component; it only stops page-level breakage.
+   ========================================================= */
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* A single over-wide element must never make the whole page slide sideways.
+   `clip` (unlike `hidden`) does not create a scroll container, so sticky
+   headers and normal vertical scrolling keep working. */
+body {
+  max-width: 100%;
+  overflow-x: clip;
+  overflow-wrap: break-word; /* long words / URLs wrap instead of widening the page */
+}
+
+/* Tables and code scroll inside themselves on small screens. */
+@media (max-width: 767px) {
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

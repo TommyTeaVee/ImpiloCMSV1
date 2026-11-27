@@ -1,0 +1,1873 @@
+/* =========================================================
+   02. IMPILO EDITORIAL CMS
+   ========================================================= */
+
+.impilo-editorial-workspace {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  box-sizing: border-box;
+
+  padding:
+    36px
+    clamp(18px, 4vw, 60px)
+    70px;
+
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(212, 175, 55, 0.06),
+      transparent 28%
+    ),
+    linear-gradient(
+      180deg,
+      #080808 0%,
+      #0d0d0d 100%
+    );
+
+  color: var(--impilo-white);
+}
+/* =========================================================
+   IMPILO ARTICLE FEEDER
+   ========================================================= */
+
+.impilo-article-feeder {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+
+  padding: 32px;
+
+  box-sizing: border-box;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.035),
+      rgba(255, 255, 255, 0.012)
+    );
+
+  border:
+    1px solid rgba(212, 175, 55, 0.18);
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.35);
+
+  color: var(--impilo-white);
+}
+
+
+/* =========================================================
+   FEEDER HEADER
+   ========================================================= */
+
+.impilo-feeder-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  margin-bottom: 24px;
+}
+
+
+.impilo-feeder-kicker {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: var(--impilo-gold);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.65rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.18em;
+
+  text-transform: uppercase;
+}
+
+
+.impilo-feeder-header h2 {
+  margin: 0;
+
+  color: var(--impilo-white);
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size:
+    clamp(1.8rem, 3vw, 2.5rem);
+
+  font-weight: 600;
+
+  line-height: 1.1;
+}
+
+
+.impilo-feeder-header p {
+  max-width: 680px;
+
+  margin:
+    10px
+    0
+    0;
+
+  color: var(--impilo-muted);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.85rem;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   PARAGRAPH COUNT
+   ========================================================= */
+
+.impilo-feeder-count {
+  flex-shrink: 0;
+
+  padding:
+    8px
+    12px;
+
+  border:
+    1px solid
+    rgba(212, 175, 55, 0.20);
+
+  border-radius: 6px;
+
+  background:
+    rgba(212, 175, 55, 0.05);
+
+  color: var(--impilo-gold);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.65rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.06em;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   FEEDER EDITOR
+   ========================================================= */
+
+.impilo-feeder-editor {
+  width: 100%;
+}
+
+
+.impilo-feeder-editor textarea {
+  display: block;
+
+  width: 100%;
+
+  min-height: 480px;
+
+  box-sizing: border-box;
+
+  padding: 24px;
+
+  resize: vertical;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.10);
+
+  border-radius: 10px;
+
+  outline: none;
+
+  background:
+    #0b0b0b;
+
+  color:
+    var(--impilo-text);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.9rem;
+
+  line-height: 1.8;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.impilo-feeder-editor textarea::placeholder {
+  color:
+    rgba(255, 255, 255, 0.25);
+}
+
+
+.impilo-feeder-editor textarea:focus {
+  border-color:
+    rgba(212, 175, 55, 0.55);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(212, 175, 55, 0.07);
+}
+
+
+/* =========================================================
+   FEEDER FOOTER
+   ========================================================= */
+
+.impilo-feeder-footer {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-top: 16px;
+}
+
+
+/* =========================================================
+   HOW IT WORKS
+   ========================================================= */
+
+.impilo-feeder-help {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color:
+    var(--impilo-muted);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.7rem;
+}
+
+
+.impilo-feeder-help strong {
+  color:
+    var(--impilo-gold);
+
+  font-weight: 800;
+
+  letter-spacing: 0.06em;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.impilo-feeder-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+
+/* =========================================================
+   CANCEL
+   ========================================================= */
+
+.impilo-feeder-cancel {
+  min-height: 42px;
+
+  padding:
+    0
+    18px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+
+  border-radius: 7px;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  color:
+    var(--impilo-muted);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.7rem;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+
+.impilo-feeder-cancel:hover {
+  border-color:
+    rgba(255, 255, 255, 0.25);
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  color:
+    var(--impilo-white);
+}
+
+
+/* =========================================================
+   GENERATE
+   ========================================================= */
+
+.impilo-feeder-generate {
+  min-height: 42px;
+
+  padding:
+    0
+    22px;
+
+  border:
+    1px solid
+    var(--impilo-gold);
+
+  border-radius: 7px;
+
+  background:
+    var(--impilo-gold);
+
+  color:
+    #080808;
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.7rem;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.impilo-feeder-generate:hover:not(:disabled) {
+  transform:
+    translateY(-1px);
+
+  background:
+    var(--impilo-gold-light);
+
+  box-shadow:
+    0 8px 25px
+    rgba(212, 175, 55, 0.18);
+}
+
+
+.impilo-feeder-generate:disabled {
+  opacity: 0.35;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .impilo-article-feeder {
+    padding: 20px;
+  }
+
+  .impilo-feeder-header {
+    flex-direction: column;
+
+    gap: 14px;
+  }
+
+  .impilo-feeder-count {
+    align-self: flex-start;
+  }
+
+  .impilo-feeder-editor textarea {
+    min-height: 380px;
+
+    padding: 18px;
+
+    font-size: 0.85rem;
+  }
+
+  .impilo-feeder-footer {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+  .impilo-feeder-actions {
+    width: 100%;
+  }
+
+  .impilo-feeder-actions button {
+    flex: 1;
+  }
+
+}
+
+/* =========================================================
+   EDITORIAL HEADER
+   ========================================================= */
+
+.impilo-editorial-header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  margin-bottom: 30px;
+
+  padding-bottom: 26px;
+
+  border-bottom:
+    1px solid var(--impilo-border);
+}
+
+
+.impilo-editorial-header h1 {
+  margin: 0;
+
+  color: var(--impilo-white);
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size:
+    clamp(2rem, 4vw, 3.2rem);
+
+  font-weight: 600;
+
+  line-height: 1.05;
+}
+
+
+.impilo-editorial-header p {
+  margin:
+    12px
+    0
+    0;
+
+  max-width: 700px;
+
+  color: var(--impilo-muted);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.9rem;
+
+  line-height: 1.7;
+}
+
+
+.impilo-editorial-header span {
+  display: inline-block;
+
+  margin-bottom: 10px;
+
+  color: var(--impilo-gold);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.7rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.2em;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   EDITORIAL ACTIONS
+   ========================================================= */
+
+.impilo-editorial-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  flex-shrink: 0;
+}
+
+
+.impilo-word-count {
+  padding:
+    9px
+    13px;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius-small);
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  color:
+    var(--impilo-muted);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.72rem;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   SAVE BUTTON
+   ========================================================= */
+
+.impilo-save-draft {
+  min-height: 40px;
+
+  padding:
+    9px
+    18px;
+
+  border:
+    1px solid var(--impilo-gold);
+
+  border-radius:
+    var(--impilo-radius-small);
+
+  background:
+    var(--impilo-gold);
+
+  color:
+    #080808;
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.75rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.04em;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.impilo-save-draft:hover:not(:disabled) {
+  background:
+    var(--impilo-gold-light);
+
+  box-shadow:
+    0 8px 24px
+    rgba(212, 175, 55, 0.18);
+
+  transform:
+    translateY(-1px);
+}
+
+
+.impilo-save-draft:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   SUCCESS / ERROR
+   ========================================================= */
+
+.impilo-editorial-success,
+.impilo-editorial-error {
+  margin:
+    0
+    0
+    24px;
+
+  padding:
+    12px
+    15px;
+
+  border-radius:
+    var(--impilo-radius-small);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.8rem;
+
+  line-height: 1.5;
+}
+
+
+.impilo-editorial-success {
+  border:
+    1px solid
+    rgba(117, 185, 142, 0.35);
+
+  background:
+    rgba(117, 185, 142, 0.08);
+
+  color:
+    #a8d8b9;
+}
+
+
+.impilo-editorial-error {
+  border:
+    1px solid
+    rgba(216, 115, 115, 0.35);
+
+  background:
+    rgba(216, 115, 115, 0.08);
+
+  color:
+    #efaaaa;
+}
+
+
+/* =========================================================
+   03. ARTICLE DETAILS
+   ========================================================= */
+
+.impilo-article-details {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 2fr)
+    minmax(240px, 1fr);
+
+  gap: 20px;
+
+  margin-bottom: 30px;
+
+  padding: 24px;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.035),
+      rgba(255, 255, 255, 0.012)
+    );
+
+  box-shadow:
+    var(--impilo-shadow);
+}
+
+
+/* =========================================================
+   ARTICLE DETAIL LABELS
+   ========================================================= */
+
+.impilo-article-details label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--impilo-gold);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.68rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   ARTICLE DETAIL INPUTS
+   ========================================================= */
+
+.impilo-article-details input,
+.impilo-article-details textarea,
+.impilo-article-details select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding:
+    11px
+    13px;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius-small);
+
+  outline: none;
+
+  background:
+    #0b0b0b;
+
+  color:
+    var(--impilo-white);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.84rem;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.impilo-article-details textarea {
+  min-height: 110px;
+
+  resize: vertical;
+}
+
+
+.impilo-article-details input::placeholder,
+.impilo-article-details textarea::placeholder {
+  color: #666;
+}
+
+
+.impilo-article-details input:focus,
+.impilo-article-details textarea:focus,
+.impilo-article-details select:focus {
+  border-color:
+    var(--impilo-gold);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(212, 175, 55, 0.07);
+}
+
+
+/* =========================================================
+   04. EDITORIAL BLOCK WORKSPACE
+   ========================================================= */
+
+.impilo-editorial-blocks {
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+
+/* =========================================================
+   BLOCK
+   ========================================================= */
+
+.impilo-editorial-block {
+  position: relative;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 20px;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius);
+
+  background:
+    var(--impilo-panel);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.impilo-editorial-block:hover {
+  border-color:
+    rgba(212, 175, 55, 0.18);
+}
+
+
+.impilo-editorial-block:focus-within {
+  border-color:
+    var(--impilo-border);
+
+  box-shadow:
+    0 8px 28px
+    rgba(0, 0, 0, 0.2);
+}
+
+
+/* =========================================================
+   BLOCK HEADER
+   ========================================================= */
+
+.impilo-editorial-block-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 14px;
+}
+
+
+.impilo-editorial-block-type {
+  color:
+    var(--impilo-gold);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.65rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.14em;
+
+  text-transform: uppercase;
+}
+
+
+.impilo-editorial-block-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+}
+
+
+/* =========================================================
+   BLOCK ACTION BUTTONS
+   ========================================================= */
+
+.impilo-editorial-block-actions button {
+  width: 32px;
+  height: 32px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  color:
+    var(--impilo-muted);
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.impilo-editorial-block-actions button:hover {
+  border-color:
+    var(--impilo-gold);
+
+  color:
+    var(--impilo-gold);
+
+  background:
+    rgba(212, 175, 55, 0.06);
+}
+
+
+/* =========================================================
+   BLOCK INPUTS
+   ========================================================= */
+
+.impilo-editorial-block textarea,
+.impilo-editorial-block input {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius-small);
+
+  background:
+    #0b0b0b;
+
+  color:
+    var(--impilo-white);
+
+  outline: none;
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.impilo-editorial-block textarea {
+  min-height: 150px;
+
+  padding: 15px;
+
+  line-height: 1.7;
+
+  resize: vertical;
+}
+
+
+.impilo-editorial-block input {
+  padding:
+    11px
+    13px;
+}
+
+
+.impilo-editorial-block textarea:focus,
+.impilo-editorial-block input:focus {
+  border-color:
+    var(--impilo-gold);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(212, 175, 55, 0.06);
+}
+
+
+/* =========================================================
+   BLOCK DRAG STATE
+   ========================================================= */
+
+.impilo-editorial-block[draggable="true"] {
+  cursor: grab;
+}
+
+
+.impilo-editorial-block[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+
+/* =========================================================
+   05. ADD BLOCK CONTROLS
+   ========================================================= */
+
+.impilo-editorial-add-blocks {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 20px;
+
+  padding:
+    14px;
+
+  border:
+    1px dashed
+    var(--impilo-border);
+
+  border-radius:
+    var(--impilo-radius);
+
+  background:
+    rgba(212, 175, 55, 0.025);
+}
+
+
+.impilo-editorial-add-blocks button {
+  padding:
+    8px
+    12px;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius-small);
+
+  background:
+    #111;
+
+  color:
+    var(--impilo-text);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.72rem;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.impilo-editorial-add-blocks button:hover {
+  border-color:
+    var(--impilo-gold);
+
+  color:
+    var(--impilo-gold);
+
+  background:
+    rgba(212, 175, 55, 0.06);
+}
+
+
+/* =========================================================
+   06. MEDIA PICKER
+   ========================================================= */
+
+.impilo-media-picker {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  color:
+    var(--impilo-white);
+}
+
+
+.impilo-media-picker-header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 25px;
+
+  padding-bottom: 18px;
+
+  border-bottom:
+    1px solid var(--impilo-border);
+}
+
+
+.impilo-media-picker-header span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color:
+    var(--impilo-gold);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.65rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.16em;
+}
+
+
+.impilo-media-picker-header h3 {
+  margin: 0;
+
+  color:
+    var(--impilo-white);
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 1.8rem;
+}
+
+
+/* =========================================================
+   MEDIA PICKER SOURCE CARDS
+   ========================================================= */
+
+.impilo-media-picker-sources {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+
+.impilo-media-picker-source {
+  min-height: 150px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  padding: 20px;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius);
+
+  background:
+    var(--impilo-panel);
+
+  color:
+    var(--impilo-white);
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.impilo-media-picker-source:hover {
+  border-color:
+    var(--impilo-gold);
+
+  background:
+    var(--impilo-panel-light);
+
+  transform:
+    translateY(-2px);
+}
+
+
+.impilo-media-picker-source-icon {
+  margin-bottom: 5px;
+
+  font-size: 1.7rem;
+}
+
+
+.impilo-media-picker-source strong {
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.84rem;
+}
+
+
+.impilo-media-picker-source small {
+  color:
+    var(--impilo-muted);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.7rem;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   07. MEDIA LIBRARY CONTROLS
+   ========================================================= */
+
+.impilo-media-library-controls {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    180px;
+
+  gap: 15px;
+
+  margin-bottom: 20px;
+
+  padding: 18px;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius);
+
+  background:
+    rgba(255, 255, 255, 0.02);
+}
+
+
+.impilo-media-library-controls label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color:
+    var(--impilo-gold);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.65rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+}
+
+
+.impilo-media-library-controls input,
+.impilo-media-library-controls select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding:
+    11px
+    13px;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius-small);
+
+  background:
+    #0b0b0b;
+
+  color:
+    var(--impilo-white);
+
+  outline: none;
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.78rem;
+}
+
+
+.impilo-media-library-controls input:focus,
+.impilo-media-library-controls select:focus {
+  border-color:
+    var(--impilo-gold);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(212, 175, 55, 0.06);
+}
+
+
+/* =========================================================
+   MEDIA RESULT COUNT
+   ========================================================= */
+
+.impilo-media-library-result-count {
+  margin-bottom: 12px;
+
+  color:
+    var(--impilo-muted);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.72rem;
+}
+
+
+/* =========================================================
+   08. MEDIA PICKER GRID
+   ========================================================= */
+
+.impilo-media-picker-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap: 16px;
+}
+
+
+.impilo-media-picker-item {
+  overflow: hidden;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius);
+
+  background:
+    var(--impilo-panel);
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.impilo-media-picker-item:hover {
+  border-color:
+    var(--impilo-border);
+
+  transform:
+    translateY(-2px);
+}
+
+
+.impilo-media-picker-item.is-selected {
+  border-color:
+    var(--impilo-gold);
+
+  box-shadow:
+    0 0 0 1px
+    var(--impilo-gold),
+    0 12px 30px
+    rgba(212, 175, 55, 0.12);
+}
+
+
+/* =========================================================
+   MEDIA PREVIEW
+   ========================================================= */
+
+.impilo-media-picker-preview {
+  width: 100%;
+
+  aspect-ratio: 4 / 3;
+
+  overflow: hidden;
+
+  background:
+    #090909;
+}
+
+
+.impilo-media-picker-preview img,
+.impilo-media-picker-preview video {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+.impilo-media-picker-preview audio {
+  width: 100%;
+
+  margin-top: 100px;
+}
+
+
+/* =========================================================
+   MEDIA INFORMATION
+   ========================================================= */
+
+.impilo-media-picker-info {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+
+  padding:
+    13px
+    14px
+    5px;
+}
+
+
+.impilo-media-picker-info strong {
+  overflow: hidden;
+
+  color:
+    var(--impilo-white);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.78rem;
+
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+.impilo-media-picker-info small {
+  color:
+    var(--impilo-muted);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.65rem;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   MEDIA ACTIONS
+   ========================================================= */
+
+.impilo-media-picker-actions {
+  display: flex;
+
+  gap: 8px;
+
+  padding:
+    10px
+    14px
+    14px;
+}
+
+
+.impilo-media-picker-actions button {
+  flex: 1;
+
+  min-height: 34px;
+
+  padding:
+    7px
+    10px;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius-small);
+
+  background:
+    #0d0d0d;
+
+  color:
+    var(--impilo-text);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.65rem;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.impilo-media-picker-actions button:first-child {
+  border-color:
+    var(--impilo-gold);
+
+  color:
+    var(--impilo-gold);
+}
+
+
+.impilo-media-picker-actions button:hover {
+  border-color:
+    var(--impilo-gold);
+
+  color:
+    var(--impilo-gold);
+
+  background:
+    rgba(212, 175, 55, 0.06);
+}
+
+
+/* =========================================================
+   09. MEDIA METADATA EDITOR
+   ========================================================= */
+
+.impilo-media-metadata-editor {
+  max-width: 850px;
+
+  margin:
+    0
+    auto;
+
+  padding: 25px;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius);
+
+  background:
+    var(--impilo-panel);
+}
+
+
+.impilo-media-metadata-editor h3 {
+  margin:
+    0
+    0
+    8px;
+
+  color:
+    var(--impilo-white);
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 1.8rem;
+}
+
+
+.impilo-media-metadata-editor header p {
+  margin: 0 0 20px;
+
+  color:
+    var(--impilo-muted);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.8rem;
+}
+
+
+.impilo-media-metadata-preview {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 180px;
+
+  margin-bottom: 22px;
+
+  padding: 15px;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius-small);
+
+  background:
+    #090909;
+}
+
+
+.impilo-media-metadata-preview img,
+.impilo-media-metadata-preview video {
+  max-width: 100%;
+  max-height: 360px;
+
+  object-fit: contain;
+}
+
+
+.impilo-media-metadata-editor > div:not(
+  .impilo-media-metadata-preview
+) {
+  margin-bottom: 16px;
+}
+
+
+.impilo-media-metadata-editor label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color:
+    var(--impilo-gold);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.65rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
+}
+
+
+.impilo-media-metadata-editor input,
+.impilo-media-metadata-editor textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding:
+    11px
+    13px;
+
+  border:
+    1px solid var(--impilo-border-soft);
+
+  border-radius:
+    var(--impilo-radius-small);
+
+  background:
+    #0b0b0b;
+
+  color:
+    var(--impilo-white);
+
+  outline: none;
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 0.8rem;
+}
+
+
+.impilo-media-metadata-editor textarea {
+  min-height: 110px;
+
+  resize: vertical;
+}
+
+
+.impilo-media-metadata-editor input:focus,
+.impilo-media-metadata-editor textarea:focus {
+  border-color:
+    var(--impilo-gold);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(212, 175, 55, 0.06);
+}
+
+
+/* =========================================================
+   10. MOBILE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .impilo-editorial-header {
+    flex-direction: column;
+  }
+
+
+  .impilo-editorial-actions {
+    width: 100%;
+  }
+
+
+  .impilo-article-details {
+    grid-template-columns: 1fr;
+  }
+
+
+  .impilo-media-picker-sources {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+
+  .impilo-media-picker-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .impilo-editorial-workspace {
+    padding:
+      22px
+      14px
+      50px;
+  }
+
+
+  .impilo-editorial-actions {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+
+  .impilo-word-count,
+  .impilo-save-draft {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    text-align: center;
+  }
+
+
+  .impilo-media-picker-sources {
+    grid-template-columns: 1fr;
+  }
+
+
+  .impilo-media-library-controls {
+    grid-template-columns: 1fr;
+  }
+
+
+  .impilo-media-picker-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .impilo-media-picker-actions {
+    flex-direction: column;
+  }
+
+
+  .impilo-media-metadata-editor {
+    padding: 17px;
+  }
+
+}

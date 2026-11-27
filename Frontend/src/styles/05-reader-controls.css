@@ -1,0 +1,518 @@
+/* =========================================================
+   IMPILO MAGAZINE READER — CLEAN LAYOUT
+   ========================================================= */
+
+.impilo-reader {
+  width: 100%;
+  min-height: 10vh;
+   padding: 12px 20px 10;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(212, 175, 55, 0.055),
+      transparent 30%
+    ),
+    #080808;
+
+  color: #ffffff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* =========================================================
+   MAGAZINE HEADER
+   ========================================================= */
+
+.impilo-reader-header {
+  width: 100%;
+  max-width: 1180px;
+
+  margin:
+    0 auto
+    8px;
+
+  text-align: center;
+}
+
+.impilo-reader-header h1 {
+  margin: 0;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size:
+    clamp(
+      1.45rem,
+      2.5vw,
+      2.4rem
+    );
+
+  font-weight: 600;
+
+  line-height: 1.1;
+
+  letter-spacing: 0.02em;
+
+  color: #ffffff;
+}
+
+.impilo-reader-header p {
+  margin:
+    5px 0 0;
+
+  font-family:
+    "Montserrat",
+    Arial,
+    sans-serif;
+
+  font-size:
+    0.68rem;
+
+  letter-spacing:
+    0.16em;
+
+  text-transform:
+    uppercase;
+
+  color:
+    #d4af37;
+}
+.impilo-reader-book {
+  width: 900px;
+height: 800px;
+
+  max-width: 100%;
+
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+}
+
+/* =========================================================
+   MAGAZINE CONTROLS
+   ========================================================= */
+
+.impilo-magazine-controls {
+  width: min(
+    100%,
+    1180px
+  );
+
+  min-height: 42px;
+
+  box-sizing: border-box;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    auto
+    1fr;
+
+  align-items: center;
+
+  gap: 16px;
+
+  margin:
+    0 auto
+    8px;
+
+  padding:
+    5px
+    8px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+
+  border-radius:
+    9px;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+ -webkit-backdrop-filter:
+    blur(14px);
+  backdrop-filter:
+    blur(14px);
+
+ 
+}
+
+
+/* =========================================================
+   PAGE INDICATOR
+   ========================================================= */
+
+.impilo-magazine-page-indicator {
+
+  justify-self:
+    start;
+
+  display:
+    flex;
+
+  align-items:
+    baseline;
+
+  gap:
+    5px;
+
+  white-space:
+    nowrap;
+
+  font-family:
+    "Montserrat",
+    Arial,
+    sans-serif;
+}
+
+.impilo-magazine-page-indicator span {
+
+  font-size:
+    8px;
+
+  letter-spacing:
+    0.08em;
+
+  text-transform:
+    uppercase;
+
+  color:
+    rgba(255,255,255,0.42);
+}
+
+.impilo-magazine-page-indicator strong {
+
+  font-size:
+    11px;
+
+  font-weight:
+    600;
+
+  color:
+    #d4af37;
+}
+
+
+/* =========================================================
+   FUTURE CONTROL SPACE
+   ========================================================= */
+
+.impilo-magazine-future-controls {
+  min-width:
+    20px;
+
+  min-height:
+    1px;
+}
+
+
+/* =========================================================
+   MAGAZINE NAVIGATION
+   ========================================================= */
+
+.impilo-magazine-navigation {
+
+  justify-self:
+    end;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    7px;
+}
+
+
+/* =========================================================
+   READER NAV BUTTONS
+   ========================================================= */
+
+.impilo-magazine-nav-button {
+
+  min-width:
+    88px !important;
+
+  padding:
+    7px
+    12px !important;
+
+  font-size:
+    9px !important;
+
+  line-height:
+    1.1;
+
+}
+
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+/* =========================================================
+   OLD IMPILO GOLD PROGRESS BAR
+   ========================================================= */
+
+.impilo-reader-progress {
+  width: 100%;
+  height: 8px;
+
+  background: rgba(192, 160, 17, 0.15);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  cursor: pointer;
+
+  z-index: 9999;
+
+  overflow: hidden;
+
+  border-radius: 4px;
+}
+
+.impilo-reader-progress-fill {
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ffdf00,
+      #f7c600,
+      #ffb700
+    );
+
+  transition:
+    width 0.5s ease-in-out;
+
+  position: relative;
+
+  border-radius: 4px;
+}
+
+.impilo-reader-progress-fill::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -50%;
+
+  width: 200%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      120deg,
+      transparent,
+      rgba(36, 27, 27, 0.6),
+      transparent
+    );
+
+  animation:
+    impilo-progress-shimmer 2.5s infinite;
+}
+
+@keyframes impilo-progress-shimmer {
+
+  0% {
+    left: -50%;
+  }
+
+  100% {
+    left: 100%;
+  }
+
+}
+
+/* =========================================================
+   MAGAZINE BOOK AREA
+   ========================================================= */
+
+.impilo-reader-book {
+
+  width:
+    100%;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  align-items:
+    flex-start;
+
+  box-sizing:
+    border-box;
+
+  margin:
+    0 auto;
+
+  padding:
+    0;
+
+  overflow:
+    hidden;
+}
+
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .impilo-reader {
+
+    padding:
+      8px
+      8px
+      24px;
+
+  }
+
+  .impilo-reader-header {
+
+    margin-bottom:
+      6px;
+
+  }
+
+  .impilo-reader-header h1 {
+
+    font-size:
+      1.45rem;
+
+  }
+
+  .impilo-reader-header p {
+
+    font-size:
+      0.58rem;
+
+  }
+
+  .impilo-magazine-controls {
+
+    grid-template-columns:
+      1fr
+      1fr;
+
+    min-height:
+      38px;
+
+    gap:
+      6px;
+
+    padding:
+      4px
+      6px;
+
+  }
+
+  .impilo-magazine-page-indicator {
+
+    justify-self:
+      start;
+
+  }
+
+  .impilo-magazine-future-controls {
+
+    display:
+      none;
+
+  }
+
+  .impilo-magazine-navigation {
+
+    justify-self:
+      end;
+
+  }
+
+  .impilo-magazine-nav-button {
+
+    min-width:
+      76px !important;
+
+    padding:
+      7px
+      9px !important;
+
+    font-size:
+      8px !important;
+
+  }
+
+  
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 450px) {
+
+  .impilo-magazine-controls {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .impilo-magazine-page-indicator {
+
+    justify-self:
+      center;
+
+  }
+
+  .impilo-magazine-navigation {
+
+    width:
+      100%;
+
+    justify-self:
+      stretch;
+
+  }
+
+  .impilo-magazine-nav-button {
+
+    flex:
+      1;
+
+  }
+
+}
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .impilo-reader-progress-fill,
+  .impilo-glass-btn {
+    transition: none;
+  }
+
+}

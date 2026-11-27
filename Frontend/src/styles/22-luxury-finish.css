@@ -1,0 +1,567 @@
+/* =========================================================
+   IMPILO MAGAZINE — LUXURY METALLIC DESIGN SYSTEM
+   Gold • Silver • Bronze • Copper • Platinum • Chrome • Noir
+   ========================================================= */
+
+/* 1. METALLIC PALETTE */
+:root {
+  --impilo-gold-dark: #674500;
+  --impilo-gold-deep: #926b08;
+  --impilo-gold: #d4af37;
+  --impilo-gold-light: #f4d675;
+  --impilo-gold-highlight: #fff4c2;
+
+  --impilo-silver-dark: #62666b;
+  --impilo-silver: #bfc3c7;
+  --impilo-silver-light: #f5f6f7;
+
+  --impilo-bronze-dark: #59351e;
+  --impilo-bronze: #a66a3f;
+  --impilo-bronze-light: #e0b184;
+
+  --impilo-copper-dark: #713b2b;
+  --impilo-copper: #bd7048;
+  --impilo-copper-light: #f0b18b;
+
+  --impilo-platinum-dark: #777b80;
+  --impilo-platinum: #d9dde0;
+  --impilo-platinum-light: #ffffff;
+
+  --impilo-chrome-dark: #34383d;
+  --impilo-chrome: #c8cdd2;
+  --impilo-chrome-light: #ffffff;
+
+  --impilo-metal-black: #080808;
+  --impilo-metal-graphite: #44464a;
+}
+
+/* 2. REUSABLE METALLIC FINISHES */
+.impilo-metallic-gold {
+  background: linear-gradient(
+    115deg,
+    #674500 0%,
+    #a77c0c 12%,
+    #f4d675 27%,
+    #fff4c2 36%,
+    #d4af37 48%,
+    #8c6507 64%,
+    #f0d16c 80%,
+    #9b7410 100%
+  );
+  color: #211600;
+  border: 1px solid #e8c65a;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, .85),
+    inset 0 -2px 4px rgba(71, 45, 0, .42),
+    0 5px 14px rgba(0, 0, 0, .18);
+}
+
+.impilo-metallic-silver {
+  background: linear-gradient(
+    115deg,
+    #62666b 0%,
+    #d9dde0 18%,
+    #ffffff 32%,
+    #aeb4ba 47%,
+    #f5f6f7 61%,
+    #858b91 78%,
+    #e8ebed 100%
+  );
+  color: #22262a;
+  border: 1px solid #f5f6f7;
+  box-shadow:
+    inset 0 1px 2px #ffffff,
+    inset 0 -2px 4px rgba(30, 35, 40, .25),
+    0 5px 14px rgba(0, 0, 0, .16);
+}
+
+.impilo-metallic-bronze {
+  background: linear-gradient(
+    115deg,
+    #59351e 0%,
+    #a66a3f 20%,
+    #e0b184 36%,
+    #87502e 50%,
+    #d49a68 68%,
+    #60391f 100%
+  );
+  color: #fff8ed;
+  border: 1px solid #d4a078;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 231, 199, .8),
+    inset 0 -2px 4px rgba(45, 20, 8, .4),
+    0 5px 14px rgba(0, 0, 0, .2);
+}
+
+.impilo-metallic-copper {
+  background: linear-gradient(
+    115deg,
+    #713b2b 0%,
+    #bd7048 18%,
+    #f0b18b 34%,
+    #a94e2b 50%,
+    #e9a078 70%,
+    #713b2b 100%
+  );
+  color: #fff8f3;
+  border: 1px solid #e7a27e;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 225, 207, .8),
+    inset 0 -2px 4px rgba(67, 24, 11, .4),
+    0 5px 14px rgba(0, 0, 0, .2);
+}
+
+.impilo-metallic-platinum {
+  background: linear-gradient(
+    115deg,
+    #777b80 0%,
+    #d9dde0 20%,
+    #ffffff 35%,
+    #b8bec3 50%,
+    #f8f9fa 66%,
+    #8a9096 82%,
+    #eceff1 100%
+  );
+  color: #202428;
+  border: 1px solid #ffffff;
+  box-shadow:
+    inset 0 1px 2px #ffffff,
+    inset 0 -2px 4px rgba(40, 45, 50, .2),
+    0 5px 14px rgba(0, 0, 0, .16);
+}
+
+.impilo-metallic-chrome {
+  background: linear-gradient(
+    180deg,
+    #737980 0%,
+    #f9fafb 13%,
+    #9ca3aa 26%,
+    #ffffff 39%,
+    #70767d 53%,
+    #e8ebed 67%,
+    #a4aab0 81%,
+    #ffffff 100%
+  );
+  color: #17191c;
+  border: 1px solid #f9fafb;
+  box-shadow:
+    inset 0 1px 2px #ffffff,
+    inset 0 -2px 3px rgba(0, 0, 0, .22),
+    0 5px 14px rgba(0, 0, 0, .18);
+}
+
+.impilo-metallic-noir {
+  background: linear-gradient(
+    135deg,
+    #050505 0%,
+    #343434 22%,
+    #090909 40%,
+    #555555 49%,
+    #101010 58%,
+    #292929 78%,
+    #030303 100%
+  );
+  color: #f4d675;
+  border: 1px solid #55504a;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, .24),
+    inset 0 -2px 5px rgba(0, 0, 0, .8),
+    0 6px 18px rgba(0, 0, 0, .3);
+}
+
+/* 3. METALLIC GOLD — EDITORIAL RIBBON */
+.impilo-magazine-page
+.editorial-article.impilo-themed-article
+.impilo-magazine-themed-ribbon {
+  background: linear-gradient(
+    115deg,
+    #8a6508 0%,
+    #d4af37 20%,
+    #fff0a3 34%,
+    #bd941f 49%,
+    #f5d66e 66%,
+    #9c740d 84%,
+    #e4c052 100%
+  ) !important;
+
+  color: #fffdf5 !important;
+  border: 1px solid rgba(255, 238, 170, .8) !important;
+
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, .8),
+    inset 0 -2px 3px rgba(78, 52, 0, .35),
+    0 6px 16px rgba(0, 0, 0, .2) !important;
+}
+
+/* 4. CIRCULAR IMPILO SEAL */
+.impilo-magazine-seal,
+.impilo-magazine-editorial-seal,
+.impilo-article-preview-header-seal {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #f6e8b1 20%,
+    #d4af37 40%,
+    #fff4c2 52%,
+    #b48b19 72%,
+    #fffdf5 100%
+  );
+
+  border: 2px solid #d4af37;
+  border-radius: 50%;
+
+  box-shadow:
+    inset 0 0 0 3px #fffdf7,
+    inset 0 0 0 4px #c39a24,
+    0 3px 8px rgba(0, 0, 0, .16);
+}
+
+/* 5. DIAGONAL GEOMETRY */
+.impilo-magazine-page
+.editorial-article.impilo-themed-article
+.impilo-magazine-themed-header-geometry {
+  border-color: rgba(212, 175, 55, .65) !important;
+  filter: drop-shadow(0 2px 3px rgba(120, 83, 0, .12));
+}
+
+.impilo-magazine-page
+.editorial-article.impilo-themed-article
+.impilo-magazine-themed-header-geometry::after {
+  border-color: rgba(255, 232, 153, .8) !important;
+}
+
+/* 6. METALLIC GOLD RULES */
+.impilo-magazine-gold-rule,
+.impilo-article-preview-rule {
+  background: linear-gradient(
+    90deg,
+    #8c6507 0%,
+    #d4af37 30%,
+    #fff0a3 48%,
+    #d4af37 68%,
+    #9b7410 100%
+  ) !important;
+
+  box-shadow: 0 1px 2px rgba(111, 77, 0, .22);
+}
+
+/* 7. PULL QUOTE — LUXURY FINISH */
+.impilo-magazine-page .impilo-magazine-quote {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  background: linear-gradient(
+    135deg,
+    #fffdf8 0%,
+    #f4eee3 45%,
+    #fbf7ee 100%
+  );
+
+  border-left: 3px solid #d4af37;
+  padding: 30px 28px 26px 32px;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .9),
+    0 5px 18px rgba(52, 38, 10, .06);
+}
+
+.impilo-magazine-page .impilo-magazine-quote-mark {
+  color: #d4af37;
+}
+
+.impilo-magazine-page .impilo-magazine-quote-kicker {
+  display: block;
+  position: relative;
+  margin: 0 0 12px;
+
+  color: #c29a21;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.05rem, 2vw, 1.8rem);
+  font-style: italic;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.impilo-magazine-page .impilo-magazine-quote p {
+  position: relative;
+  margin: 0;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+/* 8. METALLIC HEADLINE ACCENT */
+.impilo-magazine-page
+.editorial-article.impilo-themed-article
+.impilo-article-title {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
+}
+
+/* 9. FOOTER — KEEP THE BRAND RULE, NOT THE THEME NAME */
+.impilo-magazine-page
+.editorial-article.impilo-themed-article
+.impilo-magazine-themed-header-footer small {
+  display: none !important;
+}
+
+/* 10. THEME-SPECIFIC METALLIC ACCENTS */
+
+/* Gold */
+.impilo-theme-neutral,
+.impilo-theme-signature-gold {
+  --impilo-theme-accent: #d4af37;
+  --impilo-theme-accent-strong: #d4af37;
+}
+
+/* Silver */
+.impilo-theme-silver {
+  --impilo-theme-accent: #aeb4ba;
+  --impilo-theme-accent-strong: #e1e5e8;
+}
+
+/* Bronze */
+.impilo-theme-bronze {
+  --impilo-theme-accent: #a66a3f;
+  --impilo-theme-accent-strong: #e0b184;
+}
+
+/* Copper */
+.impilo-theme-copper {
+  --impilo-theme-accent: #bd7048;
+  --impilo-theme-accent-strong: #f0b18b;
+}
+
+/* Platinum */
+.impilo-theme-platinum {
+  --impilo-theme-accent: #bfc3c7;
+  --impilo-theme-accent-strong: #f5f6f7;
+}
+
+/* Chrome */
+.impilo-theme-chrome {
+  --impilo-theme-accent: #aeb4ba;
+  --impilo-theme-accent-strong: #ffffff;
+}
+
+/* Noir with metallic highlights */
+.impilo-theme-noir {
+  --impilo-theme-accent: #d4af37;
+  --impilo-theme-accent-strong: #d4af37;
+}
+
+/* 11. MOBILE SAFETY */
+@media (max-width: 700px) {
+  .impilo-magazine-page .impilo-magazine-quote {
+    padding: 24px 18px 22px 22px;
+  }
+
+  .impilo-magazine-page .impilo-magazine-quote-kicker {
+    font-size: clamp(1rem, 5vw, 1.35rem);
+    margin-bottom: 10px;
+  }
+
+  .impilo-magazine-page .impilo-magazine-quote p {
+    font-size: .95rem;
+    line-height: 1.7;
+  }
+}
+
+/* =====================================================
+   IMPILO — GLOSSY LUXURY MAGAZINE FINISH
+   ===================================================== */
+
+:root {
+  --impilo-gloss-gold:
+    linear-gradient(
+      115deg,
+      #674600 0%,
+      #a77c10 13%,
+      #f6dc86 28%,
+      #fff8d9 36%,
+      #d4af37 47%,
+      #9b7410 60%,
+      #f5dc85 76%,
+      #a77b10 100%
+    );
+
+  --impilo-gloss-black:
+    linear-gradient(
+      145deg,
+      #24211a 0%,
+      #080808 38%,
+      #1c1912 58%,
+      #030303 100%
+    );
+
+  --impilo-gloss-ivory:
+    linear-gradient(
+      135deg,
+      #fffefa 0%,
+      #f8f1e7 42%,
+      #fffdf8 72%,
+      #eee2d1 100%
+    );
+
+  --impilo-gloss-shadow:
+    0 12px 28px rgba(24, 16, 5, .16),
+    0 2px 5px rgba(24, 16, 5, .10);
+}
+
+/* Glossy magazine page surface */
+.impilo-magazine-page .impilo-magazine-article-page,
+.impilo-magazine-page .impilo-page {
+  background-color: #fffdf8;
+}
+
+/* Rich editorial page finish */
+.impilo-magazine-page
+.editorial-article.impilo-themed-article {
+  position: relative;
+  isolation: isolate;
+  background: var(--impilo-gloss-ivory);
+  color: var(--impilo-theme-ink, #17130b);
+  box-shadow: var(--impilo-gloss-shadow);
+}
+
+/* Subtle reflected light — not a white overlay */
+.impilo-magazine-page
+.editorial-article.impilo-themed-article::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255, 255, 255, .42) 0%,
+      rgba(255, 255, 255, .08) 22%,
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse at top right,
+      rgba(255, 255, 255, .42),
+      transparent 55%
+    );
+}
+
+/* Metallic gold ribbon */
+.impilo-magazine-page
+.impilo-magazine-themed-ribbon {
+  background: var(--impilo-gloss-gold) !important;
+  color: #fffdf5 !important;
+
+  border: 1px solid rgba(255, 239, 177, .9);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, .8),
+    inset 0 -3px 5px rgba(82, 53, 0, .3),
+    0 9px 20px rgba(0, 0, 0, .22);
+  text-shadow: 0 1px 2px rgba(55, 35, 0, .4);
+}
+
+/* Circular seal */
+.impilo-magazine-page .impilo-magazine-seal,
+.impilo-magazine-page .impilo-magazine-editorial-seal,
+.impilo-magazine-page .impilo-article-preview-header-seal {
+  background: var(--impilo-gloss-ivory);
+  border: 2px solid #d4af37;
+  border-radius: 50%;
+
+  box-shadow:
+    inset 0 0 0 3px #fffdf7,
+    inset 0 0 0 4px #c59a24,
+    inset 0 5px 10px rgba(255, 255, 255, .9),
+    0 4px 12px rgba(0, 0, 0, .13);
+}
+
+/* Gold rules should have depth, not flat yellow */
+.impilo-magazine-page .impilo-magazine-gold-rule,
+.impilo-magazine-page .impilo-article-preview-rule {
+  background: var(--impilo-gloss-gold) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, .8),
+    0 2px 4px rgba(105, 74, 4, .22);
+}
+
+/* Refined headline rendering */
+.impilo-magazine-page
+.editorial-article.impilo-themed-article
+.impilo-article-title {
+  letter-spacing: -.035em;
+  text-wrap: balance;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+}
+
+/* Glossy pull quote */
+.impilo-magazine-page .impilo-magazine-quote {
+  background:
+    linear-gradient(
+      135deg,
+      #fffdf8 0%,
+      #f5eee2 48%,
+      #fffaf0 100%
+    );
+
+  border-left: 3px solid #d4af37;
+  border-top: 1px solid rgba(255, 255, 255, .95);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .95),
+    0 7px 18px rgba(75, 51, 10, .08);
+}
+
+/* Premium image presentation */
+.impilo-magazine-page .impilo-magazine-media img,
+.impilo-magazine-page .impilo-editorial-visual img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 2px;
+
+  box-shadow:
+    0 5px 16px rgba(0, 0, 0, .16),
+    0 1px 3px rgba(0, 0, 0, .1);
+}
+
+/* Gold frame for featured photography */
+.impilo-magazine-page
+.impilo-editorial-visual.impilo-editorial-image {
+  padding: 3px;
+  background: linear-gradient(
+    135deg,
+    #f8e6a0,
+    #b58b20 35%,
+    #fff1b6 50%,
+    #9c7410 75%,
+    #ead17b
+  );
+}
+
+/* Deep glossy magazine chrome */
+.impilo-magazine-page .impilo-magazine-themed-header-footer i {
+  display: block;
+  background: var(--impilo-gloss-gold);
+  box-shadow: 0 1px 3px rgba(90, 60, 0, .2);
+}
+
+/* Prevent visual effects from interfering with reading */
+@media (max-width: 700px) {
+  .impilo-magazine-page
+  .editorial-article.impilo-themed-article {
+    box-shadow: none;
+  }
+
+  .impilo-magazine-page
+  .impilo-magazine-media img,
+  .impilo-magazine-page
+  .impilo-editorial-visual img {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, .12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .impilo-magazine-page * {
+    scroll-behavior: auto;
+  }
+}

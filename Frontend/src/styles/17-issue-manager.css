@@ -1,0 +1,1446 @@
+/* =========================================================
+   IMPILO MAGAZINE ISSUE MANAGER
+   ========================================================= */
+
+.impilo-issue-manager {
+  width: 100%;
+  color: #f4f1e8;
+}
+
+.impilo-issue-manager-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 0 0 28px;
+  border-bottom: 1px solid rgba(182, 138, 40, .35);
+}
+
+.impilo-issue-back {
+  display: block;
+  margin: 0 0 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #b68a28;
+  font: 600 12px/1 Montserrat, sans-serif;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.impilo-issue-kicker {
+  display: block;
+  margin-bottom: 8px;
+  color: #b68a28;
+  font: 700 11px/1 Montserrat, sans-serif;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.impilo-issue-manager-header h2 {
+  margin: 0;
+  color: #fff;
+  font: 700 clamp(30px, 4vw, 48px)/1.05 "Playfair Display", Georgia, serif;
+}
+
+.impilo-issue-manager-header p {
+  max-width: 680px;
+  margin: 12px 0 0;
+  color: #a8a39a;
+  font: 400 14px/1.7 Montserrat, sans-serif;
+}
+
+.impilo-issue-header-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.impilo-issue-primary,
+.impilo-issue-secondary {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 2px;
+  font: 700 11px/1 Montserrat, sans-serif;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .18s ease;
+}
+
+.impilo-issue-primary {
+  border: 1px solid #b68a28;
+  background: #b68a28;
+  color: #090909;
+}
+
+.impilo-issue-primary:hover:not(:disabled) {
+  background: #d2a942;
+  border-color: #d2a942;
+  transform: translateY(-1px);
+}
+
+.impilo-issue-secondary {
+  border: 1px solid rgba(182, 138, 40, .55);
+  background: #111;
+  color: #d6b45c;
+}
+
+.impilo-issue-secondary:hover:not(:disabled) {
+  border-color: #b68a28;
+  color: #fff;
+}
+
+.impilo-issue-primary:disabled,
+.impilo-issue-secondary:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.impilo-issue-message,
+.impilo-issue-error {
+  margin: 18px 0;
+  padding: 12px 15px;
+  border-left: 3px solid #b68a28;
+  background: #101010;
+  font: 500 12px/1.5 Montserrat, sans-serif;
+}
+
+.impilo-issue-message {
+  color: #dfc47b;
+}
+
+.impilo-issue-error {
+  border-left-color: #9f4141;
+  color: #e8a8a8;
+}
+
+.impilo-issue-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 1px;
+  margin: 24px 0;
+  background: rgba(182, 138, 40, .18);
+  border: 1px solid rgba(182, 138, 40, .18);
+}
+
+.impilo-issue-summary > div {
+  min-height: 92px;
+  padding: 18px;
+  background: #0b0b0b;
+}
+
+.impilo-issue-summary span {
+  display: block;
+  margin-bottom: 8px;
+  color: #77736b;
+  font: 700 10px/1 Montserrat, sans-serif;
+  letter-spacing: .16em;
+}
+
+.impilo-issue-summary strong {
+  color: #fff;
+  font: 700 27px/1 "Playfair Display", Georgia, serif;
+}
+
+.impilo-issue-order-note {
+  display: flex;
+  gap: 22px;
+  align-items: baseline;
+  margin: 26px 0 14px;
+}
+
+.impilo-issue-order-note span {
+  flex: 0 0 auto;
+  color: #b68a28;
+  font: 700 10px/1 Montserrat, sans-serif;
+  letter-spacing: .18em;
+}
+
+.impilo-issue-order-note p {
+  margin: 0;
+  color: #858078;
+  font: 400 12px/1.6 Montserrat, sans-serif;
+}
+
+.impilo-issue-page-list {
+  display: grid;
+  gap: 8px;
+}
+
+.impilo-issue-page-row {
+  display: grid;
+  grid-template-columns: 64px 115px minmax(0, 1fr) 72px auto;
+  align-items: center;
+  gap: 16px;
+  min-height: 100px;
+  padding: 15px 16px;
+  border: 1px solid #242424;
+  background: linear-gradient(90deg, #0d0d0d, #111);
+  transition: border-color .18s ease, transform .18s ease;
+}
+
+.impilo-issue-page-row:hover {
+  border-color: rgba(182, 138, 40, .55);
+  transform: translateX(2px);
+}
+
+.impilo-issue-page-number {
+  color: #b68a28;
+  font: 700 27px/1 "Playfair Display", Georgia, serif;
+}
+
+.impilo-issue-page-type span {
+  display: block;
+  color: #e5e0d4;
+  font: 700 10px/1.3 Montserrat, sans-serif;
+  letter-spacing: .12em;
+}
+
+.impilo-issue-page-type small {
+  display: block;
+  margin-top: 5px;
+  color: #5f5b54;
+  font: 700 8px/1 Montserrat, sans-serif;
+  letter-spacing: .15em;
+}
+
+.impilo-issue-page-main h3 {
+  overflow: hidden;
+  margin: 0;
+  color: #fff;
+  font: 600 18px/1.2 "Playfair Display", Georgia, serif;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.impilo-issue-page-slug {
+  margin-top: 6px;
+  color: #77736b;
+  font: 400 10px/1.3 Montserrat, sans-serif;
+}
+
+.impilo-issue-linked-article {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 7px;
+}
+
+.impilo-issue-linked-article span {
+  color: #b68a28;
+  font: 700 9px/1 Montserrat, sans-serif;
+  letter-spacing: .12em;
+}
+
+.impilo-issue-linked-article strong {
+  color: #aaa59c;
+  font: 500 10px/1.3 Montserrat, sans-serif;
+}
+
+.impilo-issue-linked-article em {
+  padding: 3px 6px;
+  border: 1px solid #353535;
+  color: #7d7972;
+  font: 700 8px/1 Montserrat, sans-serif;
+  font-style: normal;
+  letter-spacing: .08em;
+}
+
+.impilo-issue-unlinked {
+  margin-top: 7px;
+  color: #9c6f55;
+  font: 600 10px/1.3 Montserrat, sans-serif;
+}
+
+.impilo-issue-page-reorder {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.impilo-issue-page-reorder button {
+  width: 32px;
+  height: 28px;
+  border: 1px solid #2b2b2b;
+  background: #151515;
+  color: #b68a28;
+  cursor: pointer;
+}
+
+.impilo-issue-page-reorder button:hover:not(:disabled) {
+  border-color: #b68a28;
+  color: #fff;
+}
+
+.impilo-issue-page-reorder button:disabled {
+  opacity: .25;
+  cursor: not-allowed;
+}
+
+.impilo-issue-page-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.impilo-issue-page-actions button {
+  min-height: 31px;
+  padding: 0 9px;
+  border: 1px solid #303030;
+  background: #151515;
+  color: #b7b2a9;
+  font: 700 8px/1 Montserrat, sans-serif;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.impilo-issue-page-actions button:hover:not(:disabled) {
+  border-color: #b68a28;
+  color: #fff;
+}
+
+.impilo-issue-page-actions button.gold {
+  border-color: rgba(182, 138, 40, .65);
+  color: #d6b45c;
+}
+
+.impilo-issue-page-actions button.danger {
+  color: #bd7777;
+}
+
+.impilo-issue-page-actions button:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+.impilo-issue-empty {
+  padding: 70px 20px;
+  border: 1px solid #242424;
+  background: #0b0b0b;
+  text-align: center;
+}
+
+.impilo-issue-empty > span {
+  display: block;
+  color: #b68a28;
+  font-size: 22px;
+}
+
+.impilo-issue-empty small {
+  display: block;
+  margin-top: 12px;
+  color: #77736b;
+  font: 700 9px/1 Montserrat, sans-serif;
+  letter-spacing: .2em;
+}
+
+.impilo-issue-empty h3 {
+  margin: 12px 0 6px;
+  color: #fff;
+  font: 600 25px/1.2 "Playfair Display", Georgia, serif;
+}
+
+.impilo-issue-empty p {
+  margin: 0 auto 22px;
+  max-width: 500px;
+  color: #77736b;
+  font: 400 12px/1.6 Montserrat, sans-serif;
+}
+
+.impilo-issue-manager-loading {
+  padding: 100px 20px;
+  text-align: center;
+  background: #0a0a0a;
+}
+
+.impilo-issue-manager-mark {
+  color: #b68a28;
+  font: 700 24px/1 Montserrat, sans-serif;
+  letter-spacing: .2em;
+}
+
+.impilo-issue-manager-loading-line {
+  width: 100px;
+  height: 1px;
+  margin: 16px auto;
+  background: #b68a28;
+}
+
+.impilo-issue-manager-loading p {
+  margin: 0;
+  color: #77736b;
+  font: 400 11px/1 Montserrat, sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.impilo-issue-modal-backdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, .78);
+}
+
+.impilo-issue-modal {
+  width: min(720px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  border: 1px solid rgba(182, 138, 40, .45);
+  background: #0c0c0c;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .55);
+}
+
+.impilo-issue-modal-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px;
+  border-bottom: 1px solid #272727;
+}
+
+.impilo-issue-modal-header span {
+  color: #b68a28;
+  font: 700 9px/1 Montserrat, sans-serif;
+  letter-spacing: .2em;
+}
+
+.impilo-issue-modal-header h3 {
+  margin: 9px 0 5px;
+  color: #fff;
+  font: 600 26px/1.2 "Playfair Display", Georgia, serif;
+}
+
+.impilo-issue-modal-header p {
+  margin: 0;
+  color: #77736b;
+  font: 400 11px/1.6 Montserrat, sans-serif;
+}
+
+.impilo-issue-modal-header > button {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  border: 1px solid #303030;
+  background: #111;
+  color: #b68a28;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.impilo-issue-page-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 24px;
+}
+
+.impilo-issue-page-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.impilo-issue-page-form label.full {
+  grid-column: 1 / -1;
+}
+
+.impilo-issue-page-form label > span {
+  color: #817c73;
+  font: 700 9px/1 Montserrat, sans-serif;
+  letter-spacing: .15em;
+}
+
+.impilo-issue-page-form input,
+.impilo-issue-page-form select,
+.impilo-issue-page-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #303030;
+  outline: none;
+  border-radius: 0;
+  background: #151515;
+  color: #f2eee5;
+  padding: 11px 12px;
+  font: 400 12px/1.5 Montserrat, sans-serif;
+}
+
+.impilo-issue-page-form textarea {
+  resize: vertical;
+}
+
+.impilo-issue-page-form input:focus,
+.impilo-issue-page-form select:focus,
+.impilo-issue-page-form textarea:focus {
+  border-color: #b68a28;
+}
+
+.impilo-issue-page-form small {
+  color: #65615b;
+  font: 400 9px/1.5 Montserrat, sans-serif;
+}
+
+.impilo-issue-page-form footer {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  padding-top: 10px;
+  border-top: 1px solid #252525;
+}
+
+@media (max-width: 1050px) {
+  .impilo-issue-page-row {
+    grid-template-columns: 54px 105px minmax(0, 1fr);
+  }
+
+  .impilo-issue-page-reorder,
+  .impilo-issue-page-actions {
+    grid-column: 3;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 720px) {
+  .impilo-issue-manager-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .impilo-issue-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .impilo-issue-order-note {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .impilo-issue-page-row {
+    grid-template-columns: 48px 1fr;
+    gap: 10px;
+  }
+
+  .impilo-issue-page-type,
+  .impilo-issue-page-main,
+  .impilo-issue-page-reorder,
+  .impilo-issue-page-actions {
+    grid-column: 2;
+  }
+
+  .impilo-issue-page-main h3 {
+    white-space: normal;
+  }
+
+  .impilo-issue-page-reorder {
+    flex-direction: row;
+  }
+
+  .impilo-issue-page-form {
+    grid-template-columns: 1fr;
+  }
+
+  .impilo-issue-page-form label.full {
+    grid-column: auto;
+  }
+
+  .impilo-issue-page-form footer {
+    grid-column: auto;
+    flex-direction: column;
+  }
+}
+
+
+.impilo-contents-page {
+  padding: 40px;
+
+  background-color: #111;
+  color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+}
+
+.impilo-contents-header h2 {
+  font-family: serif;
+  color: #FFD700; /* Gold */
+  font-size: 2rem;
+  margin-bottom: 8px;
+  border-bottom: 2px solid #FFD700;
+  padding-bottom: 12px;
+}
+
+.impilo-contents-intro {
+  color: #aaa;
+  font-style: italic;
+  margin-bottom: 24px;
+}
+
+.impilo-contents-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.impilo-contents-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.impilo-contents-link {
+  background: none;
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: baseline;
+  width: 100%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  text-align: left;
+  padding: 4px 0;
+  transition: color 0.2s ease;
+}
+
+.impilo-contents-link:hover {
+  color: #FFD700;
+}
+
+.impilo-contents-item-title {
+  font-weight: 600;
+}
+
+.impilo-contents-dots {
+  flex-grow: 1;
+  border-bottom: 1px dotted #444;
+  margin: 0 10px;
+}
+
+.impilo-contents-page-num {
+  color: #FFD700;
+  font-weight: bold;
+}
+
+.impilo-contents-subtitle {
+  color: #888;
+  font-size: 0.85rem;
+  margin-left: 2px;
+}
+
+.impilo-in-review {
+  width: 100%;
+  min-height: 100%;
+  color: #fff;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.impilo-in-review-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.impilo-section-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #d4af37;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.impilo-in-review-header h1 {
+  margin: 0;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.impilo-in-review-header p {
+  margin: 8px 0 0;
+  color: #8f8f8f;
+  font-size: 14px;
+}
+
+.impilo-in-review-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.impilo-review-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.impilo-review-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.impilo-review-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.impilo-review-btn-secondary {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: #3a3a3a;
+  color: #d0d0d0;
+}
+
+.impilo-review-btn-secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #555;
+  color: #fff;
+}
+
+.impilo-review-btn-approve {
+  background: #d4af37;
+  border-color: #d4af37;
+  color: #050505;
+}
+
+.impilo-review-btn-approve:hover:not(:disabled) {
+  background: #e3c354;
+  border-color: #e3c354;
+}
+
+.impilo-review-btn-return {
+  background: transparent;
+  border-color: #513b3b;
+  color: #c8a0a0;
+}
+
+.impilo-review-btn-return:hover:not(:disabled) {
+  background: rgba(120, 40, 40, 0.15);
+  border-color: #704747;
+  color: #e0b0b0;
+}
+
+/* =========================================================
+   MESSAGES
+   ========================================================= */
+
+.impilo-review-message {
+  margin-bottom: 20px;
+  padding: 13px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.impilo-review-message-success {
+  border: 1px solid #285c38;
+  background: rgba(20, 80, 40, 0.18);
+  color: #72d890;
+}
+
+.impilo-review-message-error {
+  border: 1px solid #663333;
+  background: rgba(100, 30, 30, 0.18);
+  color: #e98585;
+}
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.impilo-review-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 180px;
+  color: #858585;
+  font-size: 14px;
+}
+
+.impilo-review-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #333;
+  border-top-color: #d4af37;
+  border-radius: 50%;
+  animation: impilo-review-spin 0.8s linear infinite;
+}
+
+@keyframes impilo-review-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.impilo-review-empty {
+  padding: 60px 24px;
+  border: 1px solid #292929;
+  border-radius: 12px;
+  background: #080808;
+  text-align: center;
+}
+
+.impilo-review-empty-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 18px;
+  border: 1px solid #555;
+  border-radius: 50%;
+  color: #d4af37;
+  font-size: 24px;
+}
+
+.impilo-review-empty h2 {
+  margin: 0;
+  color: #ddd;
+  font-size: 19px;
+}
+
+.impilo-review-empty p {
+  margin: 8px 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* =========================================================
+   QUEUE HEADER
+   ========================================================= */
+
+.impilo-review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.impilo-review-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 4px 8px;
+  color: #666;
+  font-size: 12px;
+}
+
+.impilo-review-list-header > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.impilo-review-list-header > div > span {
+  color: #777;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.impilo-review-list-header strong {
+  color: #d4af37;
+  font-size: 14px;
+}
+
+/* =========================================================
+   ARTICLE CARD
+   ========================================================= */
+
+.impilo-review-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 22px;
+  border: 1px solid #292929;
+  border-radius: 12px;
+  background: #080808;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.impilo-review-card:hover {
+  border-color: #414141;
+  background: #0c0c0c;
+}
+
+.impilo-review-card-main {
+  min-width: 0;
+  flex: 1;
+}
+
+.impilo-review-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.impilo-review-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border: 1px solid #66551c;
+  border-radius: 999px;
+  background: rgba(150, 120, 20, 0.12);
+  color: #d4af37;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.impilo-review-word-count {
+  color: #666;
+  font-size: 12px;
+}
+
+.impilo-review-card h2 {
+  margin: 0;
+  color: #f2f2f2;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.impilo-review-excerpt {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 8px 0 0;
+  color: #858585;
+  font-size: 13px;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.impilo-review-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 14px;
+  color: #606060;
+  font-size: 11px;
+}
+
+.impilo-review-details strong {
+  color: #777;
+  font-weight: 500;
+}
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.impilo-review-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .impilo-review-header {
+    flex-direction: column;
+  }
+
+  .impilo-review-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .impilo-review-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .impilo-in-review-header h1 {
+    font-size: 27px;
+  }
+
+  .impilo-in-review-header-actions {
+    width: 100%;
+  }
+
+  .impilo-review-header-actions {
+    width: 100%;
+  }
+
+  .impilo-review-btn {
+    padding: 9px 13px;
+  }
+
+  .impilo-review-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .impilo-review-actions .impilo-review-btn {
+    width: 100%;
+  }
+
+  .impilo-review-details {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+/* Add these classes to the same stylesheet as the CMS, or import this file once from EditorialWorkspace. */
+.impilo-editorial-preview-launcher {
+  margin: 18px 0 24px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border: 1px solid rgba(212,175,55,.28);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(212,175,55,.07), rgba(255,255,255,.025));
+  box-sizing: border-box;
+}
+.impilo-editorial-preview-launcher-kicker {
+  display: block;
+  margin-bottom: 5px;
+  color: #d4af37;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.impilo-editorial-preview-launcher strong { display:block; font-size:.88rem; }
+.impilo-editorial-preview-launcher small { display:block; margin-top:5px; color:rgba(255,255,255,.62); font-size:.68rem; line-height:1.45; }
+.impilo-editorial-preview-button,
+.impilo-preview-article-header-button {
+  border: 1px solid rgba(212,175,55,.65);
+  color: #fff;
+  background: linear-gradient(135deg, #171717, #0a0a0a);
+  border-radius: 999px;
+  padding: 11px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.impilo-editorial-preview-button:hover,
+.impilo-preview-article-header-button:hover { background:#232323; }
+@media (max-width: 700px) {
+  .impilo-editorial-preview-launcher { flex-direction:column; align-items:stretch; }
+  .impilo-editorial-preview-button { width:100%; }
+}
+.impilo-contents-list {
+  margin-top: 28px !important;
+  color: #555 !important;
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.72rem !important;
+  line-height: 1.65 !important;
+}
+
+/* ---------------------------------------------------------
+   ARTICLE PAGE — THE ACTUAL PageRenderer STRUCTURE
+   --------------------------------------------------------- */
+.impilo-magazine-page .editorial-article {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+
+  box-sizing: border-box !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  overflow: hidden !important;
+
+  background: #fff !important;
+  color: #161616 !important;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  
+}
+
+/* Do not let PageRenderer's inline max-height create a short page. */
+.impilo-magazine-page .editorial-article[style] {
+  max-height: none !important;
+  height: 100% !important;
+  overflow-y: auto !important;
+}
+
+/* Article header */
+.impilo-magazine-page .impilo-article-header {
+  margin: 0 !important;
+  padding: 34px 36px 18px !important;
+  box-sizing: border-box !important;
+}
+
+.impilo-magazine-page .impilo-article-title {
+  margin: 0 !important;
+  max-width: 94% !important;
+
+  font-family: "Playfair Display", Georgia, serif !important;
+  font-size: clamp(1.65rem, 3.2vw, 2.65rem) !important;
+  font-weight: 700 !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.025em !important;
+
+  color: #111 !important;
+}
+
+.impilo-magazine-page .impilo-article-subtitle {
+  margin: 12px 0 0 !important;
+  max-width: 88% !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.72rem !important;
+  line-height: 1.55 !important;
+
+  color: #666 !important;
+}
+
+.impilo-magazine-page .impilo-article-author {
+  margin: 12px 0 0 !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.6rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+
+  color: #a07b1b !important;
+}
+
+.impilo-magazine-page .impilo-article-continued {
+  padding-top: 3px !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.62rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+
+  color: #a07b1b !important;
+}
+
+/* Article body */
+
+/* FIX — IMPILO EDITORIAL LAYOUT WIDTH */
+.impilo-magazine-page .impilo-editorial-layout.impilo-magazine-editorial-layout {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 0 12px 24px !important;
+  box-sizing: border-box !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  color: #292929 !important;
+}
+
+
+
+.impilo-magazine-page .impilo-editorial-paragraph {
+  margin: 0 0 12px !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.68rem !important;
+  line-height: 1.65 !important;
+
+  color: #292929 !important;
+}
+
+.impilo-magazine-page .impilo-editorial-heading {
+  margin: 18px 0 10px !important;
+
+  font-family: "Playfair Display", Georgia, serif !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+
+  color: #111 !important;
+}
+
+/* Article media */
+.impilo-magazine-page .impilo-editorial-visual {
+  width: 100% !important;
+  margin: 16px 0 !important;
+}
+
+.impilo-magazine-page .impilo-editorial-image img {
+  display: block !important;
+  width: 100% !important;
+  max-height: 270px !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 0 !important;
+}
+
+.impilo-magazine-page .impilo-editorial-visual figcaption {
+  margin-top: 6px !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.56rem !important;
+  line-height: 1.4 !important;
+  color: #666 !important;
+}
+
+.impilo-magazine-page .impilo-media-credit {
+  display: block !important;
+  margin-top: 3px !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.5rem !important;
+  color: #888 !important;
+}
+
+.impilo-magazine-page .impilo-video-frame {
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  overflow: hidden !important;
+  background: #111 !important;
+}
+
+.impilo-magazine-page .impilo-video-frame iframe {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  border: 0 !important;
+}
+
+/* ---------------------------------------------------------
+   BOTTOM NAVIGATION
+   Stable position BELOW the book, never over artwork.
+   --------------------------------------------------------- */
+.impilo-reader-controls {
+  position: relative !important;
+  z-index: 50 !important;
+
+  width: 100% !important;
+  min-height: 38px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+
+  box-sizing: border-box !important;
+
+  margin: 8px auto 0 !important;
+  padding: 0 !important;
+}
+
+.impilo-reader .impilo-reader-controls .impilo-glass-btn {
+  position: relative !important;
+
+  min-width: 112px !important;
+  min-height: 34px !important;
+
+  box-sizing: border-box !important;
+  padding: 8px 17px !important;
+
+  border: 1px solid rgba(212, 175, 55, 0.48) !important;
+  border-radius: 999px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.035)
+    ) !important;
+
+  color: rgba(255, 255, 255, 0.88) !important;
+
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+
+  backdrop-filter: blur(14px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 8px 25px rgba(0,0,0,.25) !important;
+}
+
+.impilo-reader .impilo-reader-controls .impilo-glass-btn:hover:not(:disabled) {
+  border-color: rgba(212, 175, 55, 0.9) !important;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(212, 175, 55, 0.20),
+      rgba(255, 255, 255, 0.07)
+    ) !important;
+  color: #fff !important;
+  transform: translateY(-1px) !important;
+}
+
+.impilo-reader .impilo-reader-controls .impilo-glass-btn:disabled {
+  opacity: 0.22 !important;
+  cursor: not-allowed !important;
+}
+
+/* ---------------------------------------------------------
+   REMOVE OLD FLOATING / ABSOLUTE READER BUTTON BEHAVIOUR
+   --------------------------------------------------------- */
+.impilo-reader .button-wrapper,
+.impilo-reader .bubble-button,
+.impilo-reader .swipe-indicator {
+  position: static !important;
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE READER
+   --------------------------------------------------------- */
+@media (max-width: 768px) {
+  .impilo-reader {
+    padding: 6px 7px 18px !important;
+    height: auto !important;
+  }
+
+  .impilo-reader-header {
+    min-height: 22px !important;
+    margin-bottom: 3px !important;
+  }
+
+  .impilo-reader-header h1 {
+    font-size: 0.62rem !important;
+    letter-spacing: 0.18em !important;
+  }
+
+  .impilo-reader-progress {
+    margin-top: 3px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .impilo-reader-counter {
+    margin-bottom: 4px !important;
+    padding: 4px 9px !important;
+    font-size: 0.6rem !important;
+  }
+
+  .impilo-reader-book {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .impilo-magazine-page .impilo-page-highlights,
+  .impilo-magazine-page .impilo-page-about,
+  .impilo-magazine-page .impilo-page-contents {
+    padding: 28px 24px !important;
+  }
+
+  .impilo-magazine-page .impilo-article-header {
+    padding: 26px 24px 14px !important;
+  }
+
+  
+
+  .impilo-magazine-page .impilo-article-title {
+    font-size: clamp(1.35rem, 5vw, 2rem) !important;
+  }
+
+  .impilo-magazine-page .impilo-editorial-paragraph {
+    font-size: 0.64rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .impilo-reader-controls {
+    gap: 8px !important;
+    margin-top: 6px !important;
+  }
+
+  .impilo-reader .impilo-reader-controls .impilo-glass-btn {
+    min-width: 96px !important;
+    min-height: 32px !important;
+    padding: 7px 13px !important;
+    font-size: 0.61rem !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .impilo-reader {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+
+  .impilo-reader-header h1 {
+    font-size: 0.56rem !important;
+  }
+
+  .impilo-reader-counter {
+    font-size: 0.56rem !important;
+    padding: 4px 8px !important;
+  }
+
+  .impilo-magazine-page .impilo-page-highlights,
+  .impilo-magazine-page .impilo-page-about,
+  .impilo-magazine-page .impilo-page-contents {
+    padding: 22px 18px !important;
+  }
+
+  .impilo-magazine-page .impilo-article-header {
+    padding: 22px 18px 12px !important;
+  }
+
+  
+
+  .impilo-reader-controls {
+    width: 100% !important;
+    padding: 0 4px !important;
+  }
+
+  .impilo-reader .impilo-reader-controls .impilo-glass-btn {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    max-width: 150px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .impilo-reader-progress-fill::after {
+    animation: none !important;
+  }
+
+  .impilo-reader .impilo-reader-controls .impilo-glass-btn {
+    transition: none !important;
+  }
+}

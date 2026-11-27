@@ -1,0 +1,580 @@
+/* ============================================================
+   IMPILO EDITORIAL LUXE — EDITOR TOOLBOX SKIN
+   Safe additive patch. Load after the existing CMS stylesheet.
+   Targets only template/theme controls and the preview launcher.
+   ============================================================ */
+.impilo-template-list.impilo-template-grid {
+  max-height:430px !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding:7px 7px 10px 3px !important;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(212,175,55,.72) rgba(255,255,255,.04);
+}
+.impilo-template-list.impilo-template-grid::-webkit-scrollbar { width:6px; }
+.impilo-template-list.impilo-template-grid::-webkit-scrollbar-track { background:rgba(255,255,255,.035); border-radius:99px; }
+.impilo-template-list.impilo-template-grid::-webkit-scrollbar-thumb { background:linear-gradient(#d4af37,#7a5b08); border-radius:99px; }
+
+.impilo-template-list.impilo-template-grid button {
+  position:relative;
+  min-height:104px;
+  padding:14px 12px 14px 86px !important;
+  border:1px solid rgba(255,255,255,.09) !important;
+  border-radius:14px !important;
+  background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.012)) !important;
+  overflow:visible !important;
+  isolation:isolate;
+  box-shadow:0 10px 24px rgba(0,0,0,.12);
+}
+.impilo-template-list.impilo-template-grid button::before {
+  content:"";
+  position:absolute;
+  left:14px;
+  top:15px;
+  width:52px;
+  height:72px;
+  border:1px solid rgba(255,255,255,.18);
+  background:
+    linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.02)),
+    linear-gradient(180deg,var(--card-accent,#d4af37) 0 11px,transparent 11px 100%);
+  box-shadow:8px 8px 0 rgba(0,0,0,.22),inset 0 0 0 1px rgba(0,0,0,.12);
+  z-index:-1;
+}
+.impilo-template-list.impilo-template-grid button::after {
+  content:"";
+  position:absolute;
+  left:8px;
+  top:22px;
+  width:42px;
+  height:15px;
+  background:linear-gradient(90deg,var(--card-accent-strong,#d4af37),var(--card-accent,#d4af37));
+  transform:rotate(-7deg);
+  box-shadow:0 5px 10px rgba(0,0,0,.18);
+  z-index:2;
+}
+.impilo-template-list.impilo-template-grid button:hover {
+  transform:translateY(-2px) !important;
+  border-color:rgba(212,175,55,.46) !important;
+  box-shadow:0 14px 30px rgba(0,0,0,.18);
+}
+.impilo-template-list.impilo-template-grid button.is-selected {
+  border-color:var(--card-accent,#d4af37) !important;
+  background:linear-gradient(145deg,rgba(212,175,55,.11),rgba(255,255,255,.03)) !important;
+  box-shadow:0 14px 34px rgba(0,0,0,.2),0 0 0 1px color-mix(in srgb,var(--card-accent,#d4af37) 32%,transparent);
+}
+.impilo-template-list.impilo-template-grid button:nth-child(1) { --card-accent:#d4af37;--card-accent-strong:#a58216; }
+.impilo-template-list.impilo-template-grid button:nth-child(2) { --card-accent:#5b2b82;--card-accent-strong:#341147; }
+.impilo-template-list.impilo-template-grid button:nth-child(3) { --card-accent:#ff7a18;--card-accent-strong:#c95b00; }
+.impilo-template-list.impilo-template-grid button:nth-child(4) { --card-accent:#0b2a55;--card-accent-strong:#020b1a; }
+.impilo-template-list.impilo-template-grid button:nth-child(5) { --card-accent:#7a0c0c;--card-accent-strong:#4e0707; }
+.impilo-template-list.impilo-template-grid button:nth-child(6) { --card-accent:#008c5b;--card-accent-strong:#062e2a; }
+.impilo-template-list.impilo-template-grid .impilo-template-number {
+  position:absolute !important;
+  right:11px;
+  top:9px;
+  margin:0 !important;
+  color:rgba(255,255,255,.38) !important;
+  font-size:.48rem !important;
+  letter-spacing:.18em;
+  font-weight:800;
+}
+.impilo-template-list.impilo-template-grid strong {
+  position:relative;
+  z-index:3;
+  margin:4px 28px 4px 0 !important;
+  color:#f2ead8 !important;
+  font-family:Playfair Display,Didot,Georgia,serif !important;
+  font-size:.93rem !important;
+  line-height:1.05;
+  letter-spacing:-.01em;
+}
+.impilo-template-list.impilo-template-grid small {
+  position:relative;
+  z-index:3;
+  display:block;
+  max-width:205px;
+  color:rgba(255,255,255,.56) !important;
+  font-family:Montserrat,Arial,sans-serif;
+  font-size:.57rem;
+  line-height:1.48;
+}
+
+.impilo-theme-grid {
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px !important;
+}
+.impilo-theme-grid button {
+  position:relative;
+  min-height:54px;
+  display:flex !important;
+  align-items:center;
+  gap:8px;
+  padding:7px 8px !important;
+  border-radius:10px !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  background:rgba(255,255,255,.02) !important;
+  color:#ddd !important;
+}
+.impilo-theme-grid button.is-selected { border-color:#d4af37 !important; box-shadow:inset 0 0 0 1px rgba(212,175,55,.18); }
+.impilo-theme-grid button:hover { transform:translateY(-1px); border-color:rgba(212,175,55,.42) !important; }
+.impilo-theme-grid .impilo-theme-swatch {
+  position:relative;
+  width:29px !important;
+  height:29px !important;
+  flex:0 0 29px;
+  border-radius:50% !important;
+  box-shadow:0 0 0 1px rgba(255,255,255,.18),inset 3px 3px 8px rgba(255,255,255,.18);
+}
+.impilo-theme-grid span:last-child {
+  font-size:.53rem !important;
+  line-height:1.18;
+}
+
+.impilo-design-panel {
+  position:relative;
+  margin-top:18px;
+  padding:14px 0 0;
+}
+.impilo-design-panel::before {
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:52px;
+  height:2px;
+  background:linear-gradient(90deg,#d4af37,#5b2b82);
+}
+.impilo-design-panel-heading h2 { font-family:Playfair Display,Didot,Georgia,serif !important; font-size:1.15rem !important; letter-spacing:-.02em; }
+.impilo-design-panel-copy { color:rgba(255,255,255,.52) !important; font-size:.61rem !important; line-height:1.55 !important; }
+
+@media (max-width:900px) {
+  .impilo-template-list.impilo-template-grid { max-height:360px !important; }
+}
+@media (max-width:560px) {
+  .impilo-template-list.impilo-template-grid { max-height:330px !important; }
+  .impilo-theme-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+/* ============================================================
+   IMPILO ART-DIRECTED V2 — CMS TOOLBOX
+   Additive only. Loaded after the existing Luxe skin.
+   ============================================================ */
+
+.impilo-design-panel {
+  position:relative;
+}
+
+.impilo-design-panel-heading {
+  position:relative;
+  padding-left:14px;
+}
+
+.impilo-design-panel-heading::before {
+  content:"";
+  position:absolute;
+  left:0;
+  top:4px;
+  width:3px;
+  height:34px;
+  background:linear-gradient(#d4af37,#5b2b82);
+}
+
+.impilo-template-list.impilo-template-grid button {
+  min-height:118px;
+  background:
+    radial-gradient(circle at 92% 12%, rgba(212,175,55,.10), transparent 30%),
+    linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.012)) !important;
+}
+
+.impilo-template-list.impilo-template-grid button:nth-child(1) { --card-accent:#d4af37; }
+.impilo-template-list.impilo-template-grid button:nth-child(2) { --card-accent:#5b2b82; }
+.impilo-template-list.impilo-template-grid button:nth-child(3) { --card-accent:#d6e84e; --card-accent-strong:#697d16; }
+.impilo-template-list.impilo-template-grid button:nth-child(4) { --card-accent:#0b2a55; }
+.impilo-template-list.impilo-template-grid button:nth-child(5) { --card-accent:#7a0c0c; }
+.impilo-template-list.impilo-template-grid button:nth-child(6) { --card-accent:#008c5b; }
+
+.impilo-template-list.impilo-template-grid button::before {
+  width:56px;
+  height:80px;
+  top:17px;
+  left:14px;
+  background:
+    linear-gradient(160deg, rgba(255,255,255,.12), rgba(255,255,255,.018)),
+    linear-gradient(180deg, var(--card-accent,#d4af37) 0 9px, transparent 9px 100%),
+    linear-gradient(135deg, transparent 0 54%, rgba(255,255,255,.10) 54% 58%, transparent 58% 100%);
+}
+
+.impilo-template-list.impilo-template-grid button::after {
+  left:7px;
+  top:25px;
+  width:46px;
+  height:16px;
+  background:linear-gradient(90deg,var(--card-accent-strong,#a58216),var(--card-accent,#d4af37));
+}
+
+.impilo-template-list.impilo-template-grid button strong {
+  font-size:1rem !important;
+}
+
+.impilo-template-list.impilo-template-grid button small {
+  line-height:1.55;
+}
+
+.impilo-theme-panel {
+  margin-top:18px;
+  padding-top:15px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+
+.impilo-theme-panel-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.impilo-theme-panel-heading span {
+  font-size:.47rem;
+  letter-spacing:.19em;
+  color:rgba(255,255,255,.42);
+  font-weight:800;
+}
+
+.impilo-theme-panel-heading strong {
+  font-family:Playfair Display,Didot,Georgia,serif;
+  font-size:.8rem;
+  color:#eadbb3;
+}
+/* IMPILO Editorial Workspace V4 controls - isolated additive styles */
+.impilo-editorial-actions {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.impilo-editorial-secondary-action,
+.impilo-editorial-discard-action {
+  min-height:42px;
+  padding:10px 14px;
+  border-radius:10px;
+  font:inherit;
+  font-size:.72rem;
+  font-weight:800;
+  letter-spacing:.04em;
+  cursor:pointer;
+}
+
+.impilo-editorial-secondary-action {
+  border:1px solid rgba(212,175,55,.36);
+  background:rgba(255,255,255,.035);
+  color:#f3ead1;
+}
+
+.impilo-editorial-secondary-action:hover {
+  border-color:rgba(212,175,55,.75);
+  background:rgba(212,175,55,.08);
+}
+
+.impilo-editorial-discard-action {
+  border:1px solid rgba(180,74,74,.42);
+  background:rgba(120,24,24,.08);
+  color:#efb4b4;
+}
+
+.impilo-editorial-discard-action:not(:disabled):hover {
+  border-color:rgba(220,100,100,.72);
+  background:rgba(120,24,24,.16);
+}
+
+.impilo-editorial-discard-action:disabled {
+  opacity:.38;
+  cursor:not-allowed;
+}
+
+.impilo-unsaved-indicator {
+  display:inline-flex;
+  align-items:center;
+  min-height:22px;
+  padding:0 8px;
+  border:1px solid rgba(212,175,55,.34);
+  border-radius:999px;
+  color:#d4af37;
+  background:rgba(212,175,55,.08);
+  font-size:.48rem;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+
+.impilo-block-header-actions {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.impilo-block-type-control {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin:0;
+}
+
+.impilo-block-type-control span {
+  color:rgba(255,255,255,.48);
+  font-size:.48rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.impilo-block-type-control select {
+  min-width:150px;
+  height:32px;
+  padding:0 28px 0 10px;
+  border:1px solid rgba(212,175,55,.22);
+  border-radius:7px;
+  background:#111;
+  color:#f6f0df;
+  font:inherit;
+  font-size:.62rem;
+  outline:none;
+}
+
+.impilo-block-type-control select:focus {
+  border-color:rgba(212,175,55,.7);
+  box-shadow:0 0 0 2px rgba(212,175,55,.08);
+}
+
+.impilo-footnote-tool-button {
+  border-color:rgba(212,175,55,.32) !important;
+  background:rgba(212,175,55,.055) !important;
+}
+
+.impilo-footnote-tool-note {
+  margin:6px 2px 0;
+  color:rgba(255,255,255,.38);
+  font-size:.53rem;
+  line-height:1.45;
+}
+
+.impilo-footnote-fields {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:10px;
+}
+
+.impilo-footnote-fields label {
+  display:block;
+  color:rgba(255,255,255,.5);
+  font-size:.5rem;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.impilo-footnote-fields input {
+  display:block;
+  width:100%;
+  box-sizing:border-box;
+  margin-top:6px;
+  min-height:38px;
+  padding:9px 10px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:7px;
+  background:#0d0d0d;
+  color:#f5f5f5;
+  font:inherit;
+  font-size:.65rem;
+}
+
+.impilo-footnote-fields input:focus {
+  outline:none;
+  border-color:rgba(212,175,55,.55);
+}
+
+@media (max-width:720px) {
+  .impilo-editorial-actions {
+    justify-content:flex-start;
+  }
+
+  .impilo-block-header-actions {
+    width:100%;
+  }
+
+  .impilo-block-type-control {
+    width:100%;
+  }
+
+  .impilo-block-type-control select {
+    flex:1;
+    min-width:0;
+  }
+
+  .impilo-footnote-fields {
+    grid-template-columns:1fr;
+  }
+}
+/* ============================================================
+   IMPILO TEMPLATE CARDS V3 — SIDEBAR FIX
+   Additive override only. Load this AFTER the existing
+   impilo-index-final.css / Luxe / Art-Directed CSS.
+
+   Purpose:
+   - Prevent the template cards from becoming two ultra-narrow columns.
+   - Keep cards readable in the left CMS toolbox.
+   - Preserve vertical scrolling.
+   - Leave the article canvas, themes, API and public magazine untouched.
+   ============================================================ */
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-auto-flow: row !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  max-height: 390px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 6px 7px 10px 3px !important;
+  box-sizing: border-box !important;
+  overscroll-behavior: contain;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid::-webkit-scrollbar-track {
+  background: rgba(255,255,255,.035);
+  border-radius: 999px;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(212,175,55,.78), rgba(91,43,130,.78));
+  border-radius: 999px;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 104px !important;
+  height: 104px !important;
+  box-sizing: border-box !important;
+  padding: 14px 42px 13px 84px !important;
+  margin: 0 !important;
+  text-align: left !important;
+  white-space: normal !important;
+  overflow: hidden !important;
+  border-radius: 14px !important;
+}
+
+/* Keep the paper/card thumbnail entirely inside the card. */
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button::before {
+  left: 14px !important;
+  top: 15px !important;
+  width: 54px !important;
+  height: 72px !important;
+}
+
+/* Ribbon stays attached to the paper thumbnail rather than crossing the text. */
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button::after {
+  left: 7px !important;
+  top: 23px !important;
+  width: 46px !important;
+  height: 15px !important;
+  transform: rotate(-7deg) !important;
+  transform-origin: center !important;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button .impilo-template-number {
+  position: absolute !important;
+  top: 10px !important;
+  right: 11px !important;
+  margin: 0 !important;
+  z-index: 5 !important;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button strong {
+  display: block !important;
+  position: relative !important;
+  z-index: 4 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 4px 0 5px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: normal !important;
+  color: #f2ead8 !important;
+  font-family: Playfair Display, Didot, Georgia, serif !important;
+  font-size: .94rem !important;
+  line-height: 1.06 !important;
+  letter-spacing: -.01em !important;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button small {
+  display: block !important;
+  position: relative !important;
+  z-index: 4 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: rgba(255,255,255,.56) !important;
+  font-family: Montserrat, Arial, sans-serif !important;
+  font-size: .55rem !important;
+  line-height: 1.45 !important;
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 3 !important;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button:hover {
+  transform: translateY(-2px) !important;
+}
+
+.impilo-design-panel .impilo-template-list.impilo-template-grid > button.is-selected {
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.18),
+    inset 0 0 0 1px rgba(212,175,55,.16) !important;
+}
+
+/* Narrow sidebars still get one readable card per row. */
+@media (max-width: 900px) {
+  .impilo-design-panel .impilo-template-list.impilo-template-grid {
+    max-height: 340px !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .impilo-design-panel .impilo-template-list.impilo-template-grid {
+    max-height: 300px !important;
+  }
+
+  .impilo-design-panel .impilo-template-list.impilo-template-grid > button {
+    min-height: 98px !important;
+    height: 98px !important;
+    padding-left: 78px !important;
+  }
+
+  .impilo-design-panel .impilo-template-list.impilo-template-grid > button::before {
+    width: 50px !important;
+    height: 68px !important;
+  }
+
+  .impilo-design-panel .impilo-template-list.impilo-template-grid > button strong {
+    font-size: .88rem !important;
+  }
+}
